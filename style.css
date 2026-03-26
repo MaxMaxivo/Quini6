@@ -1,59 +1,91 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Control Quini 6</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h1>Control Quini 6</h1>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 20px;
+  color: #111;
+}
 
-  <div class="config">
-    <label for="mesDesde">Mes desde</label>
-    <select id="mesDesde"></select>
+h1 {
+  margin-top: 0;
+}
 
-    <label for="mesHasta">Mes hasta</label>
-    <select id="mesHasta"></select>
+.config {
+  display: grid;
+  grid-template-columns: 220px 220px 220px;
+  gap: 10px 14px;
+  align-items: end;
+  margin-bottom: 16px;
+}
 
-    <label for="anio">Año</label>
-    <select id="anio"></select>
+.config label {
+  font-weight: bold;
+}
 
-    <label for="jugada">Jugada fija</label>
-    <input id="jugada" value="01-08-17-21-31-33">
+.config input,
+.config select,
+.config button {
+  padding: 6px 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
 
-    <label for="valorBase">Valor base ($)</label>
-    <input id="valorBase" type="number" min="0" step="0.01" value="3000">
+.config button {
+  cursor: pointer;
+}
 
-    <div></div>
-    <button id="btnGenerar" type="button">Generar reporte</button>
-  </div>
+#resumen {
+  margin: 16px 0 20px 0;
+  line-height: 1.5;
+}
 
-  <hr>
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
 
-  <div id="resumen"></div>
+th, td {
+  border: 1px solid #333;
+  padding: 8px 10px;
+  vertical-align: top;
+  word-break: break-word;
+}
 
-  <table id="tabla">
-    <thead>
-      <tr>
-        <th>Fecha</th>
-        <th>Concurso</th>
-        <th>Modalidad</th>
-        <th>Números sorteados</th>
-        <th>Aciertos</th>
-        <th>Link</th>
-        <th>Valor del día</th>
-        <th>Valor efectivo</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-    <tfoot>
-      <tr>
-        <td colspan="7" class="total-label">Suma total de todas las jugadas</td>
-        <td id="totalFinal">0</td>
-      </tr>
-    </tfoot>
-  </table>
+th {
+  background: #efefef;
+}
 
-  <script src="app.js"></script>
-</body>
-</html>
+tr.day-start td {
+  border-top: 5px solid #000;
+}
+
+tr.day-start td:first-child,
+tr.day-start td:nth-child(2) {
+  background: #f5f5f5;
+  font-weight: bold;
+}
+
+tr.pozo-extra td {
+  background: #fafafa;
+}
+
+.link-cell a {
+  color: #000;
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+.valor-dia-input {
+  width: 110px;
+  padding: 5px 6px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.total-label {
+  text-align: right;
+  font-weight: bold;
+}
+
+.center {
+  text-align: center;
+}
