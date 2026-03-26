@@ -2,50 +2,58 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Quini 6 - Control</title>
+  <title>Control Quini 6</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <h1>Control Quini 6</h1>
 
-<h1>Control Quini 6</h1>
+  <div class="config">
+    <label for="mesDesde">Mes desde</label>
+    <select id="mesDesde"></select>
 
-<div class="config">
-  <label>Mes desde</label>
-  <select id="mesDesde"></select>
+    <label for="mesHasta">Mes hasta</label>
+    <select id="mesHasta"></select>
 
-  <label>Mes hasta</label>
-  <select id="mesHasta"></select>
+    <label for="anio">Año</label>
+    <select id="anio"></select>
 
-  <label>Año</label>
-  <select id="anio"></select>
+    <label for="jugada">Jugada fija</label>
+    <input id="jugada" value="01-08-17-21-31-33">
 
-  <label>Jugada fija</label>
-  <input id="jugada" value="01-08-17-21-31-33">
+    <label for="valorBase">Valor base ($)</label>
+    <input id="valorBase" type="number" min="0" step="0.01" value="3000">
 
-  <label>Valor base ($)</label>
-  <input id="valorBase" type="number" value="0">
+    <div></div>
+    <button id="btnGenerar" type="button">Generar reporte</button>
+  </div>
 
-  <button onclick="generar()">Generar reporte</button>
-</div>
+  <hr>
 
-<hr>
+  <div id="resumen"></div>
 
-<div id="resumen"></div>
+  <table id="tabla">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Concurso</th>
+        <th>Modalidad</th>
+        <th>Números sorteados</th>
+        <th>Aciertos</th>
+        <th>Link</th>
+        <th>Valor del día</th>
+        <th>Valor efectivo</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot>
+      <tr>
+        <td colspan="7" class="total-label">Suma total de todas las jugadas</td>
+        <td id="totalFinal">0</td>
+      </tr>
+    </tfoot>
+  </table>
 
-<table id="tabla">
-  <thead>
-    <tr>
-      <th>Fecha</th>
-      <th>Día</th>
-      <th>Valor</th>
-      <th>Valor efectivo</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
-
-<h2 id="totalFinal"></h2>
-
-<script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
