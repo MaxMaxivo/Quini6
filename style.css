@@ -1,38 +1,59 @@
-body {
-  font-family: Arial;
-  padding: 20px;
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Control Quini 6</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Control Quini 6</h1>
 
-.config {
-  display: grid;
-  grid-template-columns: repeat(3, 200px);
-  gap: 10px;
-}
+  <div class="config">
+    <label for="mesDesde">Mes desde</label>
+    <select id="mesDesde"></select>
 
-table {
-  width: 100%;
-  margin-top: 20px;
-  border-collapse: collapse;
-}
+    <label for="mesHasta">Mes hasta</label>
+    <select id="mesHasta"></select>
 
-td, th {
-  border: 1px solid #333;
-  padding: 6px;
-  text-align: center;
-}
+    <label for="anio">Año</label>
+    <select id="anio"></select>
 
-tr.dia {
-  border-top: 4px solid black;   background: #f5f5f5; 
-}  
-tr.dia td {
-  font-weight: bold; 
-}  
-tr.dia
-:first-child {   
-  border-top: none;
-}
-tr.dia::before {
-  content: "";
-  display: block;
-  height: 6px;
-}
+    <label for="jugada">Jugada fija</label>
+    <input id="jugada" value="01-08-17-21-31-33">
+
+    <label for="valorBase">Valor base ($)</label>
+    <input id="valorBase" type="number" min="0" step="0.01" value="3000">
+
+    <div></div>
+    <button id="btnGenerar" type="button">Generar reporte</button>
+  </div>
+
+  <hr>
+
+  <div id="resumen"></div>
+
+  <table id="tabla">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Concurso</th>
+        <th>Modalidad</th>
+        <th>Números sorteados</th>
+        <th>Aciertos</th>
+        <th>Link</th>
+        <th>Valor del día</th>
+        <th>Valor efectivo</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot>
+      <tr>
+        <td colspan="7" class="total-label">Suma total de todas las jugadas</td>
+        <td id="totalFinal">0</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <script src="app.js"></script>
+</body>
+</html>
