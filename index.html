@@ -1,59 +1,575 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Control Quini 6</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Marea Abandonada — Quini 6</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Oswald:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --negro: #111820;
+  --azul-mar: #1a2e42;
+  --azul-medio: #1e3a52;
+  --azul-ola: #2a5070;
+  --fuego: #c8601a;
+  --ambar: #e8a44a;
+  --ambar-claro: #f0c070;
+  --crema: #f2ead8;
+  --gris-humo: #9a9a8a;
+  --verde-agua: #2a6b5a;
+  --verde-acierto: #3d9966;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background: var(--negro);
+  font-family: 'Crimson Pro', Georgia, serif;
+  color: var(--crema);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* OLAS */
+.ocean { position:fixed; bottom:0; left:0; right:0; height:180px; pointer-events:none; z-index:0; opacity:0.15; }
+.wave { position:absolute; bottom:0; width:200%; height:100%; }
+.wave svg { width:100%; height:100%; }
+.wave1 { animation:wave-move 12s linear infinite; }
+.wave2 { animation:wave-move 18s linear infinite reverse; opacity:0.6; }
+.wave3 { animation:wave-move 24s linear infinite; opacity:0.4; }
+@keyframes wave-move { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+body::after {
+  content:''; position:fixed; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:1000; opacity:0.3;
+}
+
+/* HEADER */
+header {
+  position:relative; padding:0;
+  background:linear-gradient(180deg, #0d1520 0%, var(--azul-mar) 100%);
+  border-bottom:1px solid rgba(200,96,26,0.3);
+  overflow:hidden;
+}
+.header-bg {
+  position:absolute; inset:0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(200,96,26,0.1) 0%, transparent 60%);
+}
+.header-inner {
+  position:relative; z-index:2;
+  display:flex; align-items:flex-end; justify-content:space-between;
+  padding:32px 36px 28px; flex-wrap:wrap; gap:20px;
+}
+.titulo-area { display:flex; flex-direction:column; gap:4px; }
+.titulo-sup { font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:6px; text-transform:uppercase; color:var(--fuego); opacity:.8; }
+.titulo-principal { font-family:'Playfair Display',serif; font-size:clamp(28px,5vw,52px); font-weight:900; font-style:italic; color:var(--crema); line-height:1; text-shadow:0 0 60px rgba(200,96,26,0.4); letter-spacing:-1px; }
+.titulo-sub { font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:5px; text-transform:uppercase; color:var(--gris-humo); margin-top:6px; }
+.lyric-line { font-family:'Crimson Pro',serif; font-style:italic; font-size:13px; color:var(--ambar); opacity:.65; margin-top:10px; max-width:400px; }
+.numeros-header { text-align:right; }
+.num-label { font-family:'Oswald',sans-serif; font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--gris-humo); margin-bottom:8px; }
+.num-pills { display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap; }
+.num-ball {
+  width:40px; height:40px; border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, var(--ambar), var(--fuego));
+  color:var(--negro); font-family:'Oswald',sans-serif; font-size:16px; font-weight:600;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 20px rgba(200,96,26,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+/* MAIN */
+main { position:relative; z-index:2; max-width:960px; margin:0 auto; padding:40px 24px 80px; display:flex; flex-direction:column; gap:32px; }
+
+/* CARD */
+.card {
+  background:linear-gradient(145deg, rgba(26,46,66,0.92), rgba(17,24,32,0.97));
+  border:1px solid rgba(200,96,26,0.18); border-radius:4px;
+  overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,0.4); position:relative;
+}
+.card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,rgba(200,96,26,0.5),transparent); }
+.card-header { padding:16px 28px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; border-bottom:1px solid rgba(255,255,255,0.06); }
+.card-title { font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:4px; text-transform:uppercase; color:var(--ambar); opacity:.8; }
+.card-body { padding:28px; }
+
+/* MES TABS */
+.mes-tabs { display:flex; gap:6px; flex-wrap:wrap; }
+.mes-tab { background:none; border:1px solid rgba(200,96,26,0.2); color:var(--crema); font-family:'Oswald',sans-serif; font-size:12px; letter-spacing:2px; text-transform:uppercase; padding:5px 14px; border-radius:2px; cursor:pointer; opacity:.45; transition:all .2s; }
+.mes-tab:hover, .mes-tab.active { background:rgba(200,96,26,0.15); border-color:var(--fuego); color:var(--ambar-claro); opacity:1; }
+
+/* SORTEOS NAV */
+.sorteos-nav { display:flex; gap:6px; flex-wrap:wrap; padding:14px 28px; border-bottom:1px solid rgba(255,255,255,0.04); }
+.sorteo-btn { background:none; border:1px solid rgba(255,255,255,0.1); color:var(--crema); font-family:'Oswald',sans-serif; font-size:12px; letter-spacing:1px; padding:5px 13px; border-radius:2px; cursor:pointer; opacity:.45; transition:all .2s; }
+.sorteo-btn:hover, .sorteo-btn.active { background:rgba(200,96,26,0.15); border-color:var(--fuego); color:var(--ambar-claro); opacity:1; }
+
+/* SORTEO META */
+.sorteo-meta { display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:14px; margin-bottom:26px; }
+.sorteo-fecha { font-family:'Playfair Display',serif; font-size:24px; font-weight:700; font-style:italic; color:var(--crema); line-height:1.1; text-transform:capitalize; }
+.sorteo-concurso { font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gris-humo); margin-top:4px; }
+.link-oficial { display:inline-flex; align-items:center; gap:6px; background:rgba(200,96,26,0.08); border:1px solid rgba(200,96,26,0.3); color:var(--ambar); text-decoration:none; font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; padding:8px 14px; border-radius:2px; transition:all .2s; }
+.link-oficial:hover { background:rgba(200,96,26,0.2); color:var(--ambar-claro); }
+
+/* MODALIDADES */
+.modalidades { display:flex; flex-direction:column; gap:10px; }
+.modalidad-row { background:rgba(0,0,0,0.2); border-radius:3px; padding:14px 18px; border-left:3px solid var(--verde-agua); }
+.modalidad-row.segunda  { border-left-color:#3a6a8a; }
+.modalidad-row.revancha { border-left-color:#6a3a2a; }
+.modalidad-row.siempre  { border-left-color:#5a4a8a; }
+.modalidad-row.pozo-extra { border-left-color:var(--ambar); background:rgba(200,96,26,0.06); margin-top:6px; }
+.modalidad-nombre { font-family:'Oswald',sans-serif; font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--gris-humo); margin-bottom:10px; }
+.numeros-fila { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.bola { width:42px; height:42px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Oswald',sans-serif; font-size:17px; font-weight:400; flex-shrink:0; transition:transform .15s; }
+.bola:hover { transform:scale(1.1); }
+.bola.sorteado { background:radial-gradient(circle at 35% 35%, #2a3a4a, #151e28); color:rgba(242,234,216,0.7); border:1px solid rgba(255,255,255,0.08); box-shadow:0 3px 10px rgba(0,0,0,0.4); }
+.bola.sorteado.acierto { background:radial-gradient(circle at 35% 35%, #2a6b5a, #0d2a1e); border:1px solid var(--verde-acierto); color:#fff; box-shadow:0 4px 18px rgba(61,153,102,0.5), inset 0 1px 0 rgba(255,255,255,0.15); }
+.aciertos-badge { margin-left:auto; font-family:'Oswald',sans-serif; font-size:12px; letter-spacing:1px; padding:5px 13px; border-radius:2px; background:rgba(61,153,102,0.12); border:1px solid rgba(61,153,102,0.25); color:var(--verde-acierto); white-space:nowrap; }
+.aciertos-badge.cero { background:rgba(255,255,255,0.03); border-color:rgba(255,255,255,0.07); color:rgba(242,234,216,0.25); }
+.aciertos-badge.ganador { background:rgba(200,96,26,0.2); border-color:var(--ambar); color:var(--ambar-claro); font-size:13px; letter-spacing:2px; }
+
+/* RESUMEN */
+.resumen-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:16px; }
+.stat-box { background:rgba(0,0,0,0.25); border:1px solid rgba(200,96,26,0.12); border-radius:3px; padding:20px 16px; text-align:center; }
+.stat-num { font-family:'Playfair Display',serif; font-size:38px; font-weight:700; color:var(--ambar-claro); line-height:1; }
+.stat-label { font-family:'Oswald',sans-serif; font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--gris-humo); margin-top:6px; }
+
+/* PAGOS + TICKETS — layout de 2 columnas */
+.pagos-tickets-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+@media (max-width: 640px) { .pagos-tickets-grid { grid-template-columns: 1fr; } }
+
+.col-titulo {
+  font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:4px;
+  text-transform:uppercase; color:var(--ambar); opacity:.8;
+  margin-bottom:16px;
+}
+
+/* TICKETS */
+.tickets-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(120px,1fr)); gap:10px; }
+.ticket-slot { aspect-ratio:3/4; border:1px dashed rgba(200,96,26,0.2); border-radius:3px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; cursor:pointer; transition:all .2s; position:relative; overflow:hidden; background:rgba(0,0,0,0.2); }
+.ticket-slot:hover { border-color:var(--fuego); background:rgba(200,96,26,0.05); }
+.ticket-slot img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:2px; }
+.ticket-add-icon { font-size:22px; opacity:.25; }
+.ticket-add-label { font-family:'Oswald',sans-serif; font-size:9px; letter-spacing:2px; text-transform:uppercase; opacity:.25; }
+.ticket-remove { position:absolute; top:5px; right:5px; background:rgba(150,30,20,0.85); color:#fff; border:none; border-radius:50%; width:20px; height:20px; cursor:pointer; font-size:11px; display:none; align-items:center; justify-content:center; z-index:10; }
+.ticket-slot:hover .ticket-remove { display:flex; }
+
+/* PAGOS */
+.pago-persona {
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius:3px;
+  padding:18px;
+  margin-bottom:12px;
+}
+.pago-persona:last-child { margin-bottom:0; }
+.pago-nombre {
+  font-family:'Playfair Display',serif; font-style:italic;
+  font-size:18px; color:var(--crema); margin-bottom:12px;
+}
+.pago-estado {
+  display:flex; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap;
+}
+.pago-check-btn {
+  display:flex; align-items:center; gap:8px;
+  background:none; border:1px solid rgba(255,255,255,0.15);
+  color:var(--crema); font-family:'Oswald',sans-serif;
+  font-size:11px; letter-spacing:2px; text-transform:uppercase;
+  padding:7px 14px; border-radius:2px; cursor:pointer; transition:all .2s;
+}
+.pago-check-btn:hover { border-color:var(--verde-acierto); color:var(--verde-acierto); }
+.pago-check-btn.pagado { background:rgba(61,153,102,0.15); border-color:var(--verde-acierto); color:var(--verde-acierto); }
+.pago-check-btn.pagado::before { content:'✓ '; }
+.pago-foto-btn {
+  background:none; border:1px dashed rgba(200,96,26,0.25);
+  color:var(--ambar); font-family:'Oswald',sans-serif;
+  font-size:10px; letter-spacing:2px; text-transform:uppercase;
+  padding:7px 12px; border-radius:2px; cursor:pointer; transition:all .2s;
+}
+.pago-foto-btn:hover { border-color:var(--ambar); background:rgba(200,96,26,0.08); }
+.comprobante-preview {
+  margin-top:10px; position:relative; display:inline-block;
+}
+.comprobante-preview img {
+  max-width:100%; max-height:140px; border-radius:2px;
+  border:1px solid rgba(200,96,26,0.2); display:block;
+}
+.comp-remove {
+  position:absolute; top:4px; right:4px;
+  background:rgba(150,30,20,0.85); color:#fff; border:none;
+  border-radius:50%; width:20px; height:20px; cursor:pointer;
+  font-size:11px; display:flex; align-items:center; justify-content:center;
+}
+.pago-mes-label {
+  font-family:'Oswald',sans-serif; font-size:9px; letter-spacing:2px;
+  text-transform:uppercase; color:var(--gris-humo); opacity:.6;
+  margin-bottom:14px;
+}
+
+/* STATES */
+.loading-state { display:flex; flex-direction:column; align-items:center; gap:16px; padding:48px; }
+.spinner { width:40px; height:40px; border:2px solid rgba(200,96,26,0.15); border-top-color:var(--fuego); border-radius:50%; animation:spin .9s linear infinite; }
+@keyframes spin { to{transform:rotate(360deg)} }
+.loading-text { font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:4px; text-transform:uppercase; color:var(--gris-humo); }
+.empty-state { text-align:center; padding:40px; font-family:'Oswald',sans-serif; letter-spacing:2px; color:var(--gris-humo); font-size:13px; }
+
+footer { position:relative; z-index:2; text-align:center; padding:32px 20px 60px; font-family:'Crimson Pro',serif; font-style:italic; font-size:14px; color:var(--gris-humo); opacity:.5; border-top:1px solid rgba(200,96,26,0.1); }
+
+@media (max-width:560px) {
+  .bola { width:36px; height:36px; font-size:15px; }
+  .num-ball { width:33px; height:33px; font-size:14px; }
+  .header-inner { padding:24px 20px 20px; }
+}
+</style>
 </head>
 <body>
-  <h1>Control Quini 6</h1>
 
-  <div class="config">
-    <label for="mesDesde">Mes desde</label>
-    <select id="mesDesde"></select>
+<div class="ocean">
+  <div class="wave wave1"><svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,60 C240,100 480,20 720,60 C960,100 1200,20 1440,60 L1440,120 L0,120 Z" fill="#2a5070"/></svg></div>
+  <div class="wave wave2"><svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,40 C360,90 720,10 1080,50 C1260,70 1380,30 1440,40 L1440,120 L0,120 Z" fill="#1a3a5c"/></svg></div>
+  <div class="wave wave3"><svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,80 C180,40 360,100 720,70 C900,55 1200,90 1440,60 L1440,120 L0,120 Z" fill="#1e3a52"/></svg></div>
+</div>
 
-    <label for="mesHasta">Mes hasta</label>
-    <select id="mesHasta"></select>
+<header>
+  <div class="header-bg"></div>
+  <div class="header-inner">
+    <div class="titulo-area">
+      <span class="titulo-sup">Quini 6 · Seguimiento de jugadas</span>
+      <div class="titulo-principal">La Marea Abandonada</div>
+      <div class="titulo-sub">Zambayonny · Canciones en Orsai</div>
+      <div class="lyric-line">"el 08 porque es mi cumpleaños y cuando juego, siempre lo juego"</div>
+    </div>
+    <div class="numeros-header">
+      <div class="num-label">Nuestros números</div>
+      <div class="num-pills" id="mis-pills"></div>
+    </div>
+  </div>
+</header>
 
-    <label for="anio">Año</label>
-    <select id="anio"></select>
+<main>
 
-    <label for="jugada">Jugada fija</label>
-    <input id="jugada" value="01-08-17-21-31-33">
-
-    <label for="valorBase">Valor base ($)</label>
-    <input id="valorBase" type="number" min="0" step="0.01" value="3000">
-
-    <div></div>
-    <button id="btnGenerar" type="button">Generar reporte</button>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Resultados por sorteo</span>
+      <div class="mes-tabs" id="mes-tabs"></div>
+    </div>
+    <div id="sorteos-nav" class="sorteos-nav" style="display:none"></div>
+    <div class="card-body" id="sorteo-body">
+      <div class="loading-state"><div class="spinner"></div><div class="loading-text">Cargando resultados...</div></div>
+    </div>
   </div>
 
-  <hr>
+  <div class="card">
+    <div class="card-header"><span class="card-title">Resumen del mes</span></div>
+    <div class="card-body">
+      <div class="resumen-grid">
+        <div class="stat-box"><div class="stat-num" id="stat-sorteos">—</div><div class="stat-label">Sorteos jugados</div></div>
+        <div class="stat-box"><div class="stat-num" id="stat-costo">—</div><div class="stat-label">Tu parte (1/3)</div></div>
+        <div class="stat-box"><div class="stat-num" id="stat-aciertos">—</div><div class="stat-label">Mejor acierto</div></div>
+      </div>
+    </div>
+  </div>
 
-  <div id="resumen"></div>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Tickets y pagos</span>
+    </div>
+    <div class="card-body">
+      <div class="pagos-tickets-grid">
 
-  <table id="tabla">
-    <thead>
-      <tr>
-        <th>Fecha</th>
-        <th>Concurso</th>
-        <th>Modalidad</th>
-        <th>Números sorteados</th>
-        <th>Aciertos</th>
-        <th>Link</th>
-        <th>Valor del día</th>
-        <th>Valor efectivo</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-    <tfoot>
-      <tr>
-        <td colspan="7" class="total-label">Suma total de todas las jugadas</td>
-        <td id="totalFinal">0</td>
-      </tr>
-    </tfoot>
-  </table>
+        <!-- COLUMNA IZQUIERDA: Fotos de tickets -->
+        <div>
+          <div class="col-titulo">📷 Fotos de tickets</div>
+          <div class="tickets-grid" id="tickets-grid"></div>
+        </div>
 
-  <script src="app.js"></script>
+        <!-- COLUMNA DERECHA: Pagos de Ale y Zamba -->
+        <div>
+          <div class="col-titulo">💰 Confirmación de pago</div>
+          <div class="pago-mes-label" id="pago-mes-label"></div>
+
+          <!-- ALE -->
+          <div class="pago-persona" id="pago-ale">
+            <div class="pago-nombre">Ale</div>
+            <div class="pago-estado">
+              <button class="pago-check-btn" id="check-ale" onclick="togglePago('ale')">Pagué</button>
+              <button class="pago-foto-btn" onclick="abrirComprobante('ale')">📎 Comprobante</button>
+            </div>
+            <div class="comprobante-preview" id="comp-ale" style="display:none">
+              <img id="comp-ale-img" src="" alt="Comprobante Ale">
+              <button class="comp-remove" onclick="borrarComprobante('ale')">✕</button>
+            </div>
+          </div>
+
+          <!-- ZAMBA -->
+          <div class="pago-persona" id="pago-zamba">
+            <div class="pago-nombre">Zamba</div>
+            <div class="pago-estado">
+              <button class="pago-check-btn" id="check-zamba" onclick="togglePago('zamba')">Pagué</button>
+              <button class="pago-foto-btn" onclick="abrirComprobante('zamba')">📎 Comprobante</button>
+            </div>
+            <div class="comprobante-preview" id="comp-zamba" style="display:none">
+              <img id="comp-zamba-img" src="" alt="Comprobante Zamba">
+              <button class="comp-remove" onclick="borrarComprobante('zamba')">✕</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>Tantos años haciendo la tarea con la espalda doblada, buscando entre la arena una moneda en la marea abandonada.</footer>
+
+<input type="file" id="file-input" accept="image/*" multiple style="display:none">
+<input type="file" id="comp-input" accept="image/*" style="display:none">
+
+<script>
+let data = null;
+let mesActivo = null;
+let sorteoActivo = 0;
+let sorteosMes = [];
+let compTarget = null; // 'ale' o 'zamba'
+
+// ── INIT ──
+async function init() {
+  try {
+    const resp = await fetch('data.json?v=' + Date.now());
+    if (!resp.ok) throw new Error('No se pudo cargar data.json');
+    data = await resp.json();
+    renderMisNumeros();
+    renderMesTabs();
+    renderTickets();
+  } catch(e) {
+    document.getElementById('sorteo-body').innerHTML =
+      `<div class="empty-state">No se pudo cargar data.json.<br><small style="opacity:.5">${e.message}</small></div>`;
+  }
+}
+
+function renderMisNumeros() {
+  const nums = data.mis_numeros || [1,8,17,21,31,33];
+  document.getElementById('mis-pills').innerHTML = nums
+    .map(n => `<div class="num-ball">${String(n).padStart(2,'0')}</div>`).join('');
+}
+
+// ── MESES (izquierda=antiguo, derecha=reciente) ──
+function mesesDisponibles() {
+  const set = new Set(data.sorteos.map(s => s.fecha.slice(0,7)));
+  return [...set].sort(); // ascendente
+}
+
+function formatMesLabel(m) {
+  const [y, mo] = m.split('-');
+  return new Date(+y, +mo-1, 1).toLocaleDateString('es-AR', { month:'short', year:'2-digit' }).toUpperCase();
+}
+
+function renderMesTabs() {
+  const meses = mesesDisponibles();
+  if (!meses.length) { document.getElementById('sorteo-body').innerHTML = '<div class="empty-state">Sin datos aún.</div>'; return; }
+  mesActivo = meses[meses.length - 1]; // más reciente activo por defecto
+  renderTabsHTML(meses);
+  seleccionarMes(mesActivo);
+}
+
+function renderTabsHTML(meses) {
+  document.getElementById('mes-tabs').innerHTML = meses.map(m =>
+    `<button class="mes-tab ${m===mesActivo?'active':''}" onclick="seleccionarMes('${m}')">${formatMesLabel(m)}</button>`
+  ).join('');
+}
+
+function seleccionarMes(mes) {
+  mesActivo = mes;
+  renderTabsHTML(mesesDisponibles());
+  // sorteos del mes en orden ascendente (antiguo a izquierda)
+  sorteosMes = data.sorteos.filter(s => s.fecha.startsWith(mes)).sort((a,b) => a.fecha.localeCompare(b.fecha));
+  sorteoActivo = sorteosMes.length - 1; // más reciente activo
+  renderSorteosNav();
+  mostrarSorteo(sorteoActivo);
+  actualizarResumen();
+  renderPagos(mes);
+}
+
+// ── SORTEOS NAV (izquierda=antiguo, derecha=reciente) ──
+function renderSorteosNav() {
+  const nav = document.getElementById('sorteos-nav');
+  if (!sorteosMes.length) { nav.style.display='none'; return; }
+  nav.style.display = 'flex';
+  nav.innerHTML = sorteosMes.map((s,i) => {
+    const d = new Date(s.fecha + 'T12:00:00');
+    const label = d.toLocaleDateString('es-AR', { weekday:'short', day:'numeric', month:'short' });
+    return `<button class="sorteo-btn ${i===sorteoActivo?'active':''}" id="sbtn-${i}" onclick="mostrarSorteo(${i})">${label}</button>`;
+  }).join('');
+}
+
+function mostrarSorteo(idx) {
+  sorteoActivo = idx;
+  document.querySelectorAll('.sorteo-btn').forEach((b,i) => b.classList.toggle('active', i===idx));
+  const s = sorteosMes[idx];
+  if (!s) { document.getElementById('sorteo-body').innerHTML = '<div class="empty-state">Sin datos.</div>'; return; }
+
+  const misNums = data.mis_numeros || [1,8,17,21,31,33];
+  const d = new Date(s.fecha + 'T12:00:00');
+  const fecha = d.toLocaleDateString('es-AR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+  document.getElementById('sorteo-body').innerHTML = `
+    <div class="sorteo-meta">
+      <div>
+        <div class="sorteo-fecha">${fecha}</div>
+        <div class="sorteo-concurso">Concurso N° ${s.concurso}</div>
+      </div>
+      <a class="link-oficial" href="${s.url}" target="_blank">↗ Ver resultado oficial</a>
+    </div>
+    <div class="modalidades">
+      ${renderModalidad('Tradicional', s.tradicional, '', misNums)}
+      ${renderModalidad('Segunda del Quini', s.segunda, 'segunda', misNums)}
+      ${renderModalidad('Revancha', s.revancha, 'revancha', misNums)}
+      ${renderModalidad('Siempre Sale', s.siempre_sale, 'siempre', misNums)}
+      ${renderPozoExtra(s, misNums)}
+    </div>`;
+}
+
+function renderModalidad(nombre, numeros, cls, misNums) {
+  if (!numeros || !numeros.length) return '';
+  const aciertos = numeros.filter(n => misNums.includes(n)).length;
+  const bolas = numeros.map(n => {
+    const hit = misNums.includes(n);
+    return `<div class="bola sorteado ${hit?'acierto':''}">${String(n).padStart(2,'0')}</div>`;
+  }).join('');
+  return `
+    <div class="modalidad-row ${cls}">
+      <div class="modalidad-nombre">${nombre}</div>
+      <div class="numeros-fila">
+        ${bolas}
+        <span class="aciertos-badge ${aciertos===0?'cero':''}">${aciertos} acierto${aciertos!==1?'s':''}</span>
+      </div>
+    </div>`;
+}
+
+function renderPozoExtra(s, misNums) {
+  const union = [...new Set([...(s.tradicional||[]), ...(s.segunda||[]), ...(s.revancha||[])])];
+  const aciertos = union.filter(n => misNums.includes(n)).length;
+  const ganador = aciertos === 6;
+  const texto = ganador ? '🏆 ¡6 aciertos! — POZO EXTRA' : `${aciertos} acierto${aciertos!==1?'s':''}`;
+  return `
+    <div class="modalidad-row pozo-extra">
+      <div class="modalidad-nombre">Pozo Extra · Trad + Segunda + Revancha (sin repetidos)</div>
+      <div class="numeros-fila">
+        <span class="aciertos-badge ${ganador?'ganador':aciertos===0?'cero':''}" style="margin-left:0">${texto}</span>
+      </div>
+    </div>`;
+}
+
+// ── RESUMEN ──
+function actualizarResumen() {
+  const precio = data.precio_boleta || 3000;
+  const integrantes = data.integrantes || 3;
+  const n = sorteosMes.length;
+  const misNums = data.mis_numeros || [1,8,17,21,31,33];
+  let mejor = 0;
+  sorteosMes.forEach(s => {
+    ['tradicional','segunda','revancha','siempre_sale'].forEach(m => {
+      if (s[m]) { const a = s[m].filter(x => misNums.includes(x)).length; if (a > mejor) mejor = a; }
+    });
+  });
+  document.getElementById('stat-sorteos').textContent = n;
+  document.getElementById('stat-costo').textContent = '$' + Math.round(n * 3 * precio / integrantes).toLocaleString('es-AR');
+  document.getElementById('stat-aciertos').textContent = mejor || '—';
+}
+
+// ── PAGOS ──
+function pagoKey(persona, mes) { return `marea-pago-${persona}-${mes}`; }
+function compKey(persona, mes) { return `marea-comp-${persona}-${mes}`; }
+
+function renderPagos(mes) {
+  const label = document.getElementById('pago-mes-label');
+  const [y, mo] = mes.split('-');
+  label.textContent = new Date(+y, +mo-1, 1).toLocaleDateString('es-AR', { month:'long', year:'numeric' });
+
+  ['ale','zamba'].forEach(p => {
+    const pagado = localStorage.getItem(pagoKey(p, mes)) === '1';
+    const btn = document.getElementById(`check-${p}`);
+    btn.classList.toggle('pagado', pagado);
+    btn.textContent = pagado ? 'Pagué' : 'Pagué';
+
+    const comp = localStorage.getItem(compKey(p, mes));
+    const preview = document.getElementById(`comp-${p}`);
+    const img = document.getElementById(`comp-${p}-img`);
+    if (comp) { img.src = comp; preview.style.display = 'inline-block'; }
+    else { preview.style.display = 'none'; img.src = ''; }
+  });
+}
+
+function togglePago(persona) {
+  const actual = localStorage.getItem(pagoKey(persona, mesActivo)) === '1';
+  localStorage.setItem(pagoKey(persona, mesActivo), actual ? '0' : '1');
+  renderPagos(mesActivo);
+}
+
+function abrirComprobante(persona) {
+  compTarget = persona;
+  document.getElementById('comp-input').click();
+}
+
+function borrarComprobante(persona) {
+  localStorage.removeItem(compKey(persona, mesActivo));
+  renderPagos(mesActivo);
+}
+
+document.getElementById('comp-input').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file || !compTarget) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    localStorage.setItem(compKey(compTarget, mesActivo), ev.target.result);
+    renderPagos(mesActivo);
+    compTarget = null;
+  };
+  reader.readAsDataURL(file);
+  this.value = '';
+});
+
+// ── TICKETS ──
+let tickets = [];
+try { tickets = JSON.parse(localStorage.getItem('mareatickets') || '[]'); } catch(e) {}
+
+function renderTickets() {
+  const grid = document.getElementById('tickets-grid');
+  grid.innerHTML = '';
+  tickets.forEach((src,i) => {
+    const slot = document.createElement('div');
+    slot.className = 'ticket-slot';
+    slot.innerHTML = `<img src="${src}" alt="Ticket ${i+1}"><button class="ticket-remove" onclick="removeTicket(${i})">✕</button>`;
+    grid.appendChild(slot);
+  });
+  const add = document.createElement('div');
+  add.className = 'ticket-slot';
+  add.innerHTML = `<div class="ticket-add-icon">📷</div><div class="ticket-add-label">Agregar</div>`;
+  add.onclick = () => document.getElementById('file-input').click();
+  grid.appendChild(add);
+}
+
+function removeTicket(i) {
+  tickets.splice(i,1);
+  try { localStorage.setItem('mareatickets', JSON.stringify(tickets)); } catch(e) {}
+  renderTickets();
+}
+
+document.getElementById('file-input').addEventListener('change', function(e) {
+  Array.from(e.target.files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      tickets.push(ev.target.result);
+      try { localStorage.setItem('mareatickets', JSON.stringify(tickets)); } catch(e) {}
+      renderTickets();
+    };
+    reader.readAsDataURL(file);
+  });
+  this.value = '';
+});
+
+init();
+</script>
 </body>
 </html>
