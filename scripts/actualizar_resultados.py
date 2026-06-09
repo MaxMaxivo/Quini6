@@ -7,6 +7,7 @@ import json
 import re
 import sys
 import unicodedata
+from argparse import ArgumentParser
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from urllib.error import HTTPError, URLError
@@ -46,10 +47,13 @@ def normalize(value: str) -> str:
 
 def numbers_after_heading(text: str, heading: str) -> list[int]:
     normalized = normalize(text)
-    start = normalized.find(normalize(heading))
-    if start < 0:
+    heading_match = re.search(
+        rf"(?m)^\s*{re.escape(normalize(heading))}\s*$",
+        normalized,
+    )
+    if not heading_match:
         raise ValueError(f"No se encontró la sección {heading!r}")
-    fragment = normalized[start + len(heading) :]
+    fragment = normalized[heading_match.end() :]
     match = re.search(
         r"(?m)^\s*(\d{2})\s*-\s*(\d{2})\s*-\s*(\d{2})\s*-\s*"
         r"(\d{2})\s*-\s*(\d{2})\s*-\s*(\d{2})\s*$",
@@ -97,6 +101,14 @@ def next_draw_day(value: date) -> date:
 
 
 def main() -> int:
+    parser = ArgumentParser()
+    parser.add_argument(
+        "--refresh-from",
+        type=int,
+        help="Vuelve a descargar y validar desde este número de concurso.",
+    )
+    args = parser.parse_args()
+
     data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
     draws = data.setdefault("sorteos", [])
     if not draws:
@@ -104,6 +116,27 @@ def main() -> int:
         return 1
 
     by_contest = {int(draw["concurso"]): draw for draw in draws}
+    if args.refresh_from:
+        refresh = sorted(
+            (
+                (contest, date.fromisoformat(draw["fecha"]))
+                for contest, draw in by_contest.items()
+                if contest >= args.refresh_from
+            ),
+            key=lambda item: item[0],
+        )
+        for contest, draw_date in refresh:
+            try:
+                draw = fetch_draw(contest, draw_date)
+            except (HTTPError, URLError, TimeoutError, ValueError) as error:
+                print(f"No se pudo validar el concurso {contest}: {error}", file=sys.stderr)
+                return 1
+            if draw is None:
+                print(f"No se encontró el concurso publicado {contest}.", file=sys.stderr)
+                return 1
+            by_contest[contest] = draw
+            print(f"Validado concurso {contest} del {draw_date.isoformat()}")
+
     last_contest = max(by_contest)
     last_date = date.fromisoformat(by_contest[last_contest]["fecha"])
     contest = last_contest + 1
