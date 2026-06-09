@@ -1,575 +1,392 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>La Marea Abandonada — Quini 6</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Oswald:wght@300;400;600&display=swap" rel="stylesheet">
-<style>
-:root {
-  --negro: #111820;
-  --azul-mar: #1a2e42;
-  --azul-medio: #1e3a52;
-  --azul-ola: #2a5070;
-  --fuego: #c8601a;
-  --ambar: #e8a44a;
-  --ambar-claro: #f0c070;
-  --crema: #f2ead8;
-  --gris-humo: #9a9a8a;
-  --verde-agua: #2a6b5a;
-  --verde-acierto: #3d9966;
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; }
-body {
-  background: var(--negro);
-  font-family: 'Crimson Pro', Georgia, serif;
-  color: var(--crema);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* OLAS */
-.ocean { position:fixed; bottom:0; left:0; right:0; height:180px; pointer-events:none; z-index:0; opacity:0.15; }
-.wave { position:absolute; bottom:0; width:200%; height:100%; }
-.wave svg { width:100%; height:100%; }
-.wave1 { animation:wave-move 12s linear infinite; }
-.wave2 { animation:wave-move 18s linear infinite reverse; opacity:0.6; }
-.wave3 { animation:wave-move 24s linear infinite; opacity:0.4; }
-@keyframes wave-move { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-
-body::after {
-  content:''; position:fixed; inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events:none; z-index:1000; opacity:0.3;
-}
-
-/* HEADER */
-header {
-  position:relative; padding:0;
-  background:linear-gradient(180deg, #0d1520 0%, var(--azul-mar) 100%);
-  border-bottom:1px solid rgba(200,96,26,0.3);
-  overflow:hidden;
-}
-.header-bg {
-  position:absolute; inset:0;
-  background: radial-gradient(ellipse at 30% 50%, rgba(200,96,26,0.1) 0%, transparent 60%);
-}
-.header-inner {
-  position:relative; z-index:2;
-  display:flex; align-items:flex-end; justify-content:space-between;
-  padding:32px 36px 28px; flex-wrap:wrap; gap:20px;
-}
-.titulo-area { display:flex; flex-direction:column; gap:4px; }
-.titulo-sup { font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:6px; text-transform:uppercase; color:var(--fuego); opacity:.8; }
-.titulo-principal { font-family:'Playfair Display',serif; font-size:clamp(28px,5vw,52px); font-weight:900; font-style:italic; color:var(--crema); line-height:1; text-shadow:0 0 60px rgba(200,96,26,0.4); letter-spacing:-1px; }
-.titulo-sub { font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:5px; text-transform:uppercase; color:var(--gris-humo); margin-top:6px; }
-.lyric-line { font-family:'Crimson Pro',serif; font-style:italic; font-size:13px; color:var(--ambar); opacity:.65; margin-top:10px; max-width:400px; }
-.numeros-header { text-align:right; }
-.num-label { font-family:'Oswald',sans-serif; font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--gris-humo); margin-bottom:8px; }
-.num-pills { display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap; }
-.num-ball {
-  width:40px; height:40px; border-radius:50%;
-  background:radial-gradient(circle at 35% 30%, var(--ambar), var(--fuego));
-  color:var(--negro); font-family:'Oswald',sans-serif; font-size:16px; font-weight:600;
-  display:flex; align-items:center; justify-content:center;
-  box-shadow:0 4px 20px rgba(200,96,26,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
-}
-
-/* MAIN */
-main { position:relative; z-index:2; max-width:960px; margin:0 auto; padding:40px 24px 80px; display:flex; flex-direction:column; gap:32px; }
-
-/* CARD */
-.card {
-  background:linear-gradient(145deg, rgba(26,46,66,0.92), rgba(17,24,32,0.97));
-  border:1px solid rgba(200,96,26,0.18); border-radius:4px;
-  overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,0.4); position:relative;
-}
-.card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,rgba(200,96,26,0.5),transparent); }
-.card-header { padding:16px 28px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; border-bottom:1px solid rgba(255,255,255,0.06); }
-.card-title { font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:4px; text-transform:uppercase; color:var(--ambar); opacity:.8; }
-.card-body { padding:28px; }
-
-/* MES TABS */
-.mes-tabs { display:flex; gap:6px; flex-wrap:wrap; }
-.mes-tab { background:none; border:1px solid rgba(200,96,26,0.2); color:var(--crema); font-family:'Oswald',sans-serif; font-size:12px; letter-spacing:2px; text-transform:uppercase; padding:5px 14px; border-radius:2px; cursor:pointer; opacity:.45; transition:all .2s; }
-.mes-tab:hover, .mes-tab.active { background:rgba(200,96,26,0.15); border-color:var(--fuego); color:var(--ambar-claro); opacity:1; }
-
-/* SORTEOS NAV */
-.sorteos-nav { display:flex; gap:6px; flex-wrap:wrap; padding:14px 28px; border-bottom:1px solid rgba(255,255,255,0.04); }
-.sorteo-btn { background:none; border:1px solid rgba(255,255,255,0.1); color:var(--crema); font-family:'Oswald',sans-serif; font-size:12px; letter-spacing:1px; padding:5px 13px; border-radius:2px; cursor:pointer; opacity:.45; transition:all .2s; }
-.sorteo-btn:hover, .sorteo-btn.active { background:rgba(200,96,26,0.15); border-color:var(--fuego); color:var(--ambar-claro); opacity:1; }
-
-/* SORTEO META */
-.sorteo-meta { display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:14px; margin-bottom:26px; }
-.sorteo-fecha { font-family:'Playfair Display',serif; font-size:24px; font-weight:700; font-style:italic; color:var(--crema); line-height:1.1; text-transform:capitalize; }
-.sorteo-concurso { font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gris-humo); margin-top:4px; }
-.link-oficial { display:inline-flex; align-items:center; gap:6px; background:rgba(200,96,26,0.08); border:1px solid rgba(200,96,26,0.3); color:var(--ambar); text-decoration:none; font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; padding:8px 14px; border-radius:2px; transition:all .2s; }
-.link-oficial:hover { background:rgba(200,96,26,0.2); color:var(--ambar-claro); }
-
-/* MODALIDADES */
-.modalidades { display:flex; flex-direction:column; gap:10px; }
-.modalidad-row { background:rgba(0,0,0,0.2); border-radius:3px; padding:14px 18px; border-left:3px solid var(--verde-agua); }
-.modalidad-row.segunda  { border-left-color:#3a6a8a; }
-.modalidad-row.revancha { border-left-color:#6a3a2a; }
-.modalidad-row.siempre  { border-left-color:#5a4a8a; }
-.modalidad-row.pozo-extra { border-left-color:var(--ambar); background:rgba(200,96,26,0.06); margin-top:6px; }
-.modalidad-nombre { font-family:'Oswald',sans-serif; font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--gris-humo); margin-bottom:10px; }
-.numeros-fila { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-.bola { width:42px; height:42px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Oswald',sans-serif; font-size:17px; font-weight:400; flex-shrink:0; transition:transform .15s; }
-.bola:hover { transform:scale(1.1); }
-.bola.sorteado { background:radial-gradient(circle at 35% 35%, #2a3a4a, #151e28); color:rgba(242,234,216,0.7); border:1px solid rgba(255,255,255,0.08); box-shadow:0 3px 10px rgba(0,0,0,0.4); }
-.bola.sorteado.acierto { background:radial-gradient(circle at 35% 35%, #2a6b5a, #0d2a1e); border:1px solid var(--verde-acierto); color:#fff; box-shadow:0 4px 18px rgba(61,153,102,0.5), inset 0 1px 0 rgba(255,255,255,0.15); }
-.aciertos-badge { margin-left:auto; font-family:'Oswald',sans-serif; font-size:12px; letter-spacing:1px; padding:5px 13px; border-radius:2px; background:rgba(61,153,102,0.12); border:1px solid rgba(61,153,102,0.25); color:var(--verde-acierto); white-space:nowrap; }
-.aciertos-badge.cero { background:rgba(255,255,255,0.03); border-color:rgba(255,255,255,0.07); color:rgba(242,234,216,0.25); }
-.aciertos-badge.ganador { background:rgba(200,96,26,0.2); border-color:var(--ambar); color:var(--ambar-claro); font-size:13px; letter-spacing:2px; }
-
-/* RESUMEN */
-.resumen-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:16px; }
-.stat-box { background:rgba(0,0,0,0.25); border:1px solid rgba(200,96,26,0.12); border-radius:3px; padding:20px 16px; text-align:center; }
-.stat-num { font-family:'Playfair Display',serif; font-size:38px; font-weight:700; color:var(--ambar-claro); line-height:1; }
-.stat-label { font-family:'Oswald',sans-serif; font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--gris-humo); margin-top:6px; }
-
-/* PAGOS + TICKETS — layout de 2 columnas */
-.pagos-tickets-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-}
-@media (max-width: 640px) { .pagos-tickets-grid { grid-template-columns: 1fr; } }
-
-.col-titulo {
-  font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:4px;
-  text-transform:uppercase; color:var(--ambar); opacity:.8;
-  margin-bottom:16px;
-}
-
-/* TICKETS */
-.tickets-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(120px,1fr)); gap:10px; }
-.ticket-slot { aspect-ratio:3/4; border:1px dashed rgba(200,96,26,0.2); border-radius:3px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; cursor:pointer; transition:all .2s; position:relative; overflow:hidden; background:rgba(0,0,0,0.2); }
-.ticket-slot:hover { border-color:var(--fuego); background:rgba(200,96,26,0.05); }
-.ticket-slot img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:2px; }
-.ticket-add-icon { font-size:22px; opacity:.25; }
-.ticket-add-label { font-family:'Oswald',sans-serif; font-size:9px; letter-spacing:2px; text-transform:uppercase; opacity:.25; }
-.ticket-remove { position:absolute; top:5px; right:5px; background:rgba(150,30,20,0.85); color:#fff; border:none; border-radius:50%; width:20px; height:20px; cursor:pointer; font-size:11px; display:none; align-items:center; justify-content:center; z-index:10; }
-.ticket-slot:hover .ticket-remove { display:flex; }
-
-/* PAGOS */
-.pago-persona {
-  background: rgba(0,0,0,0.2);
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius:3px;
-  padding:18px;
-  margin-bottom:12px;
-}
-.pago-persona:last-child { margin-bottom:0; }
-.pago-nombre {
-  font-family:'Playfair Display',serif; font-style:italic;
-  font-size:18px; color:var(--crema); margin-bottom:12px;
-}
-.pago-estado {
-  display:flex; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap;
-}
-.pago-check-btn {
-  display:flex; align-items:center; gap:8px;
-  background:none; border:1px solid rgba(255,255,255,0.15);
-  color:var(--crema); font-family:'Oswald',sans-serif;
-  font-size:11px; letter-spacing:2px; text-transform:uppercase;
-  padding:7px 14px; border-radius:2px; cursor:pointer; transition:all .2s;
-}
-.pago-check-btn:hover { border-color:var(--verde-acierto); color:var(--verde-acierto); }
-.pago-check-btn.pagado { background:rgba(61,153,102,0.15); border-color:var(--verde-acierto); color:var(--verde-acierto); }
-.pago-check-btn.pagado::before { content:'✓ '; }
-.pago-foto-btn {
-  background:none; border:1px dashed rgba(200,96,26,0.25);
-  color:var(--ambar); font-family:'Oswald',sans-serif;
-  font-size:10px; letter-spacing:2px; text-transform:uppercase;
-  padding:7px 12px; border-radius:2px; cursor:pointer; transition:all .2s;
-}
-.pago-foto-btn:hover { border-color:var(--ambar); background:rgba(200,96,26,0.08); }
-.comprobante-preview {
-  margin-top:10px; position:relative; display:inline-block;
-}
-.comprobante-preview img {
-  max-width:100%; max-height:140px; border-radius:2px;
-  border:1px solid rgba(200,96,26,0.2); display:block;
-}
-.comp-remove {
-  position:absolute; top:4px; right:4px;
-  background:rgba(150,30,20,0.85); color:#fff; border:none;
-  border-radius:50%; width:20px; height:20px; cursor:pointer;
-  font-size:11px; display:flex; align-items:center; justify-content:center;
-}
-.pago-mes-label {
-  font-family:'Oswald',sans-serif; font-size:9px; letter-spacing:2px;
-  text-transform:uppercase; color:var(--gris-humo); opacity:.6;
-  margin-bottom:14px;
-}
-
-/* STATES */
-.loading-state { display:flex; flex-direction:column; align-items:center; gap:16px; padding:48px; }
-.spinner { width:40px; height:40px; border:2px solid rgba(200,96,26,0.15); border-top-color:var(--fuego); border-radius:50%; animation:spin .9s linear infinite; }
-@keyframes spin { to{transform:rotate(360deg)} }
-.loading-text { font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:4px; text-transform:uppercase; color:var(--gris-humo); }
-.empty-state { text-align:center; padding:40px; font-family:'Oswald',sans-serif; letter-spacing:2px; color:var(--gris-humo); font-size:13px; }
-
-footer { position:relative; z-index:2; text-align:center; padding:32px 20px 60px; font-family:'Crimson Pro',serif; font-style:italic; font-size:14px; color:var(--gris-humo); opacity:.5; border-top:1px solid rgba(200,96,26,0.1); }
-
-@media (max-width:560px) {
-  .bola { width:36px; height:36px; font-size:15px; }
-  .num-ball { width:33px; height:33px; font-size:14px; }
-  .header-inner { padding:24px 20px 20px; }
-}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>La Marea Abandonada | Quini 6</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,600&family=Oswald:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#0e151d; --panel:#172534; --panel2:#111b25; --line:#344352;
+      --cream:#f2ead8; --muted:#a6a9a4; --orange:#d26a24; --amber:#efb45d;
+      --green:#4aaa78; --red:#d66b62; --blue:#5f91b8;
+    }
+    * { box-sizing:border-box }
+    body { margin:0; color:var(--cream); background:radial-gradient(circle at 20% 0,#1f3a50 0,transparent 35%),var(--bg); font-family:"Crimson Pro",Georgia,serif; min-height:100vh }
+    button,input { font:inherit }
+    button { cursor:pointer }
+    header { border-bottom:1px solid #79451f; padding:30px max(20px,calc((100% - 1080px)/2)); background:linear-gradient(180deg,#0c131b,#172a3b) }
+    .eyebrow,.label { font:600 11px/1.2 Oswald,sans-serif; letter-spacing:3px; text-transform:uppercase; color:var(--amber) }
+    h1 { margin:7px 0 3px; font:italic 800 clamp(32px,6vw,56px)/1 "Playfair Display",serif }
+    .subtitle { color:var(--muted); font-style:italic }
+    .numbers { display:flex; gap:8px; flex-wrap:wrap; margin-top:18px }
+    .ball { width:39px; height:39px; border-radius:50%; display:grid; place-items:center; font:600 15px Oswald,sans-serif; background:radial-gradient(circle at 30% 25%,#f4c36f,var(--orange)); color:#17202a }
+    main { width:min(1080px,calc(100% - 32px)); margin:30px auto 70px; display:grid; gap:22px }
+    .card { background:linear-gradient(145deg,rgba(25,42,57,.97),rgba(14,23,32,.98)); border:1px solid #33404c; box-shadow:0 15px 45px #0006 }
+    .card-head { padding:15px 20px; border-bottom:1px solid #ffffff12; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap }
+    .card-body { padding:20px }
+    .tabs,.draw-tabs,.actions,.status-actions { display:flex; gap:8px; flex-wrap:wrap }
+    .tab,.draw-tab,.ghost,.status-btn { border:1px solid var(--line); background:#ffffff05; color:var(--cream); padding:7px 12px; border-radius:3px; font:400 11px Oswald,sans-serif; letter-spacing:1px; text-transform:uppercase }
+    .tab.active,.draw-tab.active { border-color:var(--orange); color:var(--amber); background:#d26a241c }
+    .draw-tabs { padding:13px 20px; border-bottom:1px solid #ffffff0d }
+    .draw-header { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:18px }
+    h2 { margin:0; font:italic 700 25px "Playfair Display",serif; text-transform:capitalize }
+    .contest { color:var(--muted); font:11px Oswald,sans-serif; letter-spacing:2px; text-transform:uppercase; margin-top:4px }
+    a { color:var(--amber) }
+    .mode { padding:13px 15px; margin:9px 0; background:#0003; border-left:3px solid var(--blue) }
+    .mode:nth-child(2) { border-color:#6b82aa }.mode:nth-child(3) { border-color:#a0675a }.mode:nth-child(4) { border-color:#756aa5 }
+    .mode-name { color:var(--muted); font:10px Oswald,sans-serif; letter-spacing:2px; text-transform:uppercase; margin-bottom:9px }
+    .result-row { display:flex; align-items:center; gap:7px; flex-wrap:wrap }
+    .result-ball { width:37px; height:37px; border:1px solid #ffffff17; border-radius:50%; display:grid; place-items:center; font:15px Oswald,sans-serif; background:#111c27 }
+    .result-ball.hit { border-color:var(--green); background:#173c2d; color:#fff }
+    .hits { margin-left:auto; color:var(--green); font:11px Oswald,sans-serif; text-transform:uppercase }
+    .control { margin-top:20px; padding:17px; border:1px solid #ffffff14; background:#0b121999 }
+    .control-top { display:flex; align-items:flex-start; justify-content:space-between; gap:14px; flex-wrap:wrap }
+    .status-btn.played.active { border-color:var(--green); color:var(--green); background:#4aaa781c }
+    .status-btn.skipped.active { border-color:var(--red); color:var(--red); background:#d66b621c }
+    .status-btn.pending.active { border-color:var(--amber); color:var(--amber); background:#efb45d17 }
+    .money { display:flex; align-items:center; gap:8px; margin-top:13px; color:var(--muted) }
+    .money input { width:130px; padding:7px 9px; background:#0c151d; color:var(--cream); border:1px solid var(--line) }
+    .ticket-zone { margin-top:14px }
+    .thumbs { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px }
+    .thumb { width:105px; height:125px; position:relative; border:1px solid var(--line); background:#0b1219 }
+    .thumb img { width:100%; height:100%; object-fit:cover }
+    .remove { position:absolute; right:4px; top:4px; border:0; border-radius:50%; width:23px; height:23px; background:#8d302c; color:white }
+    .summary { display:grid; grid-template-columns:repeat(5,minmax(120px,1fr)); gap:10px }
+    .stat { background:#0003; border:1px solid #ffffff12; padding:16px; text-align:center }
+    .stat strong { display:block; color:var(--amber); font:700 29px "Playfair Display",serif }
+    .stat span { color:var(--muted); font:10px Oswald,sans-serif; letter-spacing:1px; text-transform:uppercase }
+    .payments { display:grid; grid-template-columns:1fr 1fr; gap:14px }
+    .person { border:1px solid #ffffff15; background:#0002; padding:17px }
+    .person h3 { margin:0 0 4px; font:italic 700 22px "Playfair Display",serif }
+    .owed { color:var(--amber); margin-bottom:12px }
+    .paid { border-color:var(--green); color:var(--green) }
+    .notice { border-left:3px solid var(--amber); background:#efb45d0d; padding:13px 15px; color:#d7d1c5 }
+    .empty { text-align:center; padding:35px; color:var(--muted) }
+    .updated { color:var(--muted); font-size:13px }
+    input[type=file] { display:none }
+    @media (max-width:760px) {
+      .summary { grid-template-columns:repeat(2,1fr) }
+      .payments { grid-template-columns:1fr }
+      .hits { width:100%; margin:3px 0 0 }
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <div class="eyebrow">Quini 6 · Control y rendición</div>
+    <h1>La Marea Abandonada</h1>
+    <div class="subtitle">Ale, Zamba y Maxi · resultados, jugadas y cuentas claras</div>
+    <div id="my-numbers" class="numbers"></div>
+  </header>
 
-<div class="ocean">
-  <div class="wave wave1"><svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,60 C240,100 480,20 720,60 C960,100 1200,20 1440,60 L1440,120 L0,120 Z" fill="#2a5070"/></svg></div>
-  <div class="wave wave2"><svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,40 C360,90 720,10 1080,50 C1260,70 1380,30 1440,40 L1440,120 L0,120 Z" fill="#1a3a5c"/></svg></div>
-  <div class="wave wave3"><svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,80 C180,40 360,100 720,70 C900,55 1200,90 1440,60 L1440,120 L0,120 Z" fill="#1e3a52"/></svg></div>
-</div>
+  <main>
+    <section class="notice">
+      Primero marcá cada sorteo como <strong>Jugado</strong> o <strong>No jugado</strong>.
+      Solo los jugados entran en la rendición. Los cambios y fotos quedan guardados en este navegador.
+    </section>
 
-<header>
-  <div class="header-bg"></div>
-  <div class="header-inner">
-    <div class="titulo-area">
-      <span class="titulo-sup">Quini 6 · Seguimiento de jugadas</span>
-      <div class="titulo-principal">La Marea Abandonada</div>
-      <div class="titulo-sub">Zambayonny · Canciones en Orsai</div>
-      <div class="lyric-line">"el 08 porque es mi cumpleaños y cuando juego, siempre lo juego"</div>
-    </div>
-    <div class="numeros-header">
-      <div class="num-label">Nuestros números</div>
-      <div class="num-pills" id="mis-pills"></div>
-    </div>
-  </div>
-</header>
-
-<main>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-title">Resultados por sorteo</span>
-      <div class="mes-tabs" id="mes-tabs"></div>
-    </div>
-    <div id="sorteos-nav" class="sorteos-nav" style="display:none"></div>
-    <div class="card-body" id="sorteo-body">
-      <div class="loading-state"><div class="spinner"></div><div class="loading-text">Cargando resultados...</div></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header"><span class="card-title">Resumen del mes</span></div>
-    <div class="card-body">
-      <div class="resumen-grid">
-        <div class="stat-box"><div class="stat-num" id="stat-sorteos">—</div><div class="stat-label">Sorteos jugados</div></div>
-        <div class="stat-box"><div class="stat-num" id="stat-costo">—</div><div class="stat-label">Tu parte (1/3)</div></div>
-        <div class="stat-box"><div class="stat-num" id="stat-aciertos">—</div><div class="stat-label">Mejor acierto</div></div>
+    <section class="card">
+      <div class="card-head">
+        <span class="label">Resultados por sorteo</span>
+        <div id="month-tabs" class="tabs"></div>
       </div>
-    </div>
-  </div>
+      <div id="draw-tabs" class="draw-tabs"></div>
+      <div id="draw-detail" class="card-body"><div class="empty">Cargando resultados...</div></div>
+    </section>
 
-  <div class="card">
-    <div class="card-header">
-      <span class="card-title">Tickets y pagos</span>
-    </div>
-    <div class="card-body">
-      <div class="pagos-tickets-grid">
+    <section class="card">
+      <div class="card-head"><span class="label">Rendición del mes</span></div>
+      <div class="card-body">
+        <div id="summary" class="summary"></div>
+      </div>
+    </section>
 
-        <!-- COLUMNA IZQUIERDA: Fotos de tickets -->
-        <div>
-          <div class="col-titulo">📷 Fotos de tickets</div>
-          <div class="tickets-grid" id="tickets-grid"></div>
+    <section class="card">
+      <div class="card-head">
+        <span class="label">Pagos de Ale y Zamba</span>
+        <span id="payment-month" class="updated"></span>
+      </div>
+      <div class="card-body">
+        <div id="payments" class="payments"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-head"><span class="label">Respaldo</span></div>
+      <div class="card-body">
+        <p>Exportá el estado para no perder marcas y comprobantes, o para pasarlo a otro dispositivo.</p>
+        <div class="actions">
+          <button class="ghost" onclick="exportState()">Exportar respaldo</button>
+          <button class="ghost" onclick="document.getElementById('import-file').click()">Importar respaldo</button>
         </div>
+        <input id="import-file" type="file" accept="application/json">
+        <p id="updated-at" class="updated"></p>
+      </div>
+    </section>
+  </main>
 
-        <!-- COLUMNA DERECHA: Pagos de Ale y Zamba -->
-        <div>
-          <div class="col-titulo">💰 Confirmación de pago</div>
-          <div class="pago-mes-label" id="pago-mes-label"></div>
+  <input id="image-file" type="file" accept="image/*">
+  <script>
+    const STORE_KEY = "marea-quini-state-v2";
+    const RENDITION_START = "2026-04-01";
+    let data;
+    let state = loadState();
+    let activeMonth;
+    let activeContest;
+    let imageTarget;
 
-          <!-- ALE -->
-          <div class="pago-persona" id="pago-ale">
-            <div class="pago-nombre">Ale</div>
-            <div class="pago-estado">
-              <button class="pago-check-btn" id="check-ale" onclick="togglePago('ale')">Pagué</button>
-              <button class="pago-foto-btn" onclick="abrirComprobante('ale')">📎 Comprobante</button>
+    function loadState() {
+      try { return JSON.parse(localStorage.getItem(STORE_KEY)) || { draws:{}, payments:{} }; }
+      catch { return { draws:{}, payments:{} }; }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORE_KEY, JSON.stringify(state));
+    }
+
+    function drawState(contest) {
+      const key = String(contest);
+      if (!state.draws[key]) state.draws[key] = { status:"pending", tickets:[] };
+      return state.draws[key];
+    }
+
+    function money(value) {
+      return new Intl.NumberFormat("es-AR", { style:"currency", currency:"ARS", maximumFractionDigits:0 }).format(value || 0);
+    }
+
+    function monthLabel(month) {
+      const [year, number] = month.split("-");
+      return new Date(+year, +number - 1, 1).toLocaleDateString("es-AR", { month:"long", year:"numeric" });
+    }
+
+    function months() {
+      return [...new Set(data.sorteos.filter(s => s.fecha >= RENDITION_START).map(s => s.fecha.slice(0,7)))].sort();
+    }
+
+    function drawsForMonth() {
+      return data.sorteos.filter(s => s.fecha.startsWith(activeMonth)).sort((a,b) => a.fecha.localeCompare(b.fecha));
+    }
+
+    async function init() {
+      const response = await fetch("data.json?v=" + Date.now());
+      if (!response.ok) throw new Error("No se pudo cargar data.json");
+      data = await response.json();
+      document.getElementById("my-numbers").innerHTML = data.mis_numeros.map(n => `<span class="ball">${String(n).padStart(2,"0")}</span>`).join("");
+      const available = months();
+      activeMonth = available.at(-1);
+      activeContest = drawsForMonth().at(-1)?.concurso;
+      render();
+      const updated = data.actualizado_en_utc ? new Date(data.actualizado_en_utc).toLocaleString("es-AR") : "sin fecha";
+      document.getElementById("updated-at").textContent = `Resultados actualizados: ${updated}.`;
+    }
+
+    function render() {
+      renderMonths();
+      renderDrawTabs();
+      renderDraw();
+      renderSummary();
+      renderPayments();
+    }
+
+    function renderMonths() {
+      document.getElementById("month-tabs").innerHTML = months().map(month =>
+        `<button class="tab ${month === activeMonth ? "active" : ""}" onclick="selectMonth('${month}')">${monthLabel(month)}</button>`
+      ).join("");
+    }
+
+    function selectMonth(month) {
+      activeMonth = month;
+      activeContest = drawsForMonth().at(-1)?.concurso;
+      render();
+    }
+
+    function renderDrawTabs() {
+      document.getElementById("draw-tabs").innerHTML = drawsForMonth().map(draw => {
+        const current = drawState(draw.concurso);
+        const icon = current.status === "played" ? "✓" : current.status === "skipped" ? "×" : "·";
+        const date = new Date(draw.fecha + "T12:00:00").toLocaleDateString("es-AR", { weekday:"short", day:"numeric" });
+        return `<button class="draw-tab ${draw.concurso === activeContest ? "active" : ""}" onclick="selectDraw(${draw.concurso})">${icon} ${date}</button>`;
+      }).join("");
+    }
+
+    function selectDraw(contest) {
+      activeContest = contest;
+      renderDrawTabs();
+      renderDraw();
+    }
+
+    function resultMode(name, values) {
+      const hits = values.filter(value => data.mis_numeros.includes(value)).length;
+      return `<div class="mode"><div class="mode-name">${name}</div><div class="result-row">
+        ${values.map(value => `<span class="result-ball ${data.mis_numeros.includes(value) ? "hit" : ""}">${String(value).padStart(2,"0")}</span>`).join("")}
+        <span class="hits">${hits} acierto${hits === 1 ? "" : "s"}</span>
+      </div></div>`;
+    }
+
+    function renderDraw() {
+      const draw = data.sorteos.find(item => item.concurso === activeContest);
+      if (!draw) return;
+      const current = drawState(draw.concurso);
+      const defaultCost = data.precio_boleta * data.boletas_por_sorteo;
+      const cost = current.cost ?? defaultCost;
+      const date = new Date(draw.fecha + "T12:00:00").toLocaleDateString("es-AR", { weekday:"long", day:"numeric", month:"long", year:"numeric" });
+      document.getElementById("draw-detail").innerHTML = `
+        <div class="draw-header"><div><h2>${date}</h2><div class="contest">Concurso ${draw.concurso}</div></div>
+        <a href="${draw.url}" target="_blank" rel="noreferrer">Ver fuente del resultado</a></div>
+        ${resultMode("Tradicional", draw.tradicional)}
+        ${resultMode("La Segunda", draw.segunda)}
+        ${resultMode("Revancha", draw.revancha)}
+        ${resultMode("Siempre Sale", draw.siempre_sale)}
+        <div class="control">
+          <div class="control-top">
+            <div><div class="label">¿Se jugó este sorteo?</div>
+              <div class="status-actions" style="margin-top:10px">
+                ${statusButton(draw.concurso, "played", "Jugado")}
+                ${statusButton(draw.concurso, "skipped", "No jugado")}
+                ${statusButton(draw.concurso, "pending", "Pendiente")}
+              </div>
             </div>
-            <div class="comprobante-preview" id="comp-ale" style="display:none">
-              <img id="comp-ale-img" src="" alt="Comprobante Ale">
-              <button class="comp-remove" onclick="borrarComprobante('ale')">✕</button>
+            <div class="money"><label for="cost-${draw.concurso}">Gasto total</label>
+              <input id="cost-${draw.concurso}" type="number" min="0" step="100" value="${cost}" onchange="setCost(${draw.concurso},this.value)">
             </div>
           </div>
-
-          <!-- ZAMBA -->
-          <div class="pago-persona" id="pago-zamba">
-            <div class="pago-nombre">Zamba</div>
-            <div class="pago-estado">
-              <button class="pago-check-btn" id="check-zamba" onclick="togglePago('zamba')">Pagué</button>
-              <button class="pago-foto-btn" onclick="abrirComprobante('zamba')">📎 Comprobante</button>
-            </div>
-            <div class="comprobante-preview" id="comp-zamba" style="display:none">
-              <img id="comp-zamba-img" src="" alt="Comprobante Zamba">
-              <button class="comp-remove" onclick="borrarComprobante('zamba')">✕</button>
-            </div>
+          <div class="ticket-zone">
+            <button class="ghost" onclick="addImage('ticket',${draw.concurso})">Adjuntar ticket</button>
+            <div class="thumbs">${(current.tickets || []).map((src,index) => thumb(src, `removeTicket(${draw.concurso},${index})`)).join("")}</div>
           </div>
+        </div>`;
+    }
 
-        </div>
-      </div>
-    </div>
-  </div>
+    function statusButton(contest, status, label) {
+      return `<button class="status-btn ${status} ${drawState(contest).status === status ? "active" : ""}" onclick="setStatus(${contest},'${status}')">${label}</button>`;
+    }
 
-</main>
+    function setStatus(contest, status) {
+      drawState(contest).status = status;
+      saveState();
+      render();
+    }
 
-<footer>Tantos años haciendo la tarea con la espalda doblada, buscando entre la arena una moneda en la marea abandonada.</footer>
+    function setCost(contest, value) {
+      drawState(contest).cost = Math.max(0, Number(value) || 0);
+      saveState();
+      renderSummary();
+      renderPayments();
+    }
 
-<input type="file" id="file-input" accept="image/*" multiple style="display:none">
-<input type="file" id="comp-input" accept="image/*" style="display:none">
+    function totals() {
+      const draws = drawsForMonth();
+      const played = draws.filter(draw => drawState(draw.concurso).status === "played");
+      const skipped = draws.filter(draw => drawState(draw.concurso).status === "skipped");
+      const pending = draws.length - played.length - skipped.length;
+      const defaultCost = data.precio_boleta * data.boletas_por_sorteo;
+      const total = played.reduce((sum, draw) => sum + (drawState(draw.concurso).cost ?? defaultCost), 0);
+      return { played:played.length, skipped:skipped.length, pending, total, share:total / data.integrantes };
+    }
 
-<script>
-let data = null;
-let mesActivo = null;
-let sorteoActivo = 0;
-let sorteosMes = [];
-let compTarget = null; // 'ale' o 'zamba'
+    function renderSummary() {
+      const total = totals();
+      document.getElementById("summary").innerHTML = [
+        [total.played, "Jugados"], [total.skipped, "No jugados"], [total.pending, "Pendientes"],
+        [money(total.total), "Gasto total"], [money(total.share), "Cada uno"]
+      ].map(([value,label]) => `<div class="stat"><strong>${value}</strong><span>${label}</span></div>`).join("");
+    }
 
-// ── INIT ──
-async function init() {
-  try {
-    const resp = await fetch('data.json?v=' + Date.now());
-    if (!resp.ok) throw new Error('No se pudo cargar data.json');
-    data = await resp.json();
-    renderMisNumeros();
-    renderMesTabs();
-    renderTickets();
-  } catch(e) {
-    document.getElementById('sorteo-body').innerHTML =
-      `<div class="empty-state">No se pudo cargar data.json.<br><small style="opacity:.5">${e.message}</small></div>`;
-  }
-}
+    function paymentState(person) {
+      state.payments[activeMonth] ||= {};
+      state.payments[activeMonth][person] ||= { paid:false, receipts:[] };
+      return state.payments[activeMonth][person];
+    }
 
-function renderMisNumeros() {
-  const nums = data.mis_numeros || [1,8,17,21,31,33];
-  document.getElementById('mis-pills').innerHTML = nums
-    .map(n => `<div class="num-ball">${String(n).padStart(2,'0')}</div>`).join('');
-}
+    function renderPayments() {
+      document.getElementById("payment-month").textContent = monthLabel(activeMonth);
+      const share = totals().share;
+      document.getElementById("payments").innerHTML = ["ale","zamba"].map(person => {
+        const payment = paymentState(person);
+        const name = person[0].toUpperCase() + person.slice(1);
+        return `<div class="person"><h3>${name}</h3><div class="owed">Debe transferir: <strong>${money(share)}</strong></div>
+          <div class="actions">
+            <button class="ghost ${payment.paid ? "paid" : ""}" onclick="togglePaid('${person}')">${payment.paid ? "Pago confirmado" : "Marcar como pagado"}</button>
+            <button class="ghost" onclick="addImage('receipt','${person}')">Adjuntar comprobante</button>
+          </div>
+          <div class="thumbs">${(payment.receipts || []).map((src,index) => thumb(src, `removeReceipt('${person}',${index})`)).join("")}</div>
+        </div>`;
+      }).join("");
+      saveState();
+    }
 
-// ── MESES (izquierda=antiguo, derecha=reciente) ──
-function mesesDisponibles() {
-  const set = new Set(data.sorteos.map(s => s.fecha.slice(0,7)));
-  return [...set].sort(); // ascendente
-}
+    function togglePaid(person) {
+      paymentState(person).paid = !paymentState(person).paid;
+      saveState();
+      renderPayments();
+    }
 
-function formatMesLabel(m) {
-  const [y, mo] = m.split('-');
-  return new Date(+y, +mo-1, 1).toLocaleDateString('es-AR', { month:'short', year:'2-digit' }).toUpperCase();
-}
+    function thumb(src, action) {
+      return `<div class="thumb"><img src="${src}" alt="Comprobante"><button class="remove" onclick="${action}" aria-label="Eliminar">×</button></div>`;
+    }
 
-function renderMesTabs() {
-  const meses = mesesDisponibles();
-  if (!meses.length) { document.getElementById('sorteo-body').innerHTML = '<div class="empty-state">Sin datos aún.</div>'; return; }
-  mesActivo = meses[meses.length - 1]; // más reciente activo por defecto
-  renderTabsHTML(meses);
-  seleccionarMes(mesActivo);
-}
+    function addImage(type, id) {
+      imageTarget = { type, id };
+      document.getElementById("image-file").click();
+    }
 
-function renderTabsHTML(meses) {
-  document.getElementById('mes-tabs').innerHTML = meses.map(m =>
-    `<button class="mes-tab ${m===mesActivo?'active':''}" onclick="seleccionarMes('${m}')">${formatMesLabel(m)}</button>`
-  ).join('');
-}
+    async function compressImage(file) {
+      const bitmap = await createImageBitmap(file);
+      const scale = Math.min(1, 1400 / Math.max(bitmap.width, bitmap.height));
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(bitmap.width * scale);
+      canvas.height = Math.round(bitmap.height * scale);
+      canvas.getContext("2d").drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+      bitmap.close();
+      return canvas.toDataURL("image/jpeg", .78);
+    }
 
-function seleccionarMes(mes) {
-  mesActivo = mes;
-  renderTabsHTML(mesesDisponibles());
-  // sorteos del mes en orden ascendente (antiguo a izquierda)
-  sorteosMes = data.sorteos.filter(s => s.fecha.startsWith(mes)).sort((a,b) => a.fecha.localeCompare(b.fecha));
-  sorteoActivo = sorteosMes.length - 1; // más reciente activo
-  renderSorteosNav();
-  mostrarSorteo(sorteoActivo);
-  actualizarResumen();
-  renderPagos(mes);
-}
-
-// ── SORTEOS NAV (izquierda=antiguo, derecha=reciente) ──
-function renderSorteosNav() {
-  const nav = document.getElementById('sorteos-nav');
-  if (!sorteosMes.length) { nav.style.display='none'; return; }
-  nav.style.display = 'flex';
-  nav.innerHTML = sorteosMes.map((s,i) => {
-    const d = new Date(s.fecha + 'T12:00:00');
-    const label = d.toLocaleDateString('es-AR', { weekday:'short', day:'numeric', month:'short' });
-    return `<button class="sorteo-btn ${i===sorteoActivo?'active':''}" id="sbtn-${i}" onclick="mostrarSorteo(${i})">${label}</button>`;
-  }).join('');
-}
-
-function mostrarSorteo(idx) {
-  sorteoActivo = idx;
-  document.querySelectorAll('.sorteo-btn').forEach((b,i) => b.classList.toggle('active', i===idx));
-  const s = sorteosMes[idx];
-  if (!s) { document.getElementById('sorteo-body').innerHTML = '<div class="empty-state">Sin datos.</div>'; return; }
-
-  const misNums = data.mis_numeros || [1,8,17,21,31,33];
-  const d = new Date(s.fecha + 'T12:00:00');
-  const fecha = d.toLocaleDateString('es-AR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-
-  document.getElementById('sorteo-body').innerHTML = `
-    <div class="sorteo-meta">
-      <div>
-        <div class="sorteo-fecha">${fecha}</div>
-        <div class="sorteo-concurso">Concurso N° ${s.concurso}</div>
-      </div>
-      <a class="link-oficial" href="${s.url}" target="_blank">↗ Ver resultado oficial</a>
-    </div>
-    <div class="modalidades">
-      ${renderModalidad('Tradicional', s.tradicional, '', misNums)}
-      ${renderModalidad('Segunda del Quini', s.segunda, 'segunda', misNums)}
-      ${renderModalidad('Revancha', s.revancha, 'revancha', misNums)}
-      ${renderModalidad('Siempre Sale', s.siempre_sale, 'siempre', misNums)}
-      ${renderPozoExtra(s, misNums)}
-    </div>`;
-}
-
-function renderModalidad(nombre, numeros, cls, misNums) {
-  if (!numeros || !numeros.length) return '';
-  const aciertos = numeros.filter(n => misNums.includes(n)).length;
-  const bolas = numeros.map(n => {
-    const hit = misNums.includes(n);
-    return `<div class="bola sorteado ${hit?'acierto':''}">${String(n).padStart(2,'0')}</div>`;
-  }).join('');
-  return `
-    <div class="modalidad-row ${cls}">
-      <div class="modalidad-nombre">${nombre}</div>
-      <div class="numeros-fila">
-        ${bolas}
-        <span class="aciertos-badge ${aciertos===0?'cero':''}">${aciertos} acierto${aciertos!==1?'s':''}</span>
-      </div>
-    </div>`;
-}
-
-function renderPozoExtra(s, misNums) {
-  const union = [...new Set([...(s.tradicional||[]), ...(s.segunda||[]), ...(s.revancha||[])])];
-  const aciertos = union.filter(n => misNums.includes(n)).length;
-  const ganador = aciertos === 6;
-  const texto = ganador ? '🏆 ¡6 aciertos! — POZO EXTRA' : `${aciertos} acierto${aciertos!==1?'s':''}`;
-  return `
-    <div class="modalidad-row pozo-extra">
-      <div class="modalidad-nombre">Pozo Extra · Trad + Segunda + Revancha (sin repetidos)</div>
-      <div class="numeros-fila">
-        <span class="aciertos-badge ${ganador?'ganador':aciertos===0?'cero':''}" style="margin-left:0">${texto}</span>
-      </div>
-    </div>`;
-}
-
-// ── RESUMEN ──
-function actualizarResumen() {
-  const precio = data.precio_boleta || 3000;
-  const integrantes = data.integrantes || 3;
-  const n = sorteosMes.length;
-  const misNums = data.mis_numeros || [1,8,17,21,31,33];
-  let mejor = 0;
-  sorteosMes.forEach(s => {
-    ['tradicional','segunda','revancha','siempre_sale'].forEach(m => {
-      if (s[m]) { const a = s[m].filter(x => misNums.includes(x)).length; if (a > mejor) mejor = a; }
+    document.getElementById("image-file").addEventListener("change", async event => {
+      const file = event.target.files[0];
+      if (!file || !imageTarget) return;
+      const source = await compressImage(file);
+      if (imageTarget.type === "ticket") drawState(imageTarget.id).tickets.push(source);
+      else paymentState(imageTarget.id).receipts.push(source);
+      saveState();
+      event.target.value = "";
+      imageTarget = null;
+      render();
     });
-  });
-  document.getElementById('stat-sorteos').textContent = n;
-  document.getElementById('stat-costo').textContent = '$' + Math.round(n * 3 * precio / integrantes).toLocaleString('es-AR');
-  document.getElementById('stat-aciertos').textContent = mejor || '—';
-}
 
-// ── PAGOS ──
-function pagoKey(persona, mes) { return `marea-pago-${persona}-${mes}`; }
-function compKey(persona, mes) { return `marea-comp-${persona}-${mes}`; }
+    function removeTicket(contest, index) {
+      drawState(contest).tickets.splice(index, 1); saveState(); renderDraw();
+    }
 
-function renderPagos(mes) {
-  const label = document.getElementById('pago-mes-label');
-  const [y, mo] = mes.split('-');
-  label.textContent = new Date(+y, +mo-1, 1).toLocaleDateString('es-AR', { month:'long', year:'numeric' });
+    function removeReceipt(person, index) {
+      paymentState(person).receipts.splice(index, 1); saveState(); renderPayments();
+    }
 
-  ['ale','zamba'].forEach(p => {
-    const pagado = localStorage.getItem(pagoKey(p, mes)) === '1';
-    const btn = document.getElementById(`check-${p}`);
-    btn.classList.toggle('pagado', pagado);
-    btn.textContent = pagado ? 'Pagué' : 'Pagué';
+    function exportState() {
+      const blob = new Blob([JSON.stringify({ version:2, exportedAt:new Date().toISOString(), state }, null, 2)], { type:"application/json" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `marea-quini-respaldo-${new Date().toISOString().slice(0,10)}.json`;
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }
 
-    const comp = localStorage.getItem(compKey(p, mes));
-    const preview = document.getElementById(`comp-${p}`);
-    const img = document.getElementById(`comp-${p}-img`);
-    if (comp) { img.src = comp; preview.style.display = 'inline-block'; }
-    else { preview.style.display = 'none'; img.src = ''; }
-  });
-}
+    document.getElementById("import-file").addEventListener("change", async event => {
+      const file = event.target.files[0];
+      if (!file) return;
+      const imported = JSON.parse(await file.text());
+      if (!imported.state?.draws || !imported.state?.payments) throw new Error("Respaldo inválido");
+      state = imported.state;
+      saveState();
+      render();
+      event.target.value = "";
+    });
 
-function togglePago(persona) {
-  const actual = localStorage.getItem(pagoKey(persona, mesActivo)) === '1';
-  localStorage.setItem(pagoKey(persona, mesActivo), actual ? '0' : '1');
-  renderPagos(mesActivo);
-}
-
-function abrirComprobante(persona) {
-  compTarget = persona;
-  document.getElementById('comp-input').click();
-}
-
-function borrarComprobante(persona) {
-  localStorage.removeItem(compKey(persona, mesActivo));
-  renderPagos(mesActivo);
-}
-
-document.getElementById('comp-input').addEventListener('change', function(e) {
-  const file = e.target.files[0];
-  if (!file || !compTarget) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    localStorage.setItem(compKey(compTarget, mesActivo), ev.target.result);
-    renderPagos(mesActivo);
-    compTarget = null;
-  };
-  reader.readAsDataURL(file);
-  this.value = '';
-});
-
-// ── TICKETS ──
-let tickets = [];
-try { tickets = JSON.parse(localStorage.getItem('mareatickets') || '[]'); } catch(e) {}
-
-function renderTickets() {
-  const grid = document.getElementById('tickets-grid');
-  grid.innerHTML = '';
-  tickets.forEach((src,i) => {
-    const slot = document.createElement('div');
-    slot.className = 'ticket-slot';
-    slot.innerHTML = `<img src="${src}" alt="Ticket ${i+1}"><button class="ticket-remove" onclick="removeTicket(${i})">✕</button>`;
-    grid.appendChild(slot);
-  });
-  const add = document.createElement('div');
-  add.className = 'ticket-slot';
-  add.innerHTML = `<div class="ticket-add-icon">📷</div><div class="ticket-add-label">Agregar</div>`;
-  add.onclick = () => document.getElementById('file-input').click();
-  grid.appendChild(add);
-}
-
-function removeTicket(i) {
-  tickets.splice(i,1);
-  try { localStorage.setItem('mareatickets', JSON.stringify(tickets)); } catch(e) {}
-  renderTickets();
-}
-
-document.getElementById('file-input').addEventListener('change', function(e) {
-  Array.from(e.target.files).forEach(file => {
-    const reader = new FileReader();
-    reader.onload = ev => {
-      tickets.push(ev.target.result);
-      try { localStorage.setItem('mareatickets', JSON.stringify(tickets)); } catch(e) {}
-      renderTickets();
-    };
-    reader.readAsDataURL(file);
-  });
-  this.value = '';
-});
-
-init();
-</script>
+    init().catch(error => {
+      document.getElementById("draw-detail").innerHTML = `<div class="empty">${error.message}</div>`;
+    });
+  </script>
 </body>
 </html>

@@ -1,0 +1,1726 @@
+{
+  "mis_numeros": [
+    1,
+    8,
+    17,
+    21,
+    31,
+    33
+  ],
+  "precio_boleta": 3000,
+  "boletas_por_sorteo": 3,
+  "integrantes": 3,
+  "sorteos": [
+    {
+      "concurso": 3380,
+      "fecha": "2026-06-07",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3380-del-dia-07-06-2026.htm",
+      "tradicional": [
+        7,
+        13,
+        17,
+        27,
+        29,
+        41
+      ],
+      "segunda": [
+        7,
+        13,
+        17,
+        27,
+        29,
+        41
+      ],
+      "revancha": [
+        12,
+        17,
+        22,
+        32,
+        39,
+        42
+      ],
+      "siempre_sale": [
+        12,
+        21,
+        23,
+        31,
+        41,
+        45
+      ]
+    },
+    {
+      "concurso": 3379,
+      "fecha": "2026-06-03",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3379-del-dia-03-06-2026.htm",
+      "tradicional": [
+        7,
+        8,
+        23,
+        26,
+        27,
+        28
+      ],
+      "segunda": [
+        14,
+        22,
+        24,
+        27,
+        28,
+        42
+      ],
+      "revancha": [
+        7,
+        14,
+        23,
+        33,
+        40,
+        42
+      ],
+      "siempre_sale": [
+        6,
+        9,
+        14,
+        16,
+        25,
+        43
+      ]
+    },
+    {
+      "concurso": 3378,
+      "fecha": "2026-05-31",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3378-del-dia-31-05-2026.htm",
+      "tradicional": [
+        16,
+        26,
+        27,
+        30,
+        32,
+        42
+      ],
+      "segunda": [
+        2,
+        14,
+        22,
+        23,
+        24,
+        32
+      ],
+      "revancha": [
+        0,
+        1,
+        6,
+        9,
+        21,
+        43
+      ],
+      "siempre_sale": [
+        22,
+        23,
+        34,
+        37,
+        43,
+        44
+      ]
+    },
+    {
+      "concurso": 3377,
+      "fecha": "2026-05-27",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3377-del-dia-27-05-2026.htm",
+      "tradicional": [
+        0,
+        4,
+        7,
+        8,
+        40,
+        45
+      ],
+      "segunda": [
+        8,
+        9,
+        13,
+        23,
+        33,
+        45
+      ],
+      "revancha": [
+        3,
+        6,
+        9,
+        15,
+        28,
+        43
+      ],
+      "siempre_sale": [
+        14,
+        23,
+        26,
+        27,
+        30,
+        37
+      ]
+    },
+    {
+      "concurso": 3376,
+      "fecha": "2026-05-24",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3376-del-dia-24-05-2026.htm",
+      "tradicional": [
+        5,
+        8,
+        10,
+        12,
+        28,
+        34
+      ],
+      "segunda": [
+        11,
+        14,
+        20,
+        35,
+        39,
+        43
+      ],
+      "revancha": [
+        8,
+        12,
+        15,
+        18,
+        21,
+        36
+      ],
+      "siempre_sale": [
+        0,
+        7,
+        21,
+        25,
+        29,
+        35
+      ]
+    },
+    {
+      "concurso": 3375,
+      "fecha": "2026-05-20",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3375-del-dia-20-05-2026.htm",
+      "tradicional": [
+        7,
+        8,
+        10,
+        18,
+        22,
+        32
+      ],
+      "segunda": [
+        7,
+        8,
+        10,
+        18,
+        22,
+        32
+      ],
+      "revancha": [
+        16,
+        25,
+        26,
+        36,
+        42,
+        45
+      ],
+      "siempre_sale": [
+        4,
+        13,
+        23,
+        26,
+        37,
+        42
+      ]
+    },
+    {
+      "concurso": 3374,
+      "fecha": "2026-05-17",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3374-del-dia-17-05-2026.htm",
+      "tradicional": [
+        6,
+        26,
+        29,
+        30,
+        32,
+        44
+      ],
+      "segunda": [
+        1,
+        6,
+        11,
+        17,
+        40,
+        42
+      ],
+      "revancha": [
+        2,
+        8,
+        10,
+        20,
+        41,
+        43
+      ],
+      "siempre_sale": [
+        12,
+        13,
+        14,
+        15,
+        22,
+        35
+      ]
+    },
+    {
+      "concurso": 3373,
+      "fecha": "2026-05-13",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3373-del-dia-13-05-2026.htm",
+      "tradicional": [
+        0,
+        2,
+        6,
+        13,
+        26,
+        34
+      ],
+      "segunda": [
+        0,
+        1,
+        4,
+        13,
+        27,
+        34
+      ],
+      "revancha": [
+        5,
+        17,
+        18,
+        27,
+        32,
+        38
+      ],
+      "siempre_sale": [
+        0,
+        15,
+        26,
+        36,
+        37,
+        40
+      ]
+    },
+    {
+      "concurso": 3372,
+      "fecha": "2026-05-10",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3372-del-dia-10-05-2026.htm",
+      "tradicional": [
+        4,
+        7,
+        15,
+        24,
+        37,
+        39
+      ],
+      "segunda": [
+        0,
+        1,
+        6,
+        23,
+        24,
+        40
+      ],
+      "revancha": [
+        1,
+        8,
+        15,
+        21,
+        24,
+        44
+      ],
+      "siempre_sale": [
+        3,
+        4,
+        6,
+        21,
+        40,
+        43
+      ]
+    },
+    {
+      "concurso": 3371,
+      "fecha": "2026-05-06",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3371-del-dia-06-05-2026.htm",
+      "tradicional": [
+        5,
+        13,
+        17,
+        18,
+        20,
+        42
+      ],
+      "segunda": [
+        3,
+        14,
+        15,
+        20,
+        37,
+        40
+      ],
+      "revancha": [
+        3,
+        25,
+        30,
+        33,
+        34,
+        35
+      ],
+      "siempre_sale": [
+        0,
+        5,
+        7,
+        20,
+        30,
+        40
+      ]
+    },
+    {
+      "concurso": 3370,
+      "fecha": "2026-05-03",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3370-del-dia-03-05-2026.htm",
+      "tradicional": [
+        9,
+        15,
+        17,
+        30,
+        37,
+        43
+      ],
+      "segunda": [
+        0,
+        6,
+        10,
+        15,
+        21,
+        25
+      ],
+      "revancha": [
+        5,
+        7,
+        19,
+        28,
+        29,
+        32
+      ],
+      "siempre_sale": [
+        0,
+        12,
+        22,
+        28,
+        41,
+        44
+      ]
+    },
+    {
+      "concurso": 3369,
+      "fecha": "2026-04-29",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3369-del-dia-29-04-2026.htm",
+      "tradicional": [
+        4,
+        6,
+        7,
+        13,
+        19,
+        43
+      ],
+      "segunda": [
+        3,
+        5,
+        12,
+        14,
+        32,
+        34
+      ],
+      "revancha": [
+        1,
+        8,
+        16,
+        25,
+        33,
+        43
+      ],
+      "siempre_sale": [
+        3,
+        6,
+        15,
+        19,
+        38,
+        45
+      ]
+    },
+    {
+      "concurso": 3368,
+      "fecha": "2026-04-26",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3368-del-dia-26-04-2026.htm",
+      "tradicional": [
+        16,
+        17,
+        20,
+        28,
+        30,
+        42
+      ],
+      "segunda": [
+        16,
+        17,
+        20,
+        28,
+        30,
+        42
+      ],
+      "revancha": [
+        2,
+        9,
+        32,
+        40,
+        41,
+        42
+      ],
+      "siempre_sale": [
+        11,
+        14,
+        20,
+        34,
+        38,
+        40
+      ]
+    },
+    {
+      "concurso": 3367,
+      "fecha": "2026-04-22",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3367-del-dia-22-04-2026.htm",
+      "tradicional": [
+        0,
+        10,
+        12,
+        20,
+        30,
+        37
+      ],
+      "segunda": [
+        4,
+        11,
+        21,
+        26,
+        33,
+        39
+      ],
+      "revancha": [
+        10,
+        12,
+        17,
+        27,
+        41,
+        44
+      ],
+      "siempre_sale": [
+        7,
+        13,
+        20,
+        23,
+        35,
+        41
+      ]
+    },
+    {
+      "concurso": 3366,
+      "fecha": "2026-04-19",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3366-del-dia-19-04-2026.htm",
+      "tradicional": [
+        5,
+        6,
+        32,
+        33,
+        35,
+        38
+      ],
+      "segunda": [
+        4,
+        10,
+        16,
+        27,
+        40,
+        41
+      ],
+      "revancha": [
+        2,
+        7,
+        16,
+        29,
+        38,
+        45
+      ],
+      "siempre_sale": [
+        7,
+        11,
+        12,
+        26,
+        30,
+        36
+      ]
+    },
+    {
+      "concurso": 3365,
+      "fecha": "2026-04-15",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3365-del-dia-15-04-2026.htm",
+      "tradicional": [
+        4,
+        6,
+        7,
+        9,
+        24,
+        35
+      ],
+      "segunda": [
+        1,
+        5,
+        16,
+        34,
+        35,
+        41
+      ],
+      "revancha": [
+        26,
+        27,
+        30,
+        35,
+        37,
+        38
+      ],
+      "siempre_sale": [
+        0,
+        10,
+        19,
+        42,
+        43,
+        44
+      ]
+    },
+    {
+      "concurso": 3364,
+      "fecha": "2026-04-12",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3364-del-dia-12-04-2026.htm",
+      "tradicional": [
+        1,
+        14,
+        33,
+        38,
+        41,
+        44
+      ],
+      "segunda": [
+        3,
+        8,
+        17,
+        18,
+        32,
+        42
+      ],
+      "revancha": [
+        13,
+        19,
+        22,
+        25,
+        40,
+        41
+      ],
+      "siempre_sale": [
+        5,
+        8,
+        14,
+        22,
+        26,
+        36
+      ]
+    },
+    {
+      "concurso": 3363,
+      "fecha": "2026-04-08",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3363-del-dia-08-04-2026.htm",
+      "tradicional": [
+        1,
+        16,
+        31,
+        32,
+        34,
+        44
+      ],
+      "segunda": [
+        3,
+        15,
+        31,
+        33,
+        34,
+        45
+      ],
+      "revancha": [
+        12,
+        18,
+        24,
+        31,
+        36,
+        40
+      ],
+      "siempre_sale": [
+        0,
+        8,
+        12,
+        23,
+        32,
+        36
+      ]
+    },
+    {
+      "concurso": 3362,
+      "fecha": "2026-04-05",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3362-del-dia-05-04-2026.htm",
+      "tradicional": [
+        20,
+        22,
+        27,
+        29,
+        34,
+        43
+      ],
+      "segunda": [
+        19,
+        20,
+        30,
+        32,
+        39,
+        41
+      ],
+      "revancha": [
+        6,
+        13,
+        17,
+        29,
+        33,
+        36
+      ],
+      "siempre_sale": [
+        6,
+        7,
+        8,
+        12,
+        35,
+        41
+      ]
+    },
+    {
+      "concurso": 3361,
+      "fecha": "2026-04-01",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3361-del-dia-01-04-2026.htm",
+      "tradicional": [
+        8,
+        16,
+        20,
+        21,
+        30,
+        41
+      ],
+      "segunda": [
+        0,
+        6,
+        12,
+        24,
+        40,
+        43
+      ],
+      "revancha": [
+        3,
+        16,
+        35,
+        39,
+        44,
+        45
+      ],
+      "siempre_sale": [
+        3,
+        10,
+        12,
+        19,
+        32,
+        36
+      ]
+    },
+    {
+      "concurso": 3360,
+      "fecha": "2026-03-29",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3360-del-dia-29-03-2026.htm",
+      "tradicional": [
+        1,
+        9,
+        15,
+        18,
+        19,
+        38
+      ],
+      "segunda": [
+        0,
+        5,
+        9,
+        15,
+        18,
+        29
+      ],
+      "revancha": [
+        6,
+        8,
+        15,
+        24,
+        36,
+        42
+      ],
+      "siempre_sale": [
+        1,
+        16,
+        24,
+        36,
+        42,
+        45
+      ]
+    },
+    {
+      "concurso": 3359,
+      "fecha": "2026-03-25",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3359-del-dia-25-03-2026.htm",
+      "tradicional": [
+        10,
+        13,
+        18,
+        28,
+        34,
+        37
+      ],
+      "segunda": [
+        11,
+        23,
+        27,
+        36,
+        40,
+        42
+      ],
+      "revancha": [
+        12,
+        27,
+        28,
+        29,
+        36,
+        42
+      ],
+      "siempre_sale": [
+        3,
+        10,
+        18,
+        27,
+        33,
+        39
+      ]
+    },
+    {
+      "concurso": 3358,
+      "fecha": "2026-03-22",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3358-del-dia-22-03-2026.htm",
+      "tradicional": [
+        3,
+        18,
+        22,
+        26,
+        34,
+        44
+      ],
+      "segunda": [
+        1,
+        14,
+        17,
+        20,
+        28,
+        36
+      ],
+      "revancha": [
+        5,
+        12,
+        33,
+        36,
+        41,
+        43
+      ],
+      "siempre_sale": [
+        12,
+        24,
+        25,
+        28,
+        40,
+        44
+      ]
+    },
+    {
+      "concurso": 3357,
+      "fecha": "2026-03-18",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3357-del-dia-18-03-2026.htm",
+      "tradicional": [
+        8,
+        12,
+        18,
+        37,
+        40,
+        42
+      ],
+      "segunda": [
+        22,
+        25,
+        26,
+        38,
+        40,
+        42
+      ],
+      "revancha": [
+        12,
+        13,
+        14,
+        29,
+        41,
+        42
+      ],
+      "siempre_sale": [
+        11,
+        13,
+        17,
+        23,
+        28,
+        35
+      ]
+    },
+    {
+      "concurso": 3356,
+      "fecha": "2026-03-15",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3356-del-dia-15-03-2026.htm",
+      "tradicional": [
+        2,
+        4,
+        8,
+        12,
+        15,
+        36
+      ],
+      "segunda": [
+        7,
+        8,
+        17,
+        33,
+        41,
+        42
+      ],
+      "revancha": [
+        0,
+        35,
+        39,
+        41,
+        42,
+        45
+      ],
+      "siempre_sale": [
+        4,
+        14,
+        16,
+        26,
+        33,
+        36
+      ]
+    },
+    {
+      "concurso": 3355,
+      "fecha": "2026-03-11",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3355-del-dia-11-03-2026.htm",
+      "tradicional": [
+        9,
+        11,
+        12,
+        14,
+        18,
+        20
+      ],
+      "segunda": [
+        7,
+        14,
+        15,
+        21,
+        23,
+        31
+      ],
+      "revancha": [
+        3,
+        9,
+        16,
+        19,
+        21,
+        40
+      ],
+      "siempre_sale": [
+        9,
+        10,
+        21,
+        35,
+        43,
+        44
+      ]
+    },
+    {
+      "concurso": 3354,
+      "fecha": "2026-03-08",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3354-del-dia-08-03-2026.htm",
+      "tradicional": [
+        0,
+        6,
+        10,
+        13,
+        21,
+        37
+      ],
+      "segunda": [
+        1,
+        4,
+        6,
+        18,
+        27,
+        34
+      ],
+      "revancha": [
+        5,
+        27,
+        29,
+        33,
+        37,
+        43
+      ],
+      "siempre_sale": [
+        14,
+        16,
+        19,
+        25,
+        28,
+        36
+      ]
+    },
+    {
+      "concurso": 3353,
+      "fecha": "2026-03-04",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3353-del-dia-04-03-2026.htm",
+      "tradicional": [
+        6,
+        7,
+        10,
+        15,
+        25,
+        41
+      ],
+      "segunda": [
+        11,
+        12,
+        13,
+        15,
+        19,
+        25
+      ],
+      "revancha": [
+        6,
+        11,
+        26,
+        29,
+        34,
+        35
+      ],
+      "siempre_sale": [
+        1,
+        5,
+        14,
+        17,
+        31,
+        38
+      ]
+    },
+    {
+      "concurso": 3352,
+      "fecha": "2026-03-01",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3352-del-dia-01-03-2026.htm",
+      "tradicional": [
+        10,
+        12,
+        18,
+        19,
+        20,
+        27
+      ],
+      "segunda": [
+        14,
+        17,
+        19,
+        29,
+        32,
+        43
+      ],
+      "revancha": [
+        7,
+        9,
+        32,
+        41,
+        42,
+        43
+      ],
+      "siempre_sale": [
+        13,
+        14,
+        25,
+        30,
+        33,
+        44
+      ]
+    },
+    {
+      "concurso": 3351,
+      "fecha": "2026-02-25",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3351-del-dia-25-02-2026.htm",
+      "tradicional": [
+        3,
+        9,
+        10,
+        23,
+        40,
+        42
+      ],
+      "segunda": [
+        2,
+        7,
+        9,
+        17,
+        21,
+        27
+      ],
+      "revancha": [
+        3,
+        5,
+        14,
+        18,
+        20,
+        24
+      ],
+      "siempre_sale": [
+        6,
+        20,
+        22,
+        27,
+        40,
+        41
+      ]
+    },
+    {
+      "concurso": 3350,
+      "fecha": "2026-02-22",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3350-del-dia-22-02-2026.htm",
+      "tradicional": [
+        0,
+        5,
+        27,
+        36,
+        39,
+        45
+      ],
+      "segunda": [
+        11,
+        12,
+        22,
+        23,
+        37,
+        44
+      ],
+      "revancha": [
+        11,
+        16,
+        28,
+        36,
+        40,
+        41
+      ],
+      "siempre_sale": [
+        5,
+        9,
+        16,
+        18,
+        25,
+        35
+      ]
+    },
+    {
+      "concurso": 3349,
+      "fecha": "2026-02-18",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3349-del-dia-18-02-2026.htm",
+      "tradicional": [
+        0,
+        2,
+        23,
+        26,
+        30,
+        40
+      ],
+      "segunda": [
+        4,
+        11,
+        15,
+        17,
+        22,
+        25
+      ],
+      "revancha": [
+        5,
+        8,
+        17,
+        31,
+        37,
+        45
+      ],
+      "siempre_sale": [
+        2,
+        9,
+        10,
+        14,
+        28,
+        38
+      ]
+    },
+    {
+      "concurso": 3348,
+      "fecha": "2026-02-15",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3348-del-dia-15-02-2026.htm",
+      "tradicional": [
+        6,
+        12,
+        24,
+        26,
+        40,
+        41
+      ],
+      "segunda": [
+        3,
+        17,
+        21,
+        34,
+        38,
+        43
+      ],
+      "revancha": [
+        7,
+        11,
+        13,
+        14,
+        36,
+        37
+      ],
+      "siempre_sale": [
+        4,
+        7,
+        12,
+        22,
+        26,
+        39
+      ]
+    },
+    {
+      "concurso": 3347,
+      "fecha": "2026-02-11",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3347-del-dia-11-02-2026.htm",
+      "tradicional": [
+        0,
+        9,
+        20,
+        23,
+        33,
+        44
+      ],
+      "segunda": [
+        8,
+        20,
+        21,
+        29,
+        36,
+        43
+      ],
+      "revancha": [
+        3,
+        8,
+        13,
+        34,
+        35,
+        43
+      ],
+      "siempre_sale": [
+        8,
+        20,
+        23,
+        27,
+        28,
+        45
+      ]
+    },
+    {
+      "concurso": 3346,
+      "fecha": "2026-02-08",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3346-del-dia-08-02-2026.htm",
+      "tradicional": [
+        18,
+        23,
+        24,
+        40,
+        44,
+        45
+      ],
+      "segunda": [
+        0,
+        2,
+        12,
+        13,
+        25,
+        38
+      ],
+      "revancha": [
+        4,
+        17,
+        20,
+        21,
+        37,
+        39
+      ],
+      "siempre_sale": [
+        4,
+        7,
+        23,
+        32,
+        37,
+        38
+      ]
+    },
+    {
+      "concurso": 3345,
+      "fecha": "2026-02-04",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3345-del-dia-04-02-2026.htm",
+      "tradicional": [
+        3,
+        12,
+        25,
+        33,
+        42,
+        45
+      ],
+      "segunda": [
+        6,
+        13,
+        23,
+        24,
+        26,
+        39
+      ],
+      "revancha": [
+        7,
+        19,
+        31,
+        34,
+        39,
+        44
+      ],
+      "siempre_sale": [
+        22,
+        26,
+        28,
+        31,
+        33,
+        34
+      ]
+    },
+    {
+      "concurso": 3344,
+      "fecha": "2026-02-01",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3344-del-dia-01-02-2026.htm",
+      "tradicional": [
+        2,
+        4,
+        15,
+        18,
+        31,
+        43
+      ],
+      "segunda": [
+        12,
+        16,
+        25,
+        27,
+        35,
+        42
+      ],
+      "revancha": [
+        3,
+        19,
+        20,
+        21,
+        30,
+        39
+      ],
+      "siempre_sale": [
+        9,
+        30,
+        31,
+        42,
+        43,
+        45
+      ]
+    },
+    {
+      "concurso": 3343,
+      "fecha": "2026-01-28",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3343-del-dia-28-01-2026.htm",
+      "tradicional": [
+        6,
+        7,
+        8,
+        20,
+        25,
+        33
+      ],
+      "segunda": [
+        0,
+        1,
+        9,
+        12,
+        14,
+        27
+      ],
+      "revancha": [
+        6,
+        17,
+        26,
+        32,
+        34,
+        41
+      ],
+      "siempre_sale": [
+        21,
+        28,
+        40,
+        41,
+        44,
+        45
+      ]
+    },
+    {
+      "concurso": 3342,
+      "fecha": "2026-01-25",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3342-del-dia-25-01-2026.htm",
+      "tradicional": [
+        0,
+        7,
+        16,
+        20,
+        21,
+        42
+      ],
+      "segunda": [
+        10,
+        15,
+        22,
+        32,
+        33,
+        38
+      ],
+      "revancha": [
+        7,
+        10,
+        21,
+        33,
+        34,
+        45
+      ],
+      "siempre_sale": [
+        10,
+        12,
+        13,
+        18,
+        38,
+        40
+      ]
+    },
+    {
+      "concurso": 3341,
+      "fecha": "2026-01-21",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3341-del-dia-21-01-2026.htm",
+      "tradicional": [
+        8,
+        11,
+        14,
+        17,
+        18,
+        31
+      ],
+      "segunda": [
+        1,
+        7,
+        20,
+        21,
+        32,
+        42
+      ],
+      "revancha": [
+        0,
+        33,
+        35,
+        37,
+        38,
+        43
+      ],
+      "siempre_sale": [
+        6,
+        8,
+        27,
+        31,
+        33,
+        40
+      ]
+    },
+    {
+      "concurso": 3340,
+      "fecha": "2026-01-18",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3340-del-dia-18-01-2026.htm",
+      "tradicional": [
+        3,
+        17,
+        31,
+        33,
+        34,
+        38
+      ],
+      "segunda": [
+        14,
+        19,
+        26,
+        30,
+        37,
+        40
+      ],
+      "revancha": [
+        21,
+        23,
+        24,
+        27,
+        37,
+        43
+      ],
+      "siempre_sale": [
+        4,
+        5,
+        9,
+        13,
+        20,
+        29
+      ]
+    },
+    {
+      "concurso": 3339,
+      "fecha": "2026-01-14",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3339-del-dia-14-01-2026.htm",
+      "tradicional": [
+        7,
+        18,
+        25,
+        27,
+        37,
+        41
+      ],
+      "segunda": [
+        1,
+        16,
+        22,
+        24,
+        35,
+        41
+      ],
+      "revancha": [
+        2,
+        3,
+        18,
+        22,
+        25,
+        36
+      ],
+      "siempre_sale": [
+        7,
+        19,
+        26,
+        33,
+        36,
+        41
+      ]
+    },
+    {
+      "concurso": 3338,
+      "fecha": "2026-01-11",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3338-del-dia-11-01-2026.htm",
+      "tradicional": [
+        14,
+        15,
+        17,
+        28,
+        32,
+        34
+      ],
+      "segunda": [
+        1,
+        4,
+        6,
+        10,
+        22,
+        45
+      ],
+      "revancha": [
+        13,
+        27,
+        31,
+        33,
+        35,
+        42
+      ],
+      "siempre_sale": [
+        4,
+        6,
+        7,
+        17,
+        19,
+        35
+      ]
+    },
+    {
+      "concurso": 3337,
+      "fecha": "2026-01-07",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3337-del-dia-07-01-2026.htm",
+      "tradicional": [
+        4,
+        9,
+        27,
+        29,
+        39,
+        40
+      ],
+      "segunda": [
+        11,
+        17,
+        20,
+        26,
+        29,
+        32
+      ],
+      "revancha": [
+        5,
+        13,
+        16,
+        32,
+        35,
+        39
+      ],
+      "siempre_sale": [
+        7,
+        12,
+        19,
+        30,
+        33,
+        36
+      ]
+    },
+    {
+      "concurso": 3336,
+      "fecha": "2026-01-04",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3336-del-dia-04-01-2026.htm",
+      "tradicional": [
+        8,
+        9,
+        14,
+        33,
+        41,
+        45
+      ],
+      "segunda": [
+        10,
+        14,
+        16,
+        32,
+        41,
+        44
+      ],
+      "revancha": [
+        7,
+        8,
+        15,
+        30,
+        33,
+        45
+      ],
+      "siempre_sale": [
+        6,
+        19,
+        23,
+        24,
+        31,
+        45
+      ]
+    }
+  ],
+  "actualizado_en_utc": "2026-06-09T15:37:03.165262+00:00"
+}
