@@ -1,0 +1,124 @@
+{
+  "version": 2,
+  "exportedAt": "2026-06-09T19:04:41.826Z",
+  "state": {
+    "draws": {
+      "3361": {
+        "status": "played",
+        "tickets": []
+      },
+      "3362": {
+        "status": "played",
+        "tickets": []
+      },
+      "3363": {
+        "status": "played",
+        "tickets": []
+      },
+      "3364": {
+        "status": "played",
+        "tickets": []
+      },
+      "3365": {
+        "status": "skipped",
+        "tickets": [],
+        "cost": 0
+      },
+      "3366": {
+        "status": "played",
+        "tickets": []
+      },
+      "3367": {
+        "status": "skipped",
+        "tickets": [],
+        "cost": 0
+      },
+      "3368": {
+        "status": "played",
+        "tickets": []
+      },
+      "3369": {
+        "status": "played",
+        "tickets": []
+      },
+      "3370": {
+        "status": "played",
+        "tickets": []
+      },
+      "3371": {
+        "status": "skipped",
+        "tickets": [],
+        "cost": 0
+      },
+      "3372": {
+        "status": "played",
+        "tickets": []
+      },
+      "3373": {
+        "status": "played",
+        "tickets": []
+      },
+      "3374": {
+        "status": "played",
+        "tickets": []
+      },
+      "3375": {
+        "status": "skipped",
+        "tickets": []
+      },
+      "3376": {
+        "status": "played",
+        "tickets": []
+      },
+      "3377": {
+        "status": "played",
+        "tickets": []
+      },
+      "3378": {
+        "status": "skipped",
+        "tickets": [],
+        "cost": 0
+      },
+      "3379": {
+        "status": "pending",
+        "tickets": []
+      },
+      "3380": {
+        "status": "pending",
+        "tickets": []
+      }
+    },
+    "payments": {
+      "2026-06": {
+        "ale": {
+          "paid": false,
+          "receipts": []
+        },
+        "zamba": {
+          "paid": false,
+          "receipts": []
+        }
+      },
+      "2026-04": {
+        "ale": {
+          "paid": false,
+          "receipts": []
+        },
+        "zamba": {
+          "paid": false,
+          "receipts": []
+        }
+      },
+      "2026-05": {
+        "ale": {
+          "paid": false,
+          "receipts": []
+        },
+        "zamba": {
+          "paid": false,
+          "receipts": []
+        }
+      }
+    }
+  }
+}
