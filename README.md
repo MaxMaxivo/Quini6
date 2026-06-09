@@ -17,6 +17,10 @@ Las marcas y las imágenes se guardan en `localStorage`; no se sincronizan
 automáticamente entre dispositivos. Para sincronización multiusuario hace falta
 conectar un backend, por ejemplo Supabase.
 
+El campo `Gasto total` corresponde al gasto grupal del sorteo, no al valor de
+una boleta. La configuración actual calcula $9.000 por sorteo hasta mayo de
+2026 y $12.000 desde junio de 2026.
+
 ## Resultados automáticos
 
 `scripts/actualizar_resultados.py` agrega los concursos nuevos a `data.json`.

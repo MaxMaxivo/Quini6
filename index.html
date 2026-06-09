@@ -170,6 +170,15 @@
       return data.sorteos.filter(s => s.fecha.startsWith(activeMonth)).sort((a,b) => a.fecha.localeCompare(b.fecha));
     }
 
+    function defaultDrawCost(draw) {
+      const periods = data.precios_por_periodo || [];
+      const period = periods
+        .filter(item => item.desde <= draw.fecha)
+        .sort((a,b) => b.desde.localeCompare(a.desde))[0];
+      const ticketPrice = period?.precio_boleta ?? data.precio_boleta;
+      return ticketPrice * data.boletas_por_sorteo;
+    }
+
     async function init() {
       const response = await fetch("data.json?v=" + Date.now());
       if (!response.ok) throw new Error("No se pudo cargar data.json");
@@ -230,7 +239,7 @@
       const draw = data.sorteos.find(item => item.concurso === activeContest);
       if (!draw) return;
       const current = drawState(draw.concurso);
-      const defaultCost = data.precio_boleta * data.boletas_por_sorteo;
+      const defaultCost = defaultDrawCost(draw);
       const cost = current.cost ?? defaultCost;
       const date = new Date(draw.fecha + "T12:00:00").toLocaleDateString("es-AR", { weekday:"long", day:"numeric", month:"long", year:"numeric" });
       document.getElementById("draw-detail").innerHTML = `
@@ -282,8 +291,10 @@
       const played = draws.filter(draw => drawState(draw.concurso).status === "played");
       const skipped = draws.filter(draw => drawState(draw.concurso).status === "skipped");
       const pending = draws.length - played.length - skipped.length;
-      const defaultCost = data.precio_boleta * data.boletas_por_sorteo;
-      const total = played.reduce((sum, draw) => sum + (drawState(draw.concurso).cost ?? defaultCost), 0);
+      const total = played.reduce(
+        (sum, draw) => sum + (drawState(draw.concurso).cost ?? defaultDrawCost(draw)),
+        0
+      );
       return { played:played.length, skipped:skipped.length, pending, total, share:total / data.integrantes };
     }
 

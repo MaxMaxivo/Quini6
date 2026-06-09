@@ -10,6 +10,16 @@
   "precio_boleta": 3000,
   "boletas_por_sorteo": 3,
   "integrantes": 3,
+  "precios_por_periodo": [
+    {
+      "desde": "2026-06-01",
+      "precio_boleta": 4000
+    },
+    {
+      "desde": "2026-01-01",
+      "precio_boleta": 3000
+    }
+  ],
   "sorteos": [
     {
       "concurso": 3380,
