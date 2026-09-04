@@ -1,0 +1,347 @@
+QUINI6 - PASO A PASO PARA ACTIVAR USUARIOS, GUARDADO ONLINE Y PUBLICAR
+=======================================================================
+
+Fecha del instructivo: 04/09/2026
+Carpeta local del proyecto: /home/max/Fenix/repos/Quini6
+Rama que contiene la versión nueva: mejora/persistencia-online-multiusuario
+
+IMPORTANTE ANTES DE EMPEZAR
+---------------------------
+
+La versión nueva ya está terminada y guardada localmente, pero todavía NO está
+publicada en Internet. La web actual seguirá igual hasta completar Supabase y
+publicar la rama al final de este instructivo.
+
+No tenés que crear manualmente un usuario para cada persona. Cada usuario de
+Quini6 se crea automáticamente la primera vez que escribe su email y abre el
+enlace de acceso que recibe. Dos emails diferentes tendrán datos separados.
+
+Vas a necesitar:
+
+[ ] Una cuenta gratuita de Supabase.
+[ ] Acceso a tu repositorio de GitHub MaxMaxivo/Quini6.
+[ ] Acceso a una casilla de email para probar el ingreso.
+[ ] Aproximadamente 20 a 30 minutos.
+
+
+PARTE 1 - CREAR LA CUENTA Y EL PROYECTO EN SUPABASE
+----------------------------------------------------
+
+1. Abrí esta dirección en el navegador:
+
+   https://supabase.com/
+
+2. Presioná "Start your project" o "Sign in".
+
+3. Creá la cuenta. Podés ingresar con GitHub si te resulta más cómodo.
+
+4. Dentro del panel, presioná "New project".
+
+5. Si Supabase te pide una organización, creá una gratuita.
+
+6. Completá el proyecto:
+
+   - Name: Quini6
+   - Database password: generá una contraseña fuerte y guardala en un lugar
+     privado. La aplicación NO usa ni necesita esta contraseña.
+   - Region: elegí la región más cercana disponible.
+   - Plan: Free, si está disponible y alcanza para este proyecto personal.
+
+7. Presioná "Create new project" y esperá a que termine la preparación.
+
+No copies la contraseña de la base dentro de ningún archivo del repositorio.
+
+
+PARTE 2 - CREAR LA TABLA, EL ALMACENAMIENTO Y LOS PERMISOS
+-----------------------------------------------------------
+
+1. En Lubuntu, abrí con FeatherPad o Mousepad este archivo:
+
+   /home/max/Fenix/repos/Quini6/supabase/schema.sql
+
+2. Seleccioná TODO el contenido y copialo.
+
+3. En el panel de Supabase, abrí "SQL Editor".
+
+4. Presioná "New query".
+
+5. Pegá el contenido completo de schema.sql.
+
+6. Presioná "Run". Debe finalizar sin errores.
+
+7. Verificá lo siguiente en Supabase:
+
+   [ ] En "Table Editor" aparece la tabla user_states.
+   [ ] En "Storage" aparece el bucket user-attachments.
+   [ ] El bucket user-attachments figura como privado, no público.
+
+El archivo también activa Row Level Security (RLS). Eso evita que un usuario
+pueda leer o modificar los checks, pagos o imágenes de otra persona. No
+desactives RLS y no conviertas el bucket en público.
+
+Si ejecutás el SQL dos veces por accidente, no pasa nada: fue preparado para
+poder repetirse.
+
+
+PARTE 3 - HABILITAR EL INGRESO POR EMAIL
+-----------------------------------------
+
+1. En Supabase, abrí "Authentication".
+
+2. Entrá en "Providers" (en algunas versiones figura como
+   "Sign In / Providers").
+
+3. Abrí el proveedor "Email" y comprobá que esté habilitado.
+
+4. Dejá habilitado el acceso por enlace enviado por email (Magic Link).
+
+5. Ahora abrí "Authentication" -> "URL Configuration".
+
+6. En "Site URL" escribí la dirección pública de Quini6:
+
+   https://maxmaxivo.github.io/Quini6/
+
+7. En "Redirect URLs" agregá estas dos direcciones, una por una:
+
+   https://maxmaxivo.github.io/Quini6/
+   http://localhost:8000/
+
+8. Guardá los cambios.
+
+La barra final "/" y la subcarpeta "/Quini6/" son importantes. Si en el futuro
+cambia el dominio público, también tenés que actualizar estas direcciones.
+
+
+PARTE 4 - COPIAR LA CONFIGURACIÓN PÚBLICA AL PROYECTO
+------------------------------------------------------
+
+1. En Supabase, abrí "Project Settings" -> "API". Según la versión del panel,
+   la sección puede llamarse "API Keys" o "Data API".
+
+2. Copiá el valor "Project URL". Se parece a esto:
+
+   https://abcdefghijk.supabase.co
+
+3. Copiá la "Publishable key". Normalmente empieza así:
+
+   sb_publishable_...
+
+   En proyectos antiguos puede aparecer una clave pública llamada "anon".
+   También sirve, pero preferí la Publishable key si está disponible.
+
+4. Abrí con FeatherPad o Mousepad este archivo:
+
+   /home/max/Fenix/repos/Quini6/app-config.js
+
+5. Reemplazá solamente los dos valores vacíos. Debe quedar con esta forma:
+
+   window.QUINI_CONFIG = Object.freeze({
+     supabaseUrl: "https://TU-PROYECTO.supabase.co",
+     supabasePublishableKey: "sb_publishable_TU_CLAVE_PUBLICA",
+   });
+
+6. Guardá el archivo.
+
+ATENCIÓN DE SEGURIDAD:
+
+- Project URL y Publishable key son datos públicos diseñados para el navegador.
+- NUNCA pegues una clave que empiece con sb_secret_.
+- NUNCA pegues service_role.
+- NUNCA pegues la contraseña de la base.
+- NUNCA pegues un JWT privado.
+
+La seguridad real de los datos la brindan las políticas RLS instaladas en la
+Parte 2. La aplicación además rechaza claves secretas reconocibles.
+
+
+PARTE 5 - PROBAR TODO LOCALMENTE ANTES DE PUBLICAR
+--------------------------------------------------
+
+1. Abrí una terminal en Lubuntu.
+
+2. Ejecutá, línea por línea:
+
+   cd /home/max/Fenix/repos/Quini6
+   python3 -m http.server 8000
+
+3. No cierres esa terminal mientras hacés la prueba.
+
+4. Abrí en Firefox:
+
+   http://localhost:8000/
+
+5. En la tarjeta superior ya no debería decir que falta configurar Supabase.
+   Debería permitir escribir un email.
+
+6. Escribí tu email y pedí el enlace de acceso.
+
+7. Revisá la bandeja de entrada y Spam/Correo no deseado.
+
+8. Abrí el enlace recibido. No hay contraseña de Quini6.
+
+9. Marcá un sorteo como Jugado, No jugado o Pendiente.
+
+10. Esperá a que la página muestre "Guardado online".
+
+11. Cerrá y volvé a abrir la página: la marca debe seguir visible.
+
+12. Si podés, ingresá con el mismo email desde otro navegador o dispositivo y
+    confirmá que aparece la misma marca.
+
+13. Ingresá con otro email y confirmá que empieza con un estado independiente.
+
+14. Probá adjuntar una imagen pequeña. En Supabase, debe aparecer en:
+
+    Storage -> user-attachments -> carpeta con el UUID del usuario
+
+15. Para detener el servidor local, volvé a la terminal y presioná Ctrl+C.
+
+
+PARTE 6 - GUARDAR LA CONFIGURACIÓN EN UN COMMIT LOCAL
+------------------------------------------------------
+
+Después de que la prueba funcione, abrí una terminal y ejecutá:
+
+   cd /home/max/Fenix/repos/Quini6
+   git status --short --branch
+   git add app-config.js
+   git commit -m "Configurar conexion publica con Supabase"
+
+Es normal que app-config.js contenga Project URL y Publishable key. No hagas el
+commit si por error contiene sb_secret_, service_role o una contraseña.
+
+
+PARTE 7 - PUBLICAR LA VERSIÓN NUEVA EN GITHUB PAGES
+----------------------------------------------------
+
+La rama nueva todavía es local. Para pasarla a main y subirla a GitHub,
+ejecutá exactamente:
+
+   cd /home/max/Fenix/repos/Quini6
+   git switch main
+   git merge --ff-only mejora/persistencia-online-multiusuario
+   git push origin main
+
+No uses "--force". Si alguno de esos comandos muestra un conflicto o rechaza
+el push, detenete y pedí ayuda antes de continuar.
+
+Después del push:
+
+1. Abrí en GitHub:
+
+   https://github.com/MaxMaxivo/Quini6
+
+2. Revisá la pestaña "Actions" y esperá a que los controles terminen sin
+   errores.
+
+3. Si GitHub Pages ya estaba activo, esperá unos minutos y abrí:
+
+   https://maxmaxivo.github.io/Quini6/
+
+4. Si GitHub Pages todavía no estaba configurado:
+
+   - Abrí "Settings" -> "Pages".
+   - En "Build and deployment", elegí "Deploy from a branch".
+   - Branch: main.
+   - Folder: / (root).
+   - Presioná "Save" y esperá a que termine la publicación.
+
+5. En Firefox, recargá la web con Ctrl+Shift+R para evitar una copia vieja.
+
+6. Repetí la prueba del email, una marca y "Guardado online" en la URL
+   pública.
+
+
+PARTE 8 - COMPROBACIÓN FINAL
+-----------------------------
+
+No des por terminado el trabajo hasta poder marcar todo esto:
+
+[ ] La web pública muestra el diseño nuevo.
+[ ] Se puede pedir un magic link por email.
+[ ] El enlace devuelve a la web y deja la sesión iniciada.
+[ ] Al marcar un sorteo aparece "Guardado online".
+[ ] El mismo email recupera los datos desde otro dispositivo.
+[ ] Otro email no ve los datos del primero.
+[ ] Los tickets/comprobantes se guardan en el bucket privado.
+[ ] La tabla user_states tiene una fila por usuario.
+[ ] El bucket user-attachments continúa privado.
+[ ] No se publicó ninguna clave sb_secret_, service_role ni contraseña.
+
+
+SI ALGO FALLA
+-------------
+
+No llega el email:
+
+- Revisá Spam/Correo no deseado.
+- Confirmá que Email esté habilitado en Authentication -> Providers.
+- Esperá un minuto antes de volver a pedirlo para evitar límites de envío.
+- Mirá Authentication -> Logs en Supabase.
+
+El enlace abre la página pero no inicia sesión:
+
+- Confirmá que la URL exacta esté en Authentication -> URL Configuration.
+- Verificá que incluya /Quini6/ y la barra final.
+- Para la prueba local, verificá http://localhost:8000/.
+
+La página dice "Modo local" o "Falta configuración":
+
+- Revisá app-config.js.
+- Confirmá que no hayan quedado los valores vacíos.
+- Confirmá que la Project URL empiece con https:// y termine en supabase.co.
+- Confirmá que hayas copiado la Publishable key, no una clave secreta.
+- Recargá con Ctrl+Shift+R.
+
+Aparece un error de permisos, tabla o bucket:
+
+- Volvé a ejecutar TODO supabase/schema.sql desde SQL Editor.
+- Confirmá que user_states exista y que user-attachments sea privado.
+- No desactives Row Level Security.
+
+La web pública sigue mostrando la versión anterior:
+
+- Confirmá que git push origin main haya terminado correctamente.
+- Revisá GitHub -> Actions.
+- Revisá GitHub -> Settings -> Pages.
+- Esperá unos minutos y recargá con Ctrl+Shift+R.
+
+El push fue rechazado:
+
+- No uses git push --force.
+- No borres ramas ni commits.
+- Conservá el mensaje de error y pedí ayuda mostrando ese texto.
+
+
+DATOS TÉCNICOS DE REFERENCIA
+----------------------------
+
+Estado actual al crear este archivo:
+
+- Rama: mejora/persistencia-online-multiusuario
+- Commit funcional: 7011a1b Agregar persistencia online multiusuario
+- Commit de documentación y pruebas:
+  38bfdca Documentar y probar la sincronizacion segura
+- main todavía apunta a la versión pública anterior.
+
+Archivos importantes:
+
+- app-config.js                 Configuración pública de Supabase
+- supabase/schema.sql           Tabla, bucket privado y políticas de seguridad
+- README.md                     Documentación técnica completa
+- online-store.js               Comunicación con Supabase
+- state-utils.js                Validación y combinación de estados
+- marea-app.js                  Aplicación principal
+
+Qué se guarda por cada usuario:
+
+- estado Jugado/No jugado/Pendiente de cada sorteo;
+- gasto real de cada sorteo;
+- tickets adjuntos;
+- pagos mensuales de Ale y Zamba;
+- comprobantes adjuntos;
+- fechas de modificación para sincronizar varios dispositivos.
+
+Los resultados oficiales y datos históricos siguen siendo comunes y se leen
+desde data.json. No se inventan ni se duplican por usuario.
+
