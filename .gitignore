@@ -1,0 +1,5 @@
+__pycache__/
+*.py[cod]
+
+# Los respaldos pueden contener comprobantes personales en base64.
+marea-quini-respaldo-*.json

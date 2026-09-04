@@ -16,7 +16,8 @@
     * { box-sizing:border-box }
     body { margin:0; color:var(--cream); background:radial-gradient(circle at 20% 0,#1f3a50 0,transparent 35%),var(--bg); font-family:"Crimson Pro",Georgia,serif; min-height:100vh }
     button,input { font:inherit }
-    button { cursor:pointer }
+    button { cursor:pointer; min-height:38px }
+    a:focus-visible,button:focus-visible,input:focus-visible { outline:3px solid var(--amber); outline-offset:3px }
     header { border-bottom:1px solid #79451f; padding:30px max(20px,calc((100% - 1080px)/2)); background:linear-gradient(180deg,#0c131b,#172a3b) }
     .eyebrow,.label { font:600 11px/1.2 Oswald,sans-serif; letter-spacing:3px; text-transform:uppercase; color:var(--amber) }
     h1 { margin:7px 0 3px; font:italic 800 clamp(32px,6vw,56px)/1 "Playfair Display",serif }
@@ -64,6 +65,10 @@
     .owed { color:var(--amber); margin-bottom:12px }
     .paid { border-color:var(--green); color:var(--green) }
     .notice { border-left:3px solid var(--amber); background:#efb45d0d; padding:13px 15px; color:#d7d1c5 }
+    .feedback { border-left:3px solid var(--blue); background:#5f91b814; padding:11px 15px; margin:0 }
+    .feedback:empty { display:none }
+    .feedback.error { border-color:var(--red); background:#d66b6214 }
+    .feedback.success { border-color:var(--green); background:#4aaa7814 }
     .empty { text-align:center; padding:35px; color:var(--muted) }
     .updated { color:var(--muted); font-size:13px }
     input[type=file] { display:none }
@@ -83,24 +88,26 @@
   </header>
 
   <main>
-    <section class="notice">
+    <section class="notice" aria-label="Cómo usar la rendición">
       Primero marcá cada sorteo como <strong>Jugado</strong> o <strong>No jugado</strong>.
       Solo los jugados entran en la rendición. Los cambios y fotos quedan guardados en este navegador.
     </section>
 
+    <p id="app-message" class="feedback" role="status" aria-live="polite"></p>
+
     <section class="card">
       <div class="card-head">
         <span class="label">Resultados por sorteo</span>
-        <div id="month-tabs" class="tabs"></div>
+        <div id="month-tabs" class="tabs" aria-label="Mes de la rendición"></div>
       </div>
-      <div id="draw-tabs" class="draw-tabs"></div>
+      <div id="draw-tabs" class="draw-tabs" aria-label="Sorteo del mes"></div>
       <div id="draw-detail" class="card-body"><div class="empty">Cargando resultados...</div></div>
     </section>
 
     <section class="card">
       <div class="card-head"><span class="label">Rendición del mes</span></div>
       <div class="card-body">
-        <div id="summary" class="summary"></div>
+        <div id="summary" class="summary" aria-live="polite"></div>
       </div>
     </section>
 
@@ -110,7 +117,7 @@
         <span id="payment-month" class="updated"></span>
       </div>
       <div class="card-body">
-        <div id="payments" class="payments"></div>
+        <div id="payments" class="payments" aria-live="polite"></div>
       </div>
     </section>
 
@@ -119,8 +126,8 @@
       <div class="card-body">
         <p>Exportá el estado para no perder marcas y comprobantes, o para pasarlo a otro dispositivo.</p>
         <div class="actions">
-          <button class="ghost" onclick="exportState()">Exportar respaldo</button>
-          <button class="ghost" onclick="document.getElementById('import-file').click()">Importar respaldo</button>
+          <button type="button" class="ghost" onclick="exportState()">Exportar respaldo</button>
+          <button type="button" class="ghost" onclick="document.getElementById('import-file').click()">Importar respaldo</button>
         </div>
         <input id="import-file" type="file" accept="application/json">
         <p id="updated-at" class="updated"></p>
@@ -129,275 +136,6 @@
   </main>
 
   <input id="image-file" type="file" accept="image/*">
-  <script>
-    const STORE_KEY = "marea-quini-state-v2";
-    const RENDITION_START = "2026-04-01";
-    let data;
-    let state = loadState();
-    let activeMonth;
-    let activeContest;
-    let imageTarget;
-
-    function loadState() {
-      try { return JSON.parse(localStorage.getItem(STORE_KEY)) || { draws:{}, payments:{} }; }
-      catch { return { draws:{}, payments:{} }; }
-    }
-
-    function saveState() {
-      localStorage.setItem(STORE_KEY, JSON.stringify(state));
-    }
-
-    function drawState(contest) {
-      const key = String(contest);
-      if (!state.draws[key]) state.draws[key] = { status:"pending", tickets:[] };
-      return state.draws[key];
-    }
-
-    function money(value) {
-      return new Intl.NumberFormat("es-AR", { style:"currency", currency:"ARS", maximumFractionDigits:0 }).format(value || 0);
-    }
-
-    function monthLabel(month) {
-      const [year, number] = month.split("-");
-      return new Date(+year, +number - 1, 1).toLocaleDateString("es-AR", { month:"long", year:"numeric" });
-    }
-
-    function months() {
-      return [...new Set(data.sorteos.filter(s => s.fecha >= RENDITION_START).map(s => s.fecha.slice(0,7)))].sort();
-    }
-
-    function drawsForMonth() {
-      return data.sorteos.filter(s => s.fecha.startsWith(activeMonth)).sort((a,b) => a.fecha.localeCompare(b.fecha));
-    }
-
-    function defaultDrawCost(draw) {
-      const periods = data.precios_por_periodo || [];
-      const period = periods
-        .filter(item => item.desde <= draw.fecha)
-        .sort((a,b) => b.desde.localeCompare(a.desde))[0];
-      const ticketPrice = period?.precio_boleta ?? data.precio_boleta;
-      return ticketPrice * data.boletas_por_sorteo;
-    }
-
-    async function init() {
-      const response = await fetch("data.json?v=" + Date.now());
-      if (!response.ok) throw new Error("No se pudo cargar data.json");
-      data = await response.json();
-      document.getElementById("my-numbers").innerHTML = data.mis_numeros.map(n => `<span class="ball">${String(n).padStart(2,"0")}</span>`).join("");
-      const available = months();
-      activeMonth = available.at(-1);
-      activeContest = drawsForMonth().at(-1)?.concurso;
-      render();
-      const updated = data.actualizado_en_utc ? new Date(data.actualizado_en_utc).toLocaleString("es-AR") : "sin fecha";
-      document.getElementById("updated-at").textContent = `Resultados actualizados: ${updated}.`;
-    }
-
-    function render() {
-      renderMonths();
-      renderDrawTabs();
-      renderDraw();
-      renderSummary();
-      renderPayments();
-    }
-
-    function renderMonths() {
-      document.getElementById("month-tabs").innerHTML = months().map(month =>
-        `<button class="tab ${month === activeMonth ? "active" : ""}" onclick="selectMonth('${month}')">${monthLabel(month)}</button>`
-      ).join("");
-    }
-
-    function selectMonth(month) {
-      activeMonth = month;
-      activeContest = drawsForMonth().at(-1)?.concurso;
-      render();
-    }
-
-    function renderDrawTabs() {
-      document.getElementById("draw-tabs").innerHTML = drawsForMonth().map(draw => {
-        const current = drawState(draw.concurso);
-        const icon = current.status === "played" ? "✓" : current.status === "skipped" ? "×" : "·";
-        const date = new Date(draw.fecha + "T12:00:00").toLocaleDateString("es-AR", { weekday:"short", day:"numeric" });
-        return `<button class="draw-tab ${draw.concurso === activeContest ? "active" : ""}" onclick="selectDraw(${draw.concurso})">${icon} ${date}</button>`;
-      }).join("");
-    }
-
-    function selectDraw(contest) {
-      activeContest = contest;
-      renderDrawTabs();
-      renderDraw();
-    }
-
-    function resultMode(name, values) {
-      const hits = values.filter(value => data.mis_numeros.includes(value)).length;
-      return `<div class="mode"><div class="mode-name">${name}</div><div class="result-row">
-        ${values.map(value => `<span class="result-ball ${data.mis_numeros.includes(value) ? "hit" : ""}">${String(value).padStart(2,"0")}</span>`).join("")}
-        <span class="hits">${hits} acierto${hits === 1 ? "" : "s"}</span>
-      </div></div>`;
-    }
-
-    function renderDraw() {
-      const draw = data.sorteos.find(item => item.concurso === activeContest);
-      if (!draw) return;
-      const current = drawState(draw.concurso);
-      const defaultCost = defaultDrawCost(draw);
-      const cost = current.cost ?? defaultCost;
-      const date = new Date(draw.fecha + "T12:00:00").toLocaleDateString("es-AR", { weekday:"long", day:"numeric", month:"long", year:"numeric" });
-      document.getElementById("draw-detail").innerHTML = `
-        <div class="draw-header"><div><h2>${date}</h2><div class="contest">Concurso ${draw.concurso}</div></div>
-        <a href="${draw.url}" target="_blank" rel="noreferrer">Ver fuente del resultado</a></div>
-        ${resultMode("Tradicional", draw.tradicional)}
-        ${resultMode("La Segunda", draw.segunda)}
-        ${resultMode("Revancha", draw.revancha)}
-        ${resultMode("Siempre Sale", draw.siempre_sale)}
-        <div class="control">
-          <div class="control-top">
-            <div><div class="label">¿Se jugó este sorteo?</div>
-              <div class="status-actions" style="margin-top:10px">
-                ${statusButton(draw.concurso, "played", "Jugado")}
-                ${statusButton(draw.concurso, "skipped", "No jugado")}
-                ${statusButton(draw.concurso, "pending", "Pendiente")}
-              </div>
-            </div>
-            <div class="money"><label for="cost-${draw.concurso}">Gasto total</label>
-              <input id="cost-${draw.concurso}" type="number" min="0" step="100" value="${cost}" onchange="setCost(${draw.concurso},this.value)">
-            </div>
-          </div>
-          <div class="ticket-zone">
-            <button class="ghost" onclick="addImage('ticket',${draw.concurso})">Adjuntar ticket</button>
-            <div class="thumbs">${(current.tickets || []).map((src,index) => thumb(src, `removeTicket(${draw.concurso},${index})`)).join("")}</div>
-          </div>
-        </div>`;
-    }
-
-    function statusButton(contest, status, label) {
-      return `<button class="status-btn ${status} ${drawState(contest).status === status ? "active" : ""}" onclick="setStatus(${contest},'${status}')">${label}</button>`;
-    }
-
-    function setStatus(contest, status) {
-      drawState(contest).status = status;
-      saveState();
-      render();
-    }
-
-    function setCost(contest, value) {
-      drawState(contest).cost = Math.max(0, Number(value) || 0);
-      saveState();
-      renderSummary();
-      renderPayments();
-    }
-
-    function totals() {
-      const draws = drawsForMonth();
-      const played = draws.filter(draw => drawState(draw.concurso).status === "played");
-      const skipped = draws.filter(draw => drawState(draw.concurso).status === "skipped");
-      const pending = draws.length - played.length - skipped.length;
-      const total = played.reduce(
-        (sum, draw) => sum + (drawState(draw.concurso).cost ?? defaultDrawCost(draw)),
-        0
-      );
-      return { played:played.length, skipped:skipped.length, pending, total, share:total / data.integrantes };
-    }
-
-    function renderSummary() {
-      const total = totals();
-      document.getElementById("summary").innerHTML = [
-        [total.played, "Jugados"], [total.skipped, "No jugados"], [total.pending, "Pendientes"],
-        [money(total.total), "Gasto total"], [money(total.share), "Cada uno"]
-      ].map(([value,label]) => `<div class="stat"><strong>${value}</strong><span>${label}</span></div>`).join("");
-    }
-
-    function paymentState(person) {
-      state.payments[activeMonth] ||= {};
-      state.payments[activeMonth][person] ||= { paid:false, receipts:[] };
-      return state.payments[activeMonth][person];
-    }
-
-    function renderPayments() {
-      document.getElementById("payment-month").textContent = monthLabel(activeMonth);
-      const share = totals().share;
-      document.getElementById("payments").innerHTML = ["ale","zamba"].map(person => {
-        const payment = paymentState(person);
-        const name = person[0].toUpperCase() + person.slice(1);
-        return `<div class="person"><h3>${name}</h3><div class="owed">Debe transferir: <strong>${money(share)}</strong></div>
-          <div class="actions">
-            <button class="ghost ${payment.paid ? "paid" : ""}" onclick="togglePaid('${person}')">${payment.paid ? "Pago confirmado" : "Marcar como pagado"}</button>
-            <button class="ghost" onclick="addImage('receipt','${person}')">Adjuntar comprobante</button>
-          </div>
-          <div class="thumbs">${(payment.receipts || []).map((src,index) => thumb(src, `removeReceipt('${person}',${index})`)).join("")}</div>
-        </div>`;
-      }).join("");
-      saveState();
-    }
-
-    function togglePaid(person) {
-      paymentState(person).paid = !paymentState(person).paid;
-      saveState();
-      renderPayments();
-    }
-
-    function thumb(src, action) {
-      return `<div class="thumb"><img src="${src}" alt="Comprobante"><button class="remove" onclick="${action}" aria-label="Eliminar">×</button></div>`;
-    }
-
-    function addImage(type, id) {
-      imageTarget = { type, id };
-      document.getElementById("image-file").click();
-    }
-
-    async function compressImage(file) {
-      const bitmap = await createImageBitmap(file);
-      const scale = Math.min(1, 1400 / Math.max(bitmap.width, bitmap.height));
-      const canvas = document.createElement("canvas");
-      canvas.width = Math.round(bitmap.width * scale);
-      canvas.height = Math.round(bitmap.height * scale);
-      canvas.getContext("2d").drawImage(bitmap, 0, 0, canvas.width, canvas.height);
-      bitmap.close();
-      return canvas.toDataURL("image/jpeg", .78);
-    }
-
-    document.getElementById("image-file").addEventListener("change", async event => {
-      const file = event.target.files[0];
-      if (!file || !imageTarget) return;
-      const source = await compressImage(file);
-      if (imageTarget.type === "ticket") drawState(imageTarget.id).tickets.push(source);
-      else paymentState(imageTarget.id).receipts.push(source);
-      saveState();
-      event.target.value = "";
-      imageTarget = null;
-      render();
-    });
-
-    function removeTicket(contest, index) {
-      drawState(contest).tickets.splice(index, 1); saveState(); renderDraw();
-    }
-
-    function removeReceipt(person, index) {
-      paymentState(person).receipts.splice(index, 1); saveState(); renderPayments();
-    }
-
-    function exportState() {
-      const blob = new Blob([JSON.stringify({ version:2, exportedAt:new Date().toISOString(), state }, null, 2)], { type:"application/json" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = `marea-quini-respaldo-${new Date().toISOString().slice(0,10)}.json`;
-      link.click();
-      URL.revokeObjectURL(link.href);
-    }
-
-    document.getElementById("import-file").addEventListener("change", async event => {
-      const file = event.target.files[0];
-      if (!file) return;
-      const imported = JSON.parse(await file.text());
-      if (!imported.state?.draws || !imported.state?.payments) throw new Error("Respaldo inválido");
-      state = imported.state;
-      saveState();
-      render();
-      event.target.value = "";
-    });
-
-    init().catch(error => {
-      document.getElementById("draw-detail").innerHTML = `<div class="empty">${error.message}</div>`;
-    });
-  </script>
+  <script src="marea-app.js" defer></script>
 </body>
 </html>
