@@ -1,0 +1,2 @@
+# data.json usa CRLF históricamente; el CR final no es whitespace inválido.
+data.json whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
