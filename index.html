@@ -3,139 +3,148 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10202d">
+  <meta name="description" content="Resultados, jugadas y rendición privada de La Marea Abandonada.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co; img-src 'self' data: blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'">
   <title>La Marea Abandonada | Quini 6</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,600&family=Oswald:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg:#0e151d; --panel:#172534; --panel2:#111b25; --line:#344352;
-      --cream:#f2ead8; --muted:#a6a9a4; --orange:#d26a24; --amber:#efb45d;
-      --green:#4aaa78; --red:#d66b62; --blue:#5f91b8;
-    }
-    * { box-sizing:border-box }
-    body { margin:0; color:var(--cream); background:radial-gradient(circle at 20% 0,#1f3a50 0,transparent 35%),var(--bg); font-family:"Crimson Pro",Georgia,serif; min-height:100vh }
-    button,input { font:inherit }
-    button { cursor:pointer; min-height:38px }
-    a:focus-visible,button:focus-visible,input:focus-visible { outline:3px solid var(--amber); outline-offset:3px }
-    header { border-bottom:1px solid #79451f; padding:30px max(20px,calc((100% - 1080px)/2)); background:linear-gradient(180deg,#0c131b,#172a3b) }
-    .eyebrow,.label { font:600 11px/1.2 Oswald,sans-serif; letter-spacing:3px; text-transform:uppercase; color:var(--amber) }
-    h1 { margin:7px 0 3px; font:italic 800 clamp(32px,6vw,56px)/1 "Playfair Display",serif }
-    .subtitle { color:var(--muted); font-style:italic }
-    .numbers { display:flex; gap:8px; flex-wrap:wrap; margin-top:18px }
-    .ball { width:39px; height:39px; border-radius:50%; display:grid; place-items:center; font:600 15px Oswald,sans-serif; background:radial-gradient(circle at 30% 25%,#f4c36f,var(--orange)); color:#17202a }
-    main { width:min(1080px,calc(100% - 32px)); margin:30px auto 70px; display:grid; gap:22px }
-    .card { background:linear-gradient(145deg,rgba(25,42,57,.97),rgba(14,23,32,.98)); border:1px solid #33404c; box-shadow:0 15px 45px #0006 }
-    .card-head { padding:15px 20px; border-bottom:1px solid #ffffff12; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap }
-    .card-body { padding:20px }
-    .tabs,.draw-tabs,.actions,.status-actions { display:flex; gap:8px; flex-wrap:wrap }
-    .tab,.draw-tab,.ghost,.status-btn { border:1px solid var(--line); background:#ffffff05; color:var(--cream); padding:7px 12px; border-radius:3px; font:400 11px Oswald,sans-serif; letter-spacing:1px; text-transform:uppercase }
-    .tab.active,.draw-tab.active { border-color:var(--orange); color:var(--amber); background:#d26a241c }
-    .draw-tabs { padding:13px 20px; border-bottom:1px solid #ffffff0d }
-    .draw-header { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:18px }
-    h2 { margin:0; font:italic 700 25px "Playfair Display",serif; text-transform:capitalize }
-    .contest { color:var(--muted); font:11px Oswald,sans-serif; letter-spacing:2px; text-transform:uppercase; margin-top:4px }
-    a { color:var(--amber) }
-    .mode { padding:13px 15px; margin:9px 0; background:#0003; border-left:3px solid var(--blue) }
-    .mode:nth-child(2) { border-color:#6b82aa }.mode:nth-child(3) { border-color:#a0675a }.mode:nth-child(4) { border-color:#756aa5 }
-    .mode-name { color:var(--muted); font:10px Oswald,sans-serif; letter-spacing:2px; text-transform:uppercase; margin-bottom:9px }
-    .result-row { display:flex; align-items:center; gap:7px; flex-wrap:wrap }
-    .result-ball { width:37px; height:37px; border:1px solid #ffffff17; border-radius:50%; display:grid; place-items:center; font:15px Oswald,sans-serif; background:#111c27 }
-    .result-ball.hit { border-color:var(--green); background:#173c2d; color:#fff }
-    .hits { margin-left:auto; color:var(--green); font:11px Oswald,sans-serif; text-transform:uppercase }
-    .control { margin-top:20px; padding:17px; border:1px solid #ffffff14; background:#0b121999 }
-    .control-top { display:flex; align-items:flex-start; justify-content:space-between; gap:14px; flex-wrap:wrap }
-    .status-btn.played.active { border-color:var(--green); color:var(--green); background:#4aaa781c }
-    .status-btn.skipped.active { border-color:var(--red); color:var(--red); background:#d66b621c }
-    .status-btn.pending.active { border-color:var(--amber); color:var(--amber); background:#efb45d17 }
-    .money { display:flex; align-items:center; gap:8px; margin-top:13px; color:var(--muted) }
-    .money input { width:130px; padding:7px 9px; background:#0c151d; color:var(--cream); border:1px solid var(--line) }
-    .ticket-zone { margin-top:14px }
-    .thumbs { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px }
-    .thumb { width:105px; height:125px; position:relative; border:1px solid var(--line); background:#0b1219 }
-    .thumb img { width:100%; height:100%; object-fit:cover }
-    .remove { position:absolute; right:4px; top:4px; border:0; border-radius:50%; width:23px; height:23px; background:#8d302c; color:white }
-    .summary { display:grid; grid-template-columns:repeat(5,minmax(120px,1fr)); gap:10px }
-    .stat { background:#0003; border:1px solid #ffffff12; padding:16px; text-align:center }
-    .stat strong { display:block; color:var(--amber); font:700 29px "Playfair Display",serif }
-    .stat span { color:var(--muted); font:10px Oswald,sans-serif; letter-spacing:1px; text-transform:uppercase }
-    .payments { display:grid; grid-template-columns:1fr 1fr; gap:14px }
-    .person { border:1px solid #ffffff15; background:#0002; padding:17px }
-    .person h3 { margin:0 0 4px; font:italic 700 22px "Playfair Display",serif }
-    .owed { color:var(--amber); margin-bottom:12px }
-    .paid { border-color:var(--green); color:var(--green) }
-    .notice { border-left:3px solid var(--amber); background:#efb45d0d; padding:13px 15px; color:#d7d1c5 }
-    .feedback { border-left:3px solid var(--blue); background:#5f91b814; padding:11px 15px; margin:0 }
-    .feedback:empty { display:none }
-    .feedback.error { border-color:var(--red); background:#d66b6214 }
-    .feedback.success { border-color:var(--green); background:#4aaa7814 }
-    .empty { text-align:center; padding:35px; color:var(--muted) }
-    .updated { color:var(--muted); font-size:13px }
-    input[type=file] { display:none }
-    @media (max-width:760px) {
-      .summary { grid-template-columns:repeat(2,1fr) }
-      .payments { grid-template-columns:1fr }
-      .hits { width:100%; margin:3px 0 0 }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,600&family=Oswald:wght@400;500;600&family=Playfair+Display:ital,wght@0,700;1,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="marea.css">
 </head>
 <body>
-  <header>
-    <div class="eyebrow">Quini 6 · Control y rendición</div>
-    <h1>La Marea Abandonada</h1>
-    <div class="subtitle">Ale, Zamba y Maxi · resultados, jugadas y cuentas claras</div>
-    <div id="my-numbers" class="numbers"></div>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="eyebrow">Quini 6 · Control y rendición</div>
+        <h1>La Marea Abandonada</h1>
+        <p class="subtitle">Ale, Zamba y Maxi · resultados, jugadas y cuentas claras</p>
+        <div class="number-block">
+          <span class="label">Nuestra jugada</span>
+          <div id="my-numbers" class="numbers" aria-label="Números elegidos"></div>
+        </div>
+      </div>
+
+      <aside class="account-card" aria-labelledby="account-title">
+        <div class="account-heading">
+          <div>
+            <span class="label">Tu cuenta</span>
+            <h2 id="account-title">Estado y sincronización</h2>
+          </div>
+          <span id="sync-status" class="sync-status" data-state="local" role="status">Modo local</span>
+        </div>
+        <p id="sync-detail" class="sync-detail">Comprobando disponibilidad…</p>
+
+        <form id="login-form" class="login-form" novalidate hidden>
+          <label for="login-email">Email</label>
+          <div class="login-fields">
+            <input id="login-email" name="email" type="email" autocomplete="email" placeholder="tu@email.com" required>
+            <button type="submit" class="primary">Recibir enlace</button>
+          </div>
+          <small>Sin contraseña: te llega un enlace de acceso de un solo uso.</small>
+        </form>
+
+        <div id="session-actions" class="session-actions" hidden>
+          <span id="user-email" class="user-email"></span>
+          <div class="actions">
+            <button type="button" class="ghost" data-action="sync">Sincronizar ahora</button>
+            <button type="button" class="text-button" data-action="sign-out">Cerrar sesión</button>
+          </div>
+        </div>
+        <p id="setup-hint" class="setup-hint"></p>
+      </aside>
+    </div>
   </header>
 
-  <main>
-    <section class="notice" aria-label="Cómo usar la rendición">
-      Primero marcá cada sorteo como <strong>Jugado</strong> o <strong>No jugado</strong>.
-      Solo los jugados entran en la rendición. Los cambios y fotos quedan guardados en este navegador.
-    </section>
-
-    <p id="app-message" class="feedback" role="status" aria-live="polite"></p>
-
-    <section class="card">
-      <div class="card-head">
-        <span class="label">Resultados por sorteo</span>
-        <div id="month-tabs" class="tabs" aria-label="Mes de la rendición"></div>
+  <main id="contenido">
+    <section class="notice" aria-labelledby="guide-title">
+      <div class="notice-icon" aria-hidden="true">i</div>
+      <div>
+        <h2 id="guide-title">Cómo se calcula la rendición</h2>
+        <p>Marcá cada sorteo como <strong>Jugado</strong> o <strong>No jugado</strong>. Solo los jugados suman al gasto del mes. <span id="storage-description">Los cambios se guardan en este navegador.</span></p>
       </div>
-      <div id="draw-tabs" class="draw-tabs" aria-label="Sorteo del mes"></div>
-      <div id="draw-detail" class="card-body"><div class="empty">Cargando resultados...</div></div>
     </section>
 
-    <section class="card">
-      <div class="card-head"><span class="label">Rendición del mes</span></div>
+    <p id="app-message" class="feedback" role="status" aria-live="polite" aria-atomic="true"></p>
+
+    <section class="card results-card" aria-labelledby="results-title">
+      <div class="card-head">
+        <div>
+          <span class="section-number" aria-hidden="true">01</span>
+          <h2 id="results-title">Resultados por sorteo</h2>
+        </div>
+        <nav id="month-tabs" class="tabs scroll-row" aria-label="Mes de la rendición"></nav>
+      </div>
+      <nav id="draw-tabs" class="draw-tabs scroll-row" aria-label="Sorteo del mes"></nav>
+      <div id="draw-detail" class="card-body">
+        <div class="empty"><span class="loader" aria-hidden="true"></span>Cargando resultados…</div>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="summary-title">
+      <div class="card-head compact-head">
+        <div>
+          <span class="section-number" aria-hidden="true">02</span>
+          <h2 id="summary-title">Rendición del mes</h2>
+        </div>
+      </div>
       <div class="card-body">
         <div id="summary" class="summary" aria-live="polite"></div>
       </div>
     </section>
 
-    <section class="card">
-      <div class="card-head">
-        <span class="label">Pagos de Ale y Zamba</span>
-        <span id="payment-month" class="updated"></span>
+    <section class="card" aria-labelledby="payments-title">
+      <div class="card-head compact-head">
+        <div>
+          <span class="section-number" aria-hidden="true">03</span>
+          <h2 id="payments-title">Pagos de Ale y Zamba</h2>
+        </div>
+        <span id="payment-month" class="month-chip"></span>
       </div>
       <div class="card-body">
         <div id="payments" class="payments" aria-live="polite"></div>
       </div>
     </section>
 
-    <section class="card">
-      <div class="card-head"><span class="label">Respaldo</span></div>
-      <div class="card-body">
-        <p>Exportá el estado para no perder marcas y comprobantes, o para pasarlo a otro dispositivo.</p>
-        <div class="actions">
-          <button type="button" class="ghost" onclick="exportState()">Exportar respaldo</button>
-          <button type="button" class="ghost" onclick="document.getElementById('import-file').click()">Importar respaldo</button>
+    <section class="card backup-card" aria-labelledby="backup-title">
+      <div class="card-head compact-head">
+        <div>
+          <span class="section-number" aria-hidden="true">04</span>
+          <h2 id="backup-title">Respaldo y privacidad</h2>
         </div>
-        <input id="import-file" type="file" accept="application/json">
-        <p id="updated-at" class="updated"></p>
+      </div>
+      <div class="card-body backup-body">
+        <div>
+          <p>El respaldo incluye marcas, gastos y las imágenes adjuntas. Guardalo en un lugar privado: puede contener comprobantes personales.</p>
+          <p id="updated-at" class="updated"></p>
+        </div>
+        <div class="actions backup-actions">
+          <button type="button" class="ghost" data-action="export">Exportar respaldo</button>
+          <button type="button" class="ghost" data-action="choose-import">Importar respaldo</button>
+        </div>
+        <input id="import-file" class="visually-hidden" type="file" accept="application/json,.json">
       </div>
     </section>
   </main>
 
-  <input id="image-file" type="file" accept="image/*">
+  <footer>
+    <span>La Marea Abandonada</span>
+    <span>Quini 6 · uso personal</span>
+  </footer>
+
+  <input id="image-file" class="visually-hidden" type="file" accept="image/jpeg,image/png,image/webp" capture="environment">
+  <dialog id="image-dialog" class="image-dialog">
+    <button type="button" class="dialog-close" data-action="close-image" aria-label="Cerrar imagen">×</button>
+    <img id="image-preview" alt="Vista ampliada del comprobante">
+  </dialog>
+
+  <script src="app-config.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js" integrity="sha384-yiVMs0R/Jyz7OhoXa/DsEMUSBLjEhr/QJta2ONO+zB6I8/GmNg/7AUFrZmAJV7KV" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+  <script src="state-utils.js" defer></script>
+  <script src="online-store.js" defer></script>
   <script src="marea-app.js" defer></script>
 </body>
 </html>
