@@ -480,6 +480,27 @@ main {
   box-shadow: inset 0 -2px var(--orange);
 }
 
+.history-tabs {
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 10px 22px;
+  border-bottom: 1px solid var(--line-soft);
+  background: #07101866;
+}
+
+.history-tabs::before {
+  margin-right: 4px;
+  color: var(--muted);
+  font: 500 10px var(--condensed);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  content: "Historial";
+}
+
+.history-toggle {
+  border-style: dashed;
+}
+
 .draw-tabs {
   overflow-x: auto;
   padding: 13px 22px;

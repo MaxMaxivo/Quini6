@@ -4,6 +4,7 @@ const LEGACY_STORE_KEY = "marea-quini-state-v2";
 const GUEST_STORE_KEY = "marea-quini-state-v3:guest";
 const USER_STORE_PREFIX = "marea-quini-state-v3:user:";
 const RENDITION_START = "2026-04-01";
+const ARCHIVED_MONTHS = new Set(["2026-04", "2026-05"]);
 const MAX_IMAGE_BYTES = 12 * 1024 * 1024;
 const MAX_BACKUP_BYTES = 50 * 1024 * 1024;
 const MAX_IMAGES_PER_ENTRY = 12;
@@ -28,6 +29,7 @@ let stateLoadWarning = "";
 let state = loadGuestCache();
 let activeMonth;
 let activeContest;
+let historyExpanded = false;
 let imageTarget;
 let currentUser = null;
 let publicView = false;
@@ -262,17 +264,43 @@ function render() {
   renderPayments();
 }
 
-function renderMonths() {
-  document.getElementById("month-tabs").innerHTML = months().map(month => (
-    `<button type="button" class="tab ${month === activeMonth ? "active" : ""}" `
+function monthTab(month) {
+  return `<button type="button" class="tab ${month === activeMonth ? "active" : ""}" `
     + `aria-pressed="${month === activeMonth}" data-action="select-month" data-month="${month}">`
-    + `${monthLabel(month)}</button>`
-  )).join("");
+    + `${monthLabel(month)}</button>`;
+}
+
+function renderMonths() {
+  const available = months();
+  const current = available.filter(month => !ARCHIVED_MONTHS.has(month));
+  const archived = available.filter(month => ARCHIVED_MONTHS.has(month));
+  if (archived.includes(activeMonth)) historyExpanded = true;
+
+  document.getElementById("month-tabs").innerHTML = current.map(monthTab).join("")
+    + `<button type="button" class="tab history-toggle ${historyExpanded ? "active" : ""}" `
+    + `aria-expanded="${historyExpanded}" aria-controls="history-tabs" data-action="toggle-history">`
+    + `Historial · ${archived.length}</button>`;
+
+  const history = document.getElementById("history-tabs");
+  history.hidden = !historyExpanded;
+  history.innerHTML = archived.map(monthTab).join("");
+}
+
+function toggleHistory() {
+  historyExpanded = !historyExpanded;
+  if (!historyExpanded && ARCHIVED_MONTHS.has(activeMonth)) {
+    activeMonth = months().filter(month => !ARCHIVED_MONTHS.has(month)).at(-1);
+    activeContest = drawsForMonth().at(-1)?.concurso;
+    render();
+    return;
+  }
+  renderMonths();
 }
 
 function selectMonth(month) {
   if (!months().includes(month)) return;
   activeMonth = month;
+  if (ARCHIVED_MONTHS.has(month)) historyExpanded = true;
   activeContest = drawsForMonth().at(-1)?.concurso;
   render();
 }
@@ -1059,6 +1087,7 @@ function handleAction(button) {
   ]);
   if (controlsLocked && editorActions.has(action)) return;
   if (action === "select-month") selectMonth(button.dataset.month);
+  else if (action === "toggle-history") toggleHistory();
   else if (action === "select-draw") {
     activeContest = Number(button.dataset.contest);
     renderDrawTabs();

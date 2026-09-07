@@ -34,6 +34,10 @@ respaldo JSON.
    sin registrarse y ven la rendición en modo lectura.
 7. Exportá respaldos periódicos aunque uses sincronización online.
 
+Abril y mayo de 2026 aparecen agrupados bajo **Historial** para mantener la
+vista principal simple. Esta separación es solamente visual: conserva sorteos,
+pagos y adjuntos sin modificarlos.
+
 El campo **Gasto total** es el gasto de todo el grupo para ese sorteo. El valor
 predeterminado se calcula con los períodos de precio de `data.json`; solo los
 sorteos marcados como jugados entran en la rendición.
