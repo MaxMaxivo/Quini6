@@ -106,13 +106,17 @@ class FrontendTests(unittest.TestCase):
         self.assertIsNotNone(re.fullmatch(r"sb_publishable_[A-Za-z0-9_-]+", key.group(1)))
         self.assertNotRegex(key.group(1), r"^(?:sb_secret_|service_role)")
 
-    def test_supabase_schema_is_private_per_user(self):
+    def test_supabase_schema_has_public_read_only_access(self):
         schema = (ROOT / "supabase" / "schema.sql").read_text(encoding="utf-8")
         self.assertIn("enable row level security", schema)
         self.assertIn("force row level security", schema)
         self.assertIn("revoke all on table public.user_states from anon", schema)
+        self.assertIn("grant select on table public.user_states to anon", schema)
+        self.assertIn("to anon, authenticated\nusing (is_public)", schema)
+        self.assertIn("user_states_one_public_idx", schema)
         self.assertGreaterEqual(schema.count("(select auth.uid()) = user_id"), 3)
         self.assertIn("public = excluded.public", schema)
+        self.assertIn("  true,", schema)
         self.assertIn("(storage.foldername(name))[1]", schema)
 
 

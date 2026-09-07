@@ -1128,6 +1128,13 @@ footer {
   }
 }
 
+.read-only .attachment-head button,
+.read-only .thumb .remove,
+.read-only .person > .actions,
+.read-only .backup-actions {
+  display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

@@ -30,6 +30,8 @@ let activeMonth;
 let activeContest;
 let imageTarget;
 let currentUser = null;
+let publicView = false;
+let publicRefreshPromise = null;
 let serverRevision = null;
 let dirty = false;
 let stateSequence = 0;
@@ -81,6 +83,7 @@ function loadGuestCache() {
 }
 
 function writeCache() {
+  if (publicView && !currentUser) return;
   const envelope = {
     version: 3,
     savedAt: new Date().toISOString(),
@@ -317,7 +320,7 @@ function imageSource(image) {
   if (typeof image === "string") return image;
   const cached = imageUrlCache.get(image.path);
   if (cached?.url) return cached.url;
-  if (!cached && currentUser && onlineStore.available) loadImageUrl(image.path);
+  if (!cached && (currentUser || publicView) && onlineStore.available) loadImageUrl(image.path);
   return "";
 }
 
@@ -339,9 +342,9 @@ async function loadImageUrl(path) {
     imageUrlCache.set(path, { url });
     render();
   } catch (error) {
-    console.error("No se pudo abrir una imagen privada:", error);
+    console.error("No se pudo abrir una imagen adjunta:", error);
     imageUrlCache.set(path, { error: true });
-    showMessage("No se pudo cargar uno de los adjuntos privados.", "error");
+    showMessage("No se pudo cargar uno de los adjuntos.", "error");
   }
 }
 
@@ -381,7 +384,7 @@ function renderDraw() {
         </div>
       </div>
       <div class="ticket-zone">
-        <div class="attachment-head"><div><span class="label">Tickets</span><p>Fotos privadas asociadas a este sorteo.</p></div>
+        <div class="attachment-head"><div><span class="label">Tickets</span><p>Fotos asociadas a este sorteo.</p></div>
           <button type="button" class="ghost" data-action="add-ticket" data-contest="${draw.concurso}" ${controlsLocked ? "disabled" : ""}>Adjuntar ticket</button></div>
         <div class="thumbs">${current.tickets.length
           ? current.tickets.map((image, index) => thumb(
@@ -715,10 +718,56 @@ async function syncNow(options = {}) {
   return syncPromise;
 }
 
+async function activatePublicView(options = {}) {
+  if (currentUser || !onlineStore.available) return;
+  if (publicRefreshPromise) return publicRefreshPromise;
+
+  publicView = true;
+  controlsLocked = true;
+  lastSyncError = "";
+  updateAccountUI("loading-public");
+  render();
+
+  publicRefreshPromise = (async () => {
+    try {
+      const remote = await onlineStore.loadPublicState();
+      if (currentUser) return;
+      if (!remote) throw new Error("Todavía no hay una rendición pública");
+      state = normalizeState(remote.state);
+      serverRevision = remote.revision;
+      dirty = false;
+      pendingImageDeletes = [];
+      imageUrlCache.clear();
+      stateSequence += 1;
+      render();
+      if (options.announce) showMessage("La rendición está actualizada.", "success");
+    } catch (error) {
+      console.error("No se pudo cargar la rendición pública:", error);
+      if (currentUser) return;
+      publicView = false;
+      state = loadGuestCache();
+      serverRevision = null;
+      lastSyncError = "La vista pública todavía no está disponible.";
+      render();
+      if (options.announce) showMessage(lastSyncError, "error");
+    } finally {
+      publicRefreshPromise = null;
+      if (!currentUser) {
+        controlsLocked = publicView;
+        updateAccountUI();
+      }
+    }
+  })();
+  return publicRefreshPromise;
+}
+
 async function activateUser(user) {
   if (!user?.id || currentUser?.id === user.id) return;
   const guestSnapshot = normalizeState(state);
   currentUser = user;
+  publicView = false;
+  publicRefreshPromise = null;
+  imageUrlCache.clear();
   controlsLocked = true;
   lastSyncError = "";
   updateAccountUI("loading");
@@ -758,15 +807,17 @@ async function activateUser(user) {
 
 function deactivateUser() {
   currentUser = null;
+  publicView = false;
   serverRevision = null;
   dirty = false;
   pendingImageDeletes = [];
   imageUrlCache.clear();
   state = loadGuestCache();
   stateSequence += 1;
-  controlsLocked = false;
+  controlsLocked = true;
   render();
   updateAccountUI();
+  void activatePublicView();
 }
 
 function configurationMessage(reason) {
@@ -783,15 +834,20 @@ function configurationMessage(reason) {
 
 function updateAccountUI(forcedStatus = "") {
   const loginForm = document.getElementById("login-form");
+  const publicActions = document.getElementById("public-actions");
   const sessionActions = document.getElementById("session-actions");
   const setupHint = document.getElementById("setup-hint");
   const status = document.getElementById("sync-status");
   const detail = document.getElementById("sync-detail");
   const email = document.getElementById("user-email");
+  const importBackup = document.getElementById("import-backup");
 
+  document.body.classList.toggle("read-only", publicView);
   loginForm.hidden = !onlineStore.available || Boolean(currentUser);
+  publicActions.hidden = !onlineStore.available || Boolean(currentUser) || !publicView;
   sessionActions.hidden = !onlineStore.available || !currentUser;
   setupHint.hidden = onlineStore.available;
+  importBackup.disabled = controlsLocked;
 
   if (!onlineStore.available) {
     status.textContent = "Modo local";
@@ -802,16 +858,26 @@ function updateAccountUI(forcedStatus = "") {
     return;
   }
 
+  if (publicView) {
+    status.textContent = forcedStatus === "loading-public" ? "Actualizando…" : "Solo lectura";
+    status.dataset.state = forcedStatus === "loading-public" ? "saving" : "saved";
+    detail.textContent = forcedStatus === "loading-public"
+      ? "Cargando la última rendición…"
+      : "Estás viendo la rendición compartida, sin necesidad de ingresar.";
+    document.getElementById("storage-description").textContent = "Esta vista se actualiza online y no permite hacer cambios.";
+    return;
+  }
+
   if (!currentUser) {
-    status.textContent = "Sin iniciar sesión";
+    status.textContent = "Sin conexión pública";
     status.dataset.state = "local";
-    detail.textContent = "Ingresá con tu email para recuperar tus marcas en cualquier dispositivo.";
-    document.getElementById("storage-description").textContent = "Sin sesión, los cambios se guardan solo en este navegador.";
+    detail.textContent = lastSyncError || "Ingresá con el email del editor para administrar la rendición.";
+    document.getElementById("storage-description").textContent = "La vista compartida todavía no está disponible.";
     return;
   }
 
   email.textContent = currentUser.email || "Cuenta activa";
-  document.getElementById("storage-description").textContent = "Con sesión iniciada, cada cambio se guarda localmente y se sincroniza con tu cuenta.";
+  document.getElementById("storage-description").textContent = "Como editor, cada cambio se guarda localmente y se sincroniza online.";
   if (forcedStatus === "loading") {
     status.textContent = "Recuperando datos…";
     status.dataset.state = "saving";
@@ -847,6 +913,7 @@ async function initializeOnline() {
   try {
     const session = await onlineStore.getSession();
     if (session?.user) await activateUser(session.user);
+    else await activatePublicView();
   } catch (error) {
     console.error("No se pudo iniciar la sesión online:", error);
     lastSyncError = "No se pudo comprobar la sesión. La aplicación continúa en modo local.";
@@ -882,7 +949,7 @@ async function handleSignOut() {
     await syncNow();
     await onlineStore.signOut();
     deactivateUser();
-    showMessage("Sesión cerrada. Volviste al estado local de este navegador.", "success");
+    showMessage("Sesión cerrada. Ahora ves la rendición pública en modo lectura.", "success");
   } catch (error) {
     console.error("No se pudo cerrar la sesión:", error);
     showMessage("No se pudo cerrar la sesión. Intentá nuevamente.", "error");
@@ -986,6 +1053,11 @@ function openImage(path, fallbackSource = "") {
 
 function handleAction(button) {
   const { action } = button.dataset;
+  const editorActions = new Set([
+    "set-status", "toggle-paid", "add-ticket", "add-receipt",
+    "remove-ticket", "remove-receipt", "choose-import",
+  ]);
+  if (controlsLocked && editorActions.has(action)) return;
   if (action === "select-month") selectMonth(button.dataset.month);
   else if (action === "select-draw") {
     activeContest = Number(button.dataset.contest);
@@ -1000,6 +1072,7 @@ function handleAction(button) {
   else if (action === "choose-import") document.getElementById("import-file").click();
   else if (action === "export") exportState();
   else if (action === "sync") syncNow({ announce: true });
+  else if (action === "refresh-public") activatePublicView({ announce: true });
   else if (action === "sign-out") handleSignOut();
   else if (action === "retry-data") loadData();
   else if (action === "open-image") openImage(
@@ -1041,6 +1114,14 @@ function bindEvents() {
     updateAccountUI();
   });
   window.addEventListener("offline", () => updateAccountUI());
+  window.addEventListener("focus", () => {
+    if (publicView && !currentUser) void activatePublicView();
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible" && publicView && !currentUser) {
+      void activatePublicView();
+    }
+  });
   window.addEventListener("pagehide", () => {
     try { writeCache(); } catch (_error) { /* Ya hubo guardado inmediato tras cada cambio. */ }
   });

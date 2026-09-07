@@ -1,11 +1,12 @@
 # La Marea Abandonada · Quini 6
 
-Aplicación web para consultar resultados y llevar el control privado de
-jugadas, tickets, gastos y rendiciones entre Ale, Zamba y Maxi.
+Aplicación web para consultar resultados y compartir jugadas, tickets, gastos y
+rendiciones entre Ale, Zamba y Maxi. La rendición principal se puede consultar
+sin iniciar sesión; solo el editor autenticado puede modificarla.
 
-Funciona como sitio estático, conserva una copia local inmediata y está
-preparada para sincronizar el estado de cada usuario mediante Supabase. No
-necesita un servidor propio.
+Funciona como sitio estático, conserva una copia local inmediata para el editor
+y sincroniza el estado principal mediante Supabase. No necesita un servidor
+propio.
 
 ## Puesta en marcha local
 
@@ -29,21 +30,21 @@ respaldo JSON.
 3. Ajustá el gasto grupal real y, si corresponde, adjuntá el ticket.
 4. Revisá el resumen mensual y cuánto debe transferir cada integrante.
 5. Marcá los pagos de Ale y Zamba y adjuntá sus comprobantes.
-6. Con Supabase configurado, ingresá por email para sincronizar entre
-   dispositivos.
+6. El editor ingresa por email para sincronizar; los demás abren la misma URL
+   sin registrarse y ven la rendición en modo lectura.
 7. Exportá respaldos periódicos aunque uses sincronización online.
 
 El campo **Gasto total** es el gasto de todo el grupo para ese sorteo. El valor
 predeterminado se calcula con los períodos de precio de `data.json`; solo los
 sorteos marcados como jugados entran en la rendición.
 
-## Qué se guarda por usuario
+## Qué se comparte
 
 - estado de cada concurso: jugado, no jugado o pendiente;
 - gasto real de cada concurso;
-- referencias a tickets guardados en el bucket privado;
+- referencias a tickets publicados en Storage;
 - pago mensual de Ale y Zamba;
-- referencias a comprobantes guardados en el bucket privado;
+- referencias a comprobantes publicados en Storage;
 - fechas de modificación para combinar cambios de distintos dispositivos.
 
 Los resultados, números elegidos y precios siguen en `data.json`: son datos
@@ -54,18 +55,19 @@ comunes de la aplicación, no se duplican en cada cuenta.
 - **Supabase Auth:** acceso sin contraseña por magic link.
 - **Postgres:** una fila de `public.user_states` por `auth.users.id`, con el
   estado en JSONB y un número de revisión.
-- **Row Level Security:** un usuario autenticado solo puede leer, crear o
-  actualizar su propia fila.
-- **Supabase Storage:** bucket privado `user-attachments`; cada archivo vive
-  bajo una carpeta cuyo primer segmento es el UUID del usuario.
+- **Row Level Security:** cualquier visitante puede leer únicamente la fila marcada
+  como pública; solo el usuario dueño puede crear o actualizar su propia fila.
+- **Supabase Storage:** bucket público `user-attachments`; no permite listar,
+  subir ni borrar archivos sin ser el usuario dueño.
 - **Caché local:** una clave distinta de `localStorage` por usuario. Cada
   interacción se guarda primero allí, incluso sin conexión.
 - **Sincronización:** guardado diferido con control optimista de revisión. Ante
   un cambio concurrente, se combinan sorteos y pagos por su fecha de edición.
 
 Las imágenes se comprimen en el navegador antes de guardarse. La base solo
-recibe referencias; los archivos no se hacen públicos. Un respaldo exportado
-desde una sesión descarga e incorpora las imágenes para que siga siendo
+recibe referencias. Los tickets y comprobantes son públicos por decisión del
+grupo, mientras que subirlos o borrarlos requiere la sesión del editor. Un
+respaldo exportado desde una sesión incorpora las imágenes para seguir siendo
 portable.
 
 El estado anterior `marea-quini-state-v2` se lee automáticamente. Si la
@@ -74,7 +76,7 @@ sesión sin borrar el original.
 
 ## Configurar Supabase
 
-La aplicación queda funcional en modo local hasta completar estos pasos.
+La vista pública y el guardado online requieren completar estos pasos.
 
 ### 1. Crear el proyecto
 
@@ -91,10 +93,10 @@ La aplicación queda funcional en modo local hasta completar estos pasos.
 4. Pegalo y presioná **Run**.
 5. Confirmá en **Table Editor** que existe `user_states`.
 6. Confirmá en **Storage** que existe `user-attachments` y figura como
-   privado.
+   público.
 
-El SQL es versionado, repetible y crea las políticas RLS. No desactives RLS ni
-hagas público el bucket.
+El SQL es versionado, repetible y crea las políticas RLS. No desactives RLS:
+la lectura es pública, pero las escrituras continúan protegidas.
 
 ### 3. Habilitar los enlaces de acceso
 
@@ -132,14 +134,11 @@ reducir errores de configuración.
 ### 5. Verificar
 
 1. Serví la página localmente.
-2. Comprobá que la tarjeta superior diga `Sin iniciar sesión`.
-3. Pedí un enlace con tu email y abrilo.
-4. Marcá un sorteo y esperá a ver `Guardado online`.
-5. Abrí la página en otro navegador o dispositivo, ingresá con el mismo email
-   y verificá que aparezca la marca.
-6. Repetí con otro email y confirmá que comienza con un estado independiente.
-7. Adjuntá una imagen y verificá que el archivo aparezca dentro del bucket bajo
-   la carpeta UUID de ese usuario.
+2. Sin iniciar sesión, comprobá que la tarjeta diga `Solo lectura`.
+3. Confirmá que las marcas y fotos públicas sean visibles pero no editables.
+4. Ingresá con el email del editor, modificá un sorteo y esperá `Guardado online`.
+5. Cerrá la sesión y verificá que el cambio aparezca en la vista pública.
+6. Abrí la página desde otro dispositivo sin ingresar y comprobá el mismo cambio.
 
 No hace falta copiar ningún secreto, crear una API propia ni ejecutar un
 backend adicional.
@@ -151,7 +150,7 @@ backend adicional.
 - `marea-app.js`: interacción, render, caché local y coordinación de sync.
 - `state-utils.js`: validación, migración y combinación de estados.
 - `online-store.js`: única capa que conoce la API de Supabase.
-- `app-config.js`: configuración pública del cliente, vacía por defecto.
+- `app-config.js`: configuración pública del cliente de Supabase.
 - `supabase/schema.sql`: tabla, bucket y políticas RLS reproducibles.
 - `data.json`: configuración y resultados validados.
 - `scripts/actualizar_resultados.py`: validador y actualizador de resultados.
@@ -186,11 +185,11 @@ python3 scripts/actualizar_resultados.py
 GitHub Actions ejecuta las pruebas Python y JavaScript antes del actualizador.
 Luego solo crea un commit cuando cambia `data.json`.
 
-## Privacidad, seguridad y límites
+## Seguridad y límites
 
 - El modo local depende del almacenamiento disponible en el navegador.
-- La sesión de Supabase se conserva localmente para evitar iniciar sesión en
-  cada visita.
+- La sesión del editor se conserva localmente para evitar iniciar sesión en cada
+  visita. Los lectores no necesitan una cuenta.
 - Los adjuntos admiten JPEG, PNG o WebP de hasta 12 MB; se convierten a JPEG
   comprimido. El bucket rechaza archivos finales mayores a 5 MB.
 - Cada sección admite hasta 12 imágenes y cada estado online se limita a 1 MB,
@@ -201,4 +200,5 @@ Luego solo crea un commit cuando cambia `data.json`.
 - El proyecto carga una versión fijada del cliente oficial de Supabase desde
   jsDelivr; la página sigue en modo local si ese recurso no está disponible.
 
-No publiques respaldos: pueden contener tickets y comprobantes personales.
+La rendición, los tickets y los comprobantes de la vista compartida son públicos.
+Los respaldos también pueden contener esa información y datos históricos.

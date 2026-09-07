@@ -1,3 +1,12 @@
+AVISO IMPORTANTE - MODELO ACTUAL (06/09/2026)
+------------------------------------------------
+
+La aplicación ahora usa una vista pública de solo lectura. Ale y Zamba no
+necesitan iniciar sesión; únicamente el editor ingresa por email. Para aplicar
+el cambio en una instalación existente, ejecutá nuevamente TODO el archivo
+supabase/schema.sql. Las instrucciones antiguas que siguen debajo se conservan
+solo como referencia histórica y ya no deben usarse para configurar privacidad.
+
 QUINI6 - PASO A PASO PARA ACTIVAR USUARIOS, GUARDADO ONLINE Y PUBLICAR
 =======================================================================
 

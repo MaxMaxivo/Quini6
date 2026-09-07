@@ -89,6 +89,16 @@
       if (error) throw error;
     }
 
+    async function loadPublicState() {
+      const { data, error } = await client
+        .from(TABLE)
+        .select(STATE_FIELDS)
+        .eq("is_public", true)
+        .maybeSingle();
+      if (error) throw error;
+      return data;
+    }
+
     async function loadState(userId) {
       const { data, error } = await client
         .from(TABLE)
@@ -142,9 +152,9 @@
     }
 
     async function createImageUrl(path) {
-      const { data, error } = await client.storage.from(BUCKET).createSignedUrl(path, 3600);
-      if (error) throw error;
-      return data.signedUrl;
+      const { data } = client.storage.from(BUCKET).getPublicUrl(path);
+      if (!data?.publicUrl) throw new Error("No se pudo crear la URL pública del adjunto");
+      return data.publicUrl;
     }
 
     async function downloadImage(path) {
@@ -165,6 +175,7 @@
       createImageUrl,
       downloadImage,
       getSession,
+      loadPublicState,
       loadState,
       onAuthStateChange,
       removeImages,

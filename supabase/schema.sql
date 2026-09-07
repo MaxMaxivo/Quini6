@@ -1,4 +1,4 @@
--- Quini6: estado privado por usuario y adjuntos privados.
+-- Quini6: un estado público de solo lectura y edición privada por usuario.
 -- Ejecutar una sola vez en Supabase > SQL Editor. Es seguro volver a ejecutarlo.
 
 begin;
@@ -13,14 +13,41 @@ create table if not exists public.user_states (
   constraint user_states_revision_positive check (revision >= 1)
 );
 
+alter table public.user_states
+add column if not exists is_public boolean not null default false;
+
+create unique index if not exists user_states_one_public_idx
+on public.user_states (is_public)
+where is_public;
+
+update public.user_states
+set is_public = true
+where user_id = (
+  select user_id
+  from public.user_states
+  order by updated_at desc
+  limit 1
+)
+and not exists (
+  select 1 from public.user_states where is_public
+);
+
 comment on table public.user_states is
-  'Un estado privado por usuario autenticado; las imágenes se guardan en Storage.';
+  'Estados editables por su usuario; uno puede compartirse públicamente en modo lectura.';
 
 alter table public.user_states enable row level security;
 alter table public.user_states force row level security;
 
 revoke all on table public.user_states from anon, authenticated;
+grant select on table public.user_states to anon;
 grant select, insert, update on table public.user_states to authenticated;
+
+drop policy if exists "user_states_select_public" on public.user_states;
+create policy "user_states_select_public"
+on public.user_states
+for select
+to anon, authenticated
+using (is_public);
 
 drop policy if exists "user_states_select_own" on public.user_states;
 create policy "user_states_select_own"
@@ -63,6 +90,27 @@ create trigger user_states_touch_updated_at
 before update on public.user_states
 for each row execute function public.touch_user_state_updated_at();
 
+create or replace function public.assign_first_public_state()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  if not exists (select 1 from public.user_states where is_public) then
+    new.is_public = true;
+  end if;
+  return new;
+end;
+$$;
+
+revoke all on function public.assign_first_public_state() from public, anon, authenticated;
+
+drop trigger if exists user_states_assign_first_public on public.user_states;
+create trigger user_states_assign_first_public
+before insert on public.user_states
+for each row execute function public.assign_first_public_state();
+
 insert into storage.buckets (
   id,
   name,
@@ -73,7 +121,7 @@ insert into storage.buckets (
 values (
   'user-attachments',
   'user-attachments',
-  false,
+  true,
   5242880,
   array['image/jpeg']
 )

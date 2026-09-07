@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#10202d">
-  <meta name="description" content="Resultados, jugadas y rendición privada de La Marea Abandonada.">
+  <meta name="description" content="Resultados, jugadas y rendición de La Marea Abandonada.">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co; img-src 'self' data: blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'">
   <title>La Marea Abandonada | Quini 6</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -31,21 +31,28 @@
       <aside class="account-card" aria-labelledby="account-title">
         <div class="account-heading">
           <div>
-            <span class="label">Tu cuenta</span>
-            <h2 id="account-title">Estado y sincronización</h2>
+            <span class="label">Acceso</span>
+            <h2 id="account-title">Rendición compartida</h2>
           </div>
           <span id="sync-status" class="sync-status" data-state="local" role="status">Modo local</span>
         </div>
         <p id="sync-detail" class="sync-detail">Comprobando disponibilidad…</p>
 
         <form id="login-form" class="login-form" novalidate hidden>
-          <label for="login-email">Email</label>
+          <label for="login-email">Ingreso del editor</label>
           <div class="login-fields">
             <input id="login-email" name="email" type="email" autocomplete="email" placeholder="tu@email.com" required>
             <button type="submit" class="primary">Recibir enlace</button>
           </div>
           <small>Sin contraseña: te llega un enlace de acceso de un solo uso.</small>
         </form>
+
+        <div id="public-actions" class="session-actions" hidden>
+          <span class="user-email">Vista para Ale y Zamba</span>
+          <div class="actions">
+            <button type="button" class="ghost" data-action="refresh-public">Actualizar datos</button>
+          </div>
+        </div>
 
         <div id="session-actions" class="session-actions" hidden>
           <span id="user-email" class="user-email"></span>
@@ -64,7 +71,7 @@
       <div class="notice-icon" aria-hidden="true">i</div>
       <div>
         <h2 id="guide-title">Cómo se calcula la rendición</h2>
-        <p>Marcá cada sorteo como <strong>Jugado</strong> o <strong>No jugado</strong>. Solo los jugados suman al gasto del mes. <span id="storage-description">Los cambios se guardan en este navegador.</span></p>
+        <p>Marcá cada sorteo como <strong>Jugado</strong> o <strong>No jugado</strong>. Solo los jugados suman al gasto del mes. <span id="storage-description">Cargando la rendición compartida.</span></p>
       </div>
     </section>
 
@@ -113,7 +120,7 @@
       <div class="card-head compact-head">
         <div>
           <span class="section-number" aria-hidden="true">04</span>
-          <h2 id="backup-title">Respaldo y privacidad</h2>
+          <h2 id="backup-title">Respaldo</h2>
         </div>
       </div>
       <div class="card-body backup-body">
@@ -123,7 +130,7 @@
         </div>
         <div class="actions backup-actions">
           <button type="button" class="ghost" data-action="export">Exportar respaldo</button>
-          <button type="button" class="ghost" data-action="choose-import">Importar respaldo</button>
+          <button id="import-backup" type="button" class="ghost" data-action="choose-import">Importar respaldo</button>
         </div>
         <input id="import-file" class="visually-hidden" type="file" accept="application/json,.json">
       </div>
