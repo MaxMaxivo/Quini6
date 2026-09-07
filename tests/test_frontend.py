@@ -96,10 +96,15 @@ class FrontendTests(unittest.TestCase):
         self.assertIn('autocomplete="email"', self.html)
         self.assertIn("<dialog", self.html)
 
-    def test_public_config_starts_empty(self):
+    def test_public_config_is_valid_and_non_secret(self):
         config = (ROOT / "app-config.js").read_text(encoding="utf-8")
-        self.assertRegex(config, r'supabaseUrl:\s*""')
-        self.assertRegex(config, r'supabasePublishableKey:\s*""')
+        url = re.search(r'supabaseUrl:\s*"([^"]+)"', config)
+        key = re.search(r'supabasePublishableKey:\s*"([^"]+)"', config)
+        self.assertIsNotNone(url)
+        self.assertIsNotNone(key)
+        self.assertIsNotNone(re.fullmatch(r"https://[a-z0-9-]+[.]supabase[.]co", url.group(1)))
+        self.assertIsNotNone(re.fullmatch(r"sb_publishable_[A-Za-z0-9_-]+", key.group(1)))
+        self.assertNotRegex(key.group(1), r"^(?:sb_secret_|service_role)")
 
     def test_supabase_schema_is_private_per_user(self):
         schema = (ROOT / "supabase" / "schema.sql").read_text(encoding="utf-8")

@@ -6,6 +6,6 @@
  * `service_role`, una contraseña ni ningún otro secreto privado.
  */
 window.QUINI_CONFIG = Object.freeze({
-  supabaseUrl: "",
-  supabasePublishableKey: "",
+  supabaseUrl: "https://eukfcyorkmketniogemm.supabase.co",
+  supabasePublishableKey: "sb_publishable_biIrUTMNEsmXrOt0DotJGQ_vAXRW4-L",
 });
