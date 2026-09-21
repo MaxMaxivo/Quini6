@@ -22,6 +22,44 @@
   ],
   "sorteos": [
     {
+      "concurso": 3410,
+      "fecha": "2026-09-20",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3410-del-dia-20-09-2026.htm",
+      "tradicional": [
+        1,
+        6,
+        9,
+        25,
+        30,
+        33
+      ],
+      "segunda": [
+        2,
+        6,
+        7,
+        12,
+        18,
+        44
+      ],
+      "revancha": [
+        5,
+        7,
+        12,
+        20,
+        24,
+        31
+      ],
+      "siempre_sale": [
+        14,
+        15,
+        29,
+        31,
+        32,
+        40
+      ]
+    },
+    {
       "concurso": 3409,
       "fecha": "2026-09-16",
       "dia": "miércoles",
@@ -2834,5 +2872,5 @@
       ]
     }
   ],
-  "actualizado_en_utc": "2026-09-17T17:12:25.236140+00:00"
+  "actualizado_en_utc": "2026-09-21T18:17:07.368561+00:00"
 }
