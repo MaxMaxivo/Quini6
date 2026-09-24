@@ -22,6 +22,44 @@
   ],
   "sorteos": [
     {
+      "concurso": 3411,
+      "fecha": "2026-09-23",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3411-del-dia-23-09-2026.htm",
+      "tradicional": [
+        5,
+        7,
+        18,
+        25,
+        30,
+        41
+      ],
+      "segunda": [
+        0,
+        6,
+        8,
+        14,
+        40,
+        44
+      ],
+      "revancha": [
+        14,
+        15,
+        31,
+        34,
+        35,
+        41
+      ],
+      "siempre_sale": [
+        13,
+        24,
+        27,
+        32,
+        42,
+        44
+      ]
+    },
+    {
       "concurso": 3410,
       "fecha": "2026-09-20",
       "dia": "domingo",
@@ -2872,5 +2910,5 @@
       ]
     }
   ],
-  "actualizado_en_utc": "2026-09-21T18:17:07.368561+00:00"
+  "actualizado_en_utc": "2026-09-24T17:27:42.509413+00:00"
 }
