@@ -22,6 +22,44 @@
   ],
   "sorteos": [
     {
+      "concurso": 3413,
+      "fecha": "2026-09-30",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3413-del-dia-30-09-2026.htm",
+      "tradicional": [
+        1,
+        2,
+        9,
+        28,
+        40,
+        41
+      ],
+      "segunda": [
+        8,
+        13,
+        14,
+        33,
+        36,
+        42
+      ],
+      "revancha": [
+        6,
+        22,
+        24,
+        33,
+        34,
+        43
+      ],
+      "siempre_sale": [
+        6,
+        7,
+        24,
+        28,
+        31,
+        37
+      ]
+    },
+    {
       "concurso": 3412,
       "fecha": "2026-09-27",
       "dia": "domingo",
@@ -2948,5 +2986,5 @@
       ]
     }
   ],
-  "actualizado_en_utc": "2026-09-28T19:47:44.171886+00:00"
+  "actualizado_en_utc": "2026-10-01T18:32:05.511142+00:00"
 }
