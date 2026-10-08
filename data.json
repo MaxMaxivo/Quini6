@@ -22,6 +22,82 @@
   ],
   "sorteos": [
     {
+      "concurso": 3415,
+      "fecha": "2026-10-07",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3415-del-dia-07-10-2026.htm",
+      "tradicional": [
+        3,
+        10,
+        12,
+        14,
+        36,
+        38
+      ],
+      "segunda": [
+        5,
+        12,
+        13,
+        23,
+        24,
+        35
+      ],
+      "revancha": [
+        6,
+        7,
+        8,
+        39,
+        40,
+        41
+      ],
+      "siempre_sale": [
+        4,
+        7,
+        19,
+        32,
+        34,
+        42
+      ]
+    },
+    {
+      "concurso": 3414,
+      "fecha": "2026-10-04",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3414-del-dia-04-10-2026.htm",
+      "tradicional": [
+        11,
+        15,
+        21,
+        24,
+        27,
+        38
+      ],
+      "segunda": [
+        0,
+        10,
+        16,
+        23,
+        32,
+        37
+      ],
+      "revancha": [
+        14,
+        21,
+        29,
+        34,
+        42,
+        45
+      ],
+      "siempre_sale": [
+        3,
+        5,
+        15,
+        19,
+        26,
+        44
+      ]
+    },
+    {
       "concurso": 3413,
       "fecha": "2026-09-30",
       "dia": "miércoles",
@@ -2986,5 +3062,5 @@
       ]
     }
   ],
-  "actualizado_en_utc": "2026-10-01T18:32:05.511142+00:00"
+  "actualizado_en_utc": "2026-10-08T18:57:45.562046+00:00"
 }
