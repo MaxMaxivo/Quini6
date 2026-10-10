@@ -292,7 +292,7 @@ function renderMonths() {
   if (activeMonth) historyExpanded = archived.includes(activeMonth);
 
   document.getElementById("month-views").innerHTML = [
-    ["pending", "Pendientes", current.length, !historyExpanded],
+    ["pending", "En curso", current.length, !historyExpanded],
     ["history", "Historial", archived.length, historyExpanded],
   ].map(([view, label, count, selected]) => (
     `<button type="button" class="tab ${selected ? "active" : ""}" `
@@ -302,7 +302,7 @@ function renderMonths() {
   const pending = document.getElementById("month-tabs");
   pending.hidden = historyExpanded;
   pending.innerHTML = current.map(monthTab).join("")
-    || '<p class="empty-inline">No hay meses pendientes.</p>';
+    || '<p class="empty-inline">No hay meses en curso.</p>';
 
   const history = document.getElementById("history-tabs");
   history.hidden = !historyExpanded;
