@@ -4,7 +4,6 @@ const LEGACY_STORE_KEY = "marea-quini-state-v2";
 const GUEST_STORE_KEY = "marea-quini-state-v3:guest";
 const USER_STORE_PREFIX = "marea-quini-state-v3:user:";
 const RENDITION_START = "2026-04-01";
-const ARCHIVED_MONTHS = new Set(["2026-04", "2026-05"]);
 const MAX_IMAGE_BYTES = 12 * 1024 * 1024;
 const MAX_BACKUP_BYTES = 50 * 1024 * 1024;
 const MAX_IMAGES_PER_ENTRY = 12;
@@ -17,6 +16,7 @@ const {
   dataUrlToBlob,
   emptyState,
   hasMeaningfulState,
+  isMonthArchived,
   mergeStates,
   normalizeState,
   replaceImageReferences,
@@ -27,6 +27,7 @@ const onlineStore = window.QuiniOnlineStore.create(window.QUINI_CONFIG);
 let data;
 let stateLoadWarning = "";
 let state = loadGuestCache();
+let confirmedPayments = {};
 let activeMonth;
 let activeContest;
 let historyExpanded = false;
@@ -61,6 +62,9 @@ function readCache(key) {
         ? envelope.revision
         : null,
       dirty: envelope.dirty === true,
+      confirmedPayments: normalizeState({
+        draws: {}, payments: envelope.confirmedPayments || {},
+      }).payments,
       pendingImageDeletes: Array.isArray(envelope.pendingImageDeletes)
         ? envelope.pendingImageDeletes.filter(path => typeof path === "string")
         : [],
@@ -92,9 +96,19 @@ function writeCache() {
     revision: serverRevision,
     dirty: currentUser ? dirty : false,
     pendingImageDeletes,
+    confirmedPayments,
     state,
   };
   localStorage.setItem(cacheKey(), JSON.stringify(envelope));
+}
+
+function confirmPayments(candidate) {
+  confirmedPayments = Object.fromEntries(Object.entries(candidate.payments).map(([month, people]) => [
+    month,
+    Object.fromEntries(Object.entries(people).map(([person, payment]) => [
+      person, { paid: payment.paid, updatedAt: payment.updatedAt },
+    ])),
+  ]));
 }
 
 function showMessage(message, type = "") {
@@ -183,6 +197,7 @@ function months() {
 }
 
 function drawsForMonth() {
+  if (!activeMonth) return [];
   return data.sorteos
     .filter(draw => draw.fecha.startsWith(activeMonth))
     .sort((first, second) => first.fecha.localeCompare(second.fecha));
@@ -272,35 +287,49 @@ function monthTab(month) {
 
 function renderMonths() {
   const available = months();
-  const current = available.filter(month => !ARCHIVED_MONTHS.has(month));
-  const archived = available.filter(month => ARCHIVED_MONTHS.has(month));
-  if (archived.includes(activeMonth)) historyExpanded = true;
+  const current = available.filter(month => !isMonthArchived(state, confirmedPayments, month));
+  const archived = available.filter(month => isMonthArchived(state, confirmedPayments, month));
+  if (activeMonth) historyExpanded = archived.includes(activeMonth);
 
-  document.getElementById("month-tabs").innerHTML = current.map(monthTab).join("")
-    + `<button type="button" class="tab history-toggle ${historyExpanded ? "active" : ""}" `
-    + `aria-expanded="${historyExpanded}" aria-controls="history-tabs" data-action="toggle-history">`
-    + `Historial · ${archived.length}</button>`;
+  document.getElementById("month-views").innerHTML = [
+    ["pending", "Pendientes", current.length, !historyExpanded],
+    ["history", "Historial", archived.length, historyExpanded],
+  ].map(([view, label, count, selected]) => (
+    `<button type="button" class="tab ${selected ? "active" : ""}" `
+    + `aria-pressed="${selected}" data-action="select-view" data-view="${view}">${label} · ${count}</button>`
+  )).join("");
+
+  const pending = document.getElementById("month-tabs");
+  pending.hidden = historyExpanded;
+  pending.innerHTML = current.map(monthTab).join("")
+    || '<p class="empty-inline">No hay meses pendientes.</p>';
 
   const history = document.getElementById("history-tabs");
   history.hidden = !historyExpanded;
-  history.innerHTML = archived.map(monthTab).join("");
+  history.innerHTML = archived.map(monthTab).join("")
+    || '<p class="empty-inline">No hay meses archivados.</p>';
+
+  const visibleList = historyExpanded ? history : pending;
+  const selected = visibleList.querySelector(".active");
+  if (selected) visibleList.scrollLeft = selected.offsetLeft - visibleList.offsetLeft
+    - (visibleList.clientWidth - selected.clientWidth) / 2;
 }
 
-function toggleHistory() {
-  historyExpanded = !historyExpanded;
-  if (!historyExpanded && ARCHIVED_MONTHS.has(activeMonth)) {
-    activeMonth = months().filter(month => !ARCHIVED_MONTHS.has(month)).at(-1);
-    activeContest = drawsForMonth().at(-1)?.concurso;
-    render();
-    return;
-  }
-  renderMonths();
+function selectView(view) {
+  if (!["pending", "history"].includes(view)) return;
+  historyExpanded = view === "history";
+  const available = months().filter(month => (
+    isMonthArchived(state, confirmedPayments, month) === historyExpanded
+  ));
+  if (!available.includes(activeMonth)) activeMonth = available.at(-1);
+  activeContest = drawsForMonth().at(-1)?.concurso;
+  render();
 }
 
 function selectMonth(month) {
   if (!months().includes(month)) return;
   activeMonth = month;
-  if (ARCHIVED_MONTHS.has(month)) historyExpanded = true;
+  historyExpanded = isMonthArchived(state, confirmedPayments, month);
   activeContest = drawsForMonth().at(-1)?.concurso;
   render();
 }
@@ -444,6 +473,10 @@ function totals() {
 }
 
 function renderSummary() {
+  if (!activeMonth) {
+    document.getElementById("summary").innerHTML = '<p class="empty-inline">No hay un mes seleccionado.</p>';
+    return;
+  }
   const total = totals();
   document.getElementById("summary").innerHTML = [
     [total.played, "Jugados", "played"],
@@ -457,6 +490,11 @@ function renderSummary() {
 }
 
 function renderPayments() {
+  if (!activeMonth) {
+    document.getElementById("payment-month").textContent = "";
+    document.getElementById("payments").innerHTML = '<p class="empty-inline">No hay un mes seleccionado.</p>';
+    return;
+  }
   document.getElementById("payment-month").textContent = monthLabel(activeMonth);
   const share = totals().share;
   document.getElementById("payments").innerHTML = PAYERS.map(person => {
@@ -519,7 +557,7 @@ function setCost(contest, value) {
 }
 
 function togglePaid(person) {
-  if (controlsLocked || !PAYERS.includes(person)) return;
+  if (controlsLocked || !activeMonth || !PAYERS.includes(person)) return;
   const payment = paymentState(person);
   const previous = { paid: payment.paid, updatedAt: payment.updatedAt };
   payment.paid = !payment.paid;
@@ -528,7 +566,7 @@ function togglePaid(person) {
     payment.paid = previous.paid;
     payment.updatedAt = previous.updatedAt;
   } else showMessage(`${person[0].toUpperCase() + person.slice(1)} quedó ${payment.paid ? "pagado" : "pendiente"}.`, "success");
-  renderPayments();
+  render();
 }
 
 function addImage(type, id) {
@@ -691,9 +729,11 @@ async function syncNow(options = {}) {
       const uploaded = await uploadLocalImages(snapshot, userId);
       const saved = await onlineStore.saveState(userId, uploaded.state, serverRevision);
       if (currentUser?.id !== userId) return;
+      const confirmedState = normalizeState(saved.state);
+      confirmPayments(confirmedState);
       serverRevision = saved.revision;
       state = sequence === stateSequence
-        ? uploaded.state
+        ? confirmedState
         : replaceImageReferences(state, uploaded.replacements);
       dirty = sequence !== stateSequence;
 
@@ -709,7 +749,12 @@ async function syncNow(options = {}) {
       }
       writeCache();
       render();
-      if (options.announce) showMessage("Todo quedó sincronizado online.", "success");
+      if (options.announce) showMessage(
+        dirty || pendingImageDeletes.length > 0
+          ? "Cambios enviados; quedan cambios pendientes de sincronizar."
+          : "Todo quedó sincronizado online.",
+        "success",
+      );
     } catch (error) {
       if (error.code === "STATE_CONFLICT") {
         try {
@@ -762,6 +807,7 @@ async function activatePublicView(options = {}) {
       if (currentUser) return;
       if (!remote) throw new Error("Todavía no hay una rendición pública");
       state = normalizeState(remote.state);
+      confirmPayments(state);
       serverRevision = remote.revision;
       dirty = false;
       pendingImageDeletes = [];
@@ -774,6 +820,7 @@ async function activatePublicView(options = {}) {
       if (currentUser) return;
       publicView = false;
       state = loadGuestCache();
+      confirmedPayments = {};
       serverRevision = null;
       lastSyncError = "La vista pública todavía no está disponible.";
       render();
@@ -793,6 +840,7 @@ async function activateUser(user) {
   if (!user?.id || currentUser?.id === user.id) return;
   const guestSnapshot = normalizeState(state);
   currentUser = user;
+  confirmedPayments = {};
   publicView = false;
   publicRefreshPromise = null;
   imageUrlCache.clear();
@@ -805,6 +853,7 @@ async function activateUser(user) {
   try {
     const remote = await onlineStore.loadState(user.id);
     if (remote) {
+      confirmPayments(normalizeState(remote.state));
       state = local?.dirty ? mergeStates(remote.state, local.state) : normalizeState(remote.state);
       serverRevision = remote.revision;
       dirty = local?.dirty === true;
@@ -820,6 +869,7 @@ async function activateUser(user) {
   } catch (error) {
     console.error("No se pudo recuperar el estado online:", error);
     state = local?.state || guestSnapshot;
+    confirmedPayments = local?.confirmedPayments || {};
     serverRevision = local?.revision ?? null;
     dirty = local?.dirty ?? true;
     pendingImageDeletes = local?.pendingImageDeletes || [];
@@ -835,6 +885,7 @@ async function activateUser(user) {
 
 function deactivateUser() {
   currentUser = null;
+  confirmedPayments = {};
   publicView = false;
   serverRevision = null;
   dirty = false;
@@ -1087,7 +1138,7 @@ function handleAction(button) {
   ]);
   if (controlsLocked && editorActions.has(action)) return;
   if (action === "select-month") selectMonth(button.dataset.month);
-  else if (action === "toggle-history") toggleHistory();
+  else if (action === "select-view") selectView(button.dataset.view);
   else if (action === "select-draw") {
     activeContest = Number(button.dataset.contest);
     renderDrawTabs();
