@@ -153,6 +153,15 @@
     return meaningfulDraw || meaningfulPayment;
   }
 
+  function isMonthArchived(candidate, confirmedPayments, month) {
+    return ["ale", "zamba"].every(person => {
+      const payment = candidate.payments[month]?.[person];
+      const confirmed = confirmedPayments[month]?.[person];
+      return payment?.paid === true && confirmed?.paid === true
+        && payment.updatedAt === confirmed.updatedAt;
+    });
+  }
+
   function replaceImageReferences(candidate, replacements) {
     const state = normalizeState(candidate);
     const replace = image => {
@@ -202,6 +211,7 @@
     dataUrlToBlob,
     emptyState,
     hasMeaningfulState,
+    isMonthArchived,
     isRecord,
     mergeStates,
     normalizeState,

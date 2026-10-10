@@ -34,9 +34,12 @@ respaldo JSON.
    sin registrarse y ven la rendición en modo lectura.
 7. Exportá respaldos periódicos aunque uses sincronización online.
 
-Abril y mayo de 2026 aparecen agrupados bajo **Historial** para mantener la
-vista principal simple. Esta separación es solamente visual: conserva sorteos,
-pagos y adjuntos sin modificarlos.
+Las vistas **Pendientes** e **Historial** agrupan los meses según los pagos.
+Un mes pasa a Historial cuando Ale y Zamba están marcados como pagados y esos
+pagos quedaron confirmados en Supabase. Un cambio local, sin conexión o cuyo
+guardado falló no archiva el mes. Al desmarcar un pago, el mes vuelve a
+Pendientes y el cambio se sincroniza. Sorteos, gastos, tickets y comprobantes
+se conservan. En modo local, los meses permanecen pendientes de sincronización.
 
 El campo **Gasto total** es el gasto de todo el grupo para ese sorteo. El valor
 predeterminado se calcula con los períodos de precio de `data.json`; solo los
