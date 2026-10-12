@@ -22,6 +22,44 @@
   ],
   "sorteos": [
     {
+      "concurso": 3416,
+      "fecha": "2026-10-11",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3416-del-dia-11-10-2026.htm",
+      "tradicional": [
+        13,
+        14,
+        15,
+        18,
+        20,
+        29
+      ],
+      "segunda": [
+        0,
+        4,
+        5,
+        6,
+        8,
+        26
+      ],
+      "revancha": [
+        0,
+        1,
+        6,
+        27,
+        42,
+        45
+      ],
+      "siempre_sale": [
+        2,
+        3,
+        11,
+        13,
+        37,
+        45
+      ]
+    },
+    {
       "concurso": 3415,
       "fecha": "2026-10-07",
       "dia": "miércoles",
@@ -3062,5 +3100,5 @@
       ]
     }
   ],
-  "actualizado_en_utc": "2026-10-08T18:57:45.562046+00:00"
+  "actualizado_en_utc": "2026-10-12T21:21:55.922615+00:00"
 }
