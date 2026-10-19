@@ -22,6 +22,44 @@
   ],
   "sorteos": [
     {
+      "concurso": 3418,
+      "fecha": "2026-10-18",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3418-del-dia-18-10-2026.htm",
+      "tradicional": [
+        7,
+        9,
+        11,
+        17,
+        25,
+        31
+      ],
+      "segunda": [
+        4,
+        10,
+        16,
+        21,
+        27,
+        38
+      ],
+      "revancha": [
+        1,
+        5,
+        26,
+        40,
+        41,
+        43
+      ],
+      "siempre_sale": [
+        1,
+        10,
+        19,
+        25,
+        37,
+        44
+      ]
+    },
+    {
       "concurso": 3417,
       "fecha": "2026-10-14",
       "dia": "miércoles",
@@ -3138,5 +3176,5 @@
       ]
     }
   ],
-  "actualizado_en_utc": "2026-10-15T17:16:06.654689+00:00"
+  "actualizado_en_utc": "2026-10-19T18:48:10.982386+00:00"
 }
