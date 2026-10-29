@@ -22,6 +22,44 @@
   ],
   "sorteos": [
     {
+      "concurso": 3421,
+      "fecha": "2026-10-28",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3421-del-dia-28-10-2026.htm",
+      "tradicional": [
+        6,
+        25,
+        34,
+        36,
+        38,
+        45
+      ],
+      "segunda": [
+        9,
+        19,
+        26,
+        29,
+        33,
+        44
+      ],
+      "revancha": [
+        22,
+        26,
+        35,
+        42,
+        43,
+        45
+      ],
+      "siempre_sale": [
+        20,
+        22,
+        26,
+        35,
+        36,
+        37
+      ]
+    },
+    {
       "concurso": 3420,
       "fecha": "2026-10-25",
       "dia": "domingo",
@@ -3252,5 +3290,5 @@
       ]
     }
   ],
-  "actualizado_en_utc": "2026-10-26T18:49:26.962862+00:00"
+  "actualizado_en_utc": "2026-10-29T18:36:18.817911+00:00"
 }
