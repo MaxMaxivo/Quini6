@@ -2,6 +2,12 @@ name: Actualizar datos Quini 6
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/actualizar_resultados.py'
+      - 'tests/**'
+      - '.github/workflows/actualizar-datos.yml'
   schedule:
     # 09:30 de Argentina (UTC-3), después de los sorteos.
     - cron: '30 12 * * 1,4'
