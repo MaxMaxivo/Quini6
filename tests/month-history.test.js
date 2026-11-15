@@ -12,6 +12,8 @@ const MONTH = "2026-10";
 const TICKET = { path: `${USER.id}/tickets/3400/photo.jpg` };
 const RECEIPT = { path: `${USER.id}/receipts/2026-10-ale/photo.jpg` };
 const APP_DATA = JSON.parse(fs.readFileSync(path.join(__dirname, "../data.json"), "utf8"));
+// Keep the historical fixture independent of newly downloaded draw months.
+APP_DATA.sorteos = APP_DATA.sorteos.filter(draw => draw.fecha < "2026-11-01");
 const SOURCE = fs.readFileSync(path.join(__dirname, "../marea-app.js"), "utf8")
   .replace(/\binit\(\);\s*$/, "globalThis.ready = init();");
 
