@@ -22,6 +22,120 @@
   ],
   "sorteos": [
     {
+      "concurso": 3425,
+      "fecha": "2026-11-11",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3425-del-dia-11-11-2026.htm",
+      "tradicional": [
+        2,
+        24,
+        25,
+        32,
+        37,
+        40
+      ],
+      "segunda": [
+        0,
+        6,
+        17,
+        28,
+        33,
+        37
+      ],
+      "revancha": [
+        15,
+        27,
+        36,
+        37,
+        40,
+        42
+      ],
+      "siempre_sale": [
+        10,
+        27,
+        28,
+        33,
+        36,
+        38
+      ]
+    },
+    {
+      "concurso": 3424,
+      "fecha": "2026-11-08",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3424-del-dia-08-11-2026.htm",
+      "tradicional": [
+        1,
+        16,
+        25,
+        29,
+        37,
+        43
+      ],
+      "segunda": [
+        20,
+        21,
+        34,
+        35,
+        38,
+        39
+      ],
+      "revancha": [
+        8,
+        9,
+        10,
+        17,
+        21,
+        32
+      ],
+      "siempre_sale": [
+        7,
+        14,
+        31,
+        36,
+        42,
+        45
+      ]
+    },
+    {
+      "concurso": 3423,
+      "fecha": "2026-11-04",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3423-del-dia-04-11-2026.htm",
+      "tradicional": [
+        2,
+        9,
+        14,
+        27,
+        39,
+        45
+      ],
+      "segunda": [
+        18,
+        19,
+        28,
+        30,
+        43,
+        45
+      ],
+      "revancha": [
+        2,
+        5,
+        20,
+        21,
+        32,
+        39
+      ],
+      "siempre_sale": [
+        1,
+        7,
+        12,
+        25,
+        29,
+        38
+      ]
+    },
+    {
       "concurso": 3422,
       "fecha": "2026-11-01",
       "dia": "domingo",
@@ -3328,5 +3442,5 @@
       ]
     }
   ],
-  "actualizado_en_utc": "2026-11-02T21:52:08.488193+00:00"
+  "actualizado_en_utc": "2026-11-15T21:12:00.541152+00:00"
 }
