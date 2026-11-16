@@ -22,6 +22,44 @@
   ],
   "sorteos": [
     {
+      "concurso": 3426,
+      "fecha": "2026-11-15",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3426-del-dia-15-11-2026.htm",
+      "tradicional": [
+        1,
+        2,
+        10,
+        13,
+        38,
+        39
+      ],
+      "segunda": [
+        11,
+        17,
+        19,
+        21,
+        27,
+        28
+      ],
+      "revancha": [
+        1,
+        16,
+        27,
+        33,
+        37,
+        40
+      ],
+      "siempre_sale": [
+        1,
+        2,
+        24,
+        33,
+        38,
+        43
+      ]
+    },
+    {
       "concurso": 3425,
       "fecha": "2026-11-11",
       "dia": "miércoles",
@@ -3442,5 +3480,5 @@
       ]
     }
   ],
-  "actualizado_en_utc": "2026-11-15T21:12:00.541152+00:00"
+  "actualizado_en_utc": "2026-11-16T22:26:04.650106+00:00"
 }
