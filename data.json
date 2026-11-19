@@ -22,6 +22,44 @@
   ],
   "sorteos": [
     {
+      "concurso": 3427,
+      "fecha": "2026-11-18",
+      "dia": "miércoles",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3427-del-dia-18-11-2026.htm",
+      "tradicional": [
+        3,
+        9,
+        20,
+        25,
+        37,
+        40
+      ],
+      "segunda": [
+        7,
+        18,
+        20,
+        26,
+        28,
+        36
+      ],
+      "revancha": [
+        0,
+        7,
+        14,
+        25,
+        29,
+        36
+      ],
+      "siempre_sale": [
+        8,
+        19,
+        20,
+        21,
+        33,
+        38
+      ]
+    },
+    {
       "concurso": 3426,
       "fecha": "2026-11-15",
       "dia": "domingo",
@@ -3480,5 +3518,5 @@
       ]
     }
   ],
-  "actualizado_en_utc": "2026-11-16T22:26:04.650106+00:00"
+  "actualizado_en_utc": "2026-11-19T20:53:54.041769+00:00"
 }
