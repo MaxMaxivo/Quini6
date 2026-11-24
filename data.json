@@ -22,6 +22,44 @@
   ],
   "sorteos": [
     {
+      "concurso": 3428,
+      "fecha": "2026-11-22",
+      "dia": "domingo",
+      "url": "https://www.quini-6-resultados.com.ar/quini6/sorteo-3428-del-dia-22-11-2026.htm",
+      "tradicional": [
+        3,
+        4,
+        10,
+        18,
+        20,
+        36
+      ],
+      "segunda": [
+        3,
+        16,
+        17,
+        19,
+        26,
+        37
+      ],
+      "revancha": [
+        5,
+        15,
+        18,
+        25,
+        41,
+        42
+      ],
+      "siempre_sale": [
+        7,
+        17,
+        22,
+        28,
+        31,
+        34
+      ]
+    },
+    {
       "concurso": 3427,
       "fecha": "2026-11-18",
       "dia": "miércoles",
@@ -3518,5 +3556,5 @@
       ]
     }
   ],
-  "actualizado_en_utc": "2026-11-19T20:53:54.041769+00:00"
+  "actualizado_en_utc": "2026-11-24T00:12:47.439838+00:00"
 }
